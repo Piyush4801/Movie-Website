@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StreamFlix</title>
+    <link rel="icon" type="image/x-icon" href="images.png">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <!-- LOGIN PAGE -->
+    <div id="loginPage">
+        <!-- Left Side: Cinematic Art & Features -->
+        <div class="login-left">
+            <div class="login-left-bg"></div>
+            <div class="login-left-content">
+                <div class="login-logo left-logo">
+                    <img src="images/logo.png" alt="Logo" class="custom-logo-large" onerror="this.src='images.png'">
+                    <div class="login-logo-text">StreamFlix</div>
+                </div>
+                <h1 class="login-hero-title">Unlimited Movies,<br>TV Shows <span>& More</span></h1>
+                <p class="login-hero-sub">Your favourite entertainment, all in one place.</p>
+                
+                <div class="feature-cards">
+                    <div class="feature-card">
+                        <div class="f-icon">▶</div>
+                        <div class="f-text">
+                            <h3>Huge Collection</h3>
+                            <p>Explore thousands of movies and shows.</p>
+                        </div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="f-icon">★</div>
+                        <div class="f-text">
+                            <h3>Personalised for You</h3>
+                            <p>Get recommendations you'll love.</p>
+                        </div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="f-icon">💻</div>
+                        <div class="f-text">
+                            <h3>Watch Anywhere</h3>
+                            <p>Stream on any device, anytime.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-badges">
+                    <div class="badge">🔒 Secure & Private</div>
+                    <div class="badge">⚡ No Commitments</div>
+                    <div class="badge">🎧 24/7 Support</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Side: Login Form -->
+        <div class="login-right">
+            <div class="login-card">
+                <h2 class="login-heading">Welcome back 👋</h2>
+                <p class="login-subtext">Sign in to continue streaming your favourite movies and series.</p>
+                <div class="login-error" id="loginError"></div>
+                <form id="loginForm" novalidate>
+                    <div class="login-field">
+                        <label class="login-label" for="loginEmail">Email</label>
+                        <div class="input-wrapper">
+                            <span class="input-icon">✉</span>
+                            <input class="login-input" id="loginEmail" type="email" placeholder="you@example.com" autocomplete="email">
+                        </div>
+                    </div>
+                    <div class="login-field">
+                        <label class="login-label" for="loginPassword">Password</label>
+                        <div class="input-wrapper">
+                            <span class="input-icon">🔒</span>
+                            <input class="login-input" id="loginPassword" type="password" placeholder="••••••••" autocomplete="current-password">
+                            <span class="input-icon toggle-password" id="togglePassword">👁</span>
+                        </div>
+                    </div>
+                    <div class="login-options">
+                        <label class="remember-me">
+                            <input type="checkbox" id="rememberMe"> Remember Me
+                        </label>
+                        <a href="#" class="forgot-link">Forgot password?</a>
+                    </div>
+                    <button type="submit" class="login-btn">Sign In</button>
+                </form>
+                <div class="login-divider">or</div>
+                <button type="button" class="login-demo-btn" id="demoBtn">
+                    <span class="demo-icon">👤</span> Continue with Demo Account
+                </button>
+                <div class="login-footer">
+                    Don't have an account? <a class="login-link">Sign up</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- APP SHELL -->
+    <div id="appShell" style="display:none;">
+
+        <!-- MAIN -->
+        <div class="main">
+            <!-- TOPBAR -->
+            <div class="topbar">
+                <div class="topbar-left">
+                    <div class="sidebar-logo">
+                        <img src="images/logo.png" alt="Logo" class="custom-logo" onerror="this.src='images.png'">
+                        <div class="logo-text" style="letter-spacing: 1px; font-weight: 700;">CINESTREAM</div>
+                    </div>
+                </div>
+
+                <div class="nav-tabs">
+                    <button class="nav-tab active" id="homeBtn">HOME</button>
+                    <button class="nav-tab" data-type="movie">MOVIES</button>
+                    <button class="nav-tab" data-type="tv">TV SHOWS</button>
+                    <button class="nav-tab">TRENDING</button>
+                    <button class="nav-tab" data-type="mylist" id="myListNavBtn">MY LIST</button>
+                </div>
+
+                <div class="topbar-right">
+                    <div class="search-bar">
+                        <span class="search-icon">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+                        </span>
+                        <input type="text" id="searchInput" placeholder="Search..." autocomplete="off">
+                    </div>
+
+                    <!-- Bell -->
+                    <div id="bellBtn" class="bell">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                        <span class="bell-dot"></span>
+                    </div>
+
+                    <!-- Language Picker -->
+                    <div class="lang-picker" id="langPicker">
+                        <span class="lang-flag" id="langFlag">🇬🇧</span>
+                        <span class="lang-code" id="langCode">EN</span>
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                        <div class="lang-dropdown" id="langDropdown">
+                            <!-- populated by js -->
+                        </div>
+                    </div>
+
+                    <!-- User chip -->
+                    <div class="user-chip" id="userChip">
+                        <img class="avatar-img" src="https://ui-avatars.com/api/?name=Demo+User&background=random&color=fff" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover;">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                        <div class="user-dropdown" id="userDropdown">
+                            <div class="user-dropdown-item">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> My Profile
+                            </div>
+                            <div class="user-dropdown-item danger" id="logoutBtn">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg> Sign Out
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SEARCH RESULTS -->
+            <div class="search-results-panel" id="searchPanel"></div>
+
+            <div id="libraryPage" style="display:none; padding:30px;">
+
+                <button id="backHomeBtn" style="
+    padding:10px 20px;
+    border:none;
+    border-radius:10px;
+    margin-bottom:20px;
+    cursor:pointer;">
+    
+    ← Back
+    
+    </button>
+
+                <h1 id="libraryTitle" style="color:white;margin-bottom:25px;">
+                </h1>
+
+                <div id="libraryMovies" style="
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+    gap:20px;">
+                </div>
+
+            </div>
+
+            <!-- HOME CONTENT -->
+            <div class="home-content">
+
+                <!-- HERO -->
+                <div class="hero" id="heroSection">
+                    <div class="hero-bg" id="heroBg"></div>
+                    <div class="hero-overlay"></div>
+                    
+                    <!-- Navigation Arrows -->
+                    <div class="hero-nav-left" id="heroPrev">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+                    </div>
+                    <div class="hero-nav-right" id="heroNext">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+                    </div>
+
+                    <div class="hero-content">
+                        <div class="hero-top-badges">
+                            <span class="trending-badge">🔥 Trending Now</span>
+                            <span class="quality-badge-hero">4K Ultra HD</span>
+                        </div>
+                        <div class="hero-title" id="heroTitle">THE GALAXY'S EDGE</div>
+                        <div class="hero-tags" id="heroTags">
+                            <span class="tag">Comedy</span>
+                            <span class="tag">Mystery</span>
+                            <span class="tag">Family</span>
+                        </div>
+                        <div class="hero-meta">
+                            <span class="meta-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="#FF5A00" stroke="#FF5A00"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> <span id="heroRating">7.8</span> IMDb</span>
+                            <span class="meta-item">📅 <span id="heroYear">2026</span></span>
+                            <span class="meta-item">⏱ 120m</span>
+                            <span class="quality-box">16+</span>
+                            <span class="meta-item" id="heroLang">EN</span>
+                        </div>
+                        <div class="hero-desc" id="heroDesc">A gripping new Sci-Fi epic. Now Streaming.</div>
+                        <div class="hero-actions">
+                            <button class="btn-watch" id="heroWatch">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg> Watch Now
+                            </button>
+                            <button class="btn-outline" id="heroMore">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 3l14 9-14 9z"/></svg> Trailer
+                            </button>
+                            <button class="btn-outline" id="heroList">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> My List
+                            </button>
+                        </div>
+                        
+                        <!-- Pagination dots at the bottom right -->
+                        <div class="hero-pagination" id="heroDots">
+                            <div class="hero-dot active"></div>
+                            <div class="hero-dot"></div>
+                            <div class="hero-dot"></div>
+                            <div class="hero-dot"></div>
+                            <div class="hero-dot"></div>
+                        </div>
+                    </div>
+                    
+                </div>
+                <!-- AD -->
+                <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8678909877053826" data-ad-slot="YOUR-SLOT-ID" data-ad-format="auto" data-full-width-responsive="true">
+</ins>
+
+                <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+
+
+
+                <!-- POPULAR CATEGORIES -->
+                <div class="categories-section">
+                    <h2 class="cat-title">POPULAR CATEGORIES</h2>
+                    <div class="cat-pills">
+                        <button class="cat-pill" data-genre="28">🏃 ACTION</button>
+                        <button class="cat-pill" data-genre="878">⚛️ SCI-FI</button>
+                        <button class="cat-pill" data-genre="18">🎭 DRAMA</button>
+                        <button class="cat-pill" data-genre="53">🔪 THRILLER</button>
+                        <button class="cat-pill" data-genre="35">🤣 COMEDY</button>
+                        <button class="cat-pill" data-genre="27">👻 HORROR</button>
+                    </div>
+                </div>
+
+                <!-- ROWS CONTAINER -->
+                <div class="rows-container">
+
+                    <!-- Row: Trending -->
+                    <div class="row-section" id="trendingRow">
+                        <div class="row-header">
+                            <div class="row-title">TRENDING NOW</div>
+                        </div>
+                        <div class="row-scroll-wrapper">
+                            <div class="card-row" id="trendingList">
+                                <div class="skeleton card-skeleton"></div>
+                                <div class="skeleton card-skeleton"></div>
+                                <div class="skeleton card-skeleton"></div>
+                                <div class="skeleton card-skeleton"></div>
+                                <div class="skeleton card-skeleton"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- AD -->
+                    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8678909877053826" data-ad-slot="YOUR-SLOT-ID" data-ad-format="auto" data-full-width-responsive="true">
+</ins>
+
+                    <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+
+
+                    <!-- Row: Popular Series -->
+                    <div class="row-section" id="seriesRow">
+                        <div class="row-header">
+                            <div class="row-title"><span class="row-bar"></span> Popular Series</div>
+                        </div>
+                        <div class="row-scroll-wrapper">
+                            <div class="card-row" id="seriesList">
+                                <div class="skeleton card-skeleton"></div>
+                                <div class="skeleton card-skeleton"></div>
+                                <div class="skeleton card-skeleton"></div>
+                                <div class="skeleton card-skeleton"></div>
+                                <div class="skeleton card-skeleton"></div>
+                            </div>
+                            <button class="row-arrow row-arrow-left" data-row="seriesList">‹</button>
+                            <button class="row-arrow row-arrow-right" data-row="seriesList">›</button>
+                        </div>
+                    </div>
+
+                    <!-- Row: Top Rated Movies -->
+                    <div class="row-section" id="moviesRow">
+                        <div class="row-header">
+                            <div class="row-title" id="moviesSectionTitle">
+                                <span class="row-bar"></span> Top Rated Movies
+                            </div>
+                        </div>
+                        <div class="row-scroll-wrapper">
+                            <div class="card-row" id="moviesList">
+                                <div class="skeleton card-skeleton"></div>
+                                <div class="skeleton card-skeleton"></div>
+                                <div class="skeleton card-skeleton"></div>
+                                <div class="skeleton card-skeleton"></div>
+                                <div class="skeleton card-skeleton"></div>
+                            </div>
+                            <button class="row-arrow row-arrow-left" data-row="moviesList">‹</button>
+                            <button class="row-arrow row-arrow-right" data-row="moviesList">›</button>
+                        </div>
+                    </div>
+
+                    <!-- AD -->
+                    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8678909877053826" data-ad-slot="YOUR-SLOT-ID" data-ad-format="auto" data-full-width-responsive="true">
+</ins>
+
+                    <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+
+
+
+                    <!-- Row: Continue Watching -->
+                    <div class="row-section" id="cwRow">
+                        <div class="row-header">
+                            <div class="row-title"><span class="row-bar"></span> Continue Watching</div>
+                        </div>
+                        <div class="row-scroll-wrapper">
+                            <div class="card-row" id="cwList">
+                                <div class="skeleton card-skeleton"></div>
+                                <div class="skeleton card-skeleton"></div>
+                                <div class="skeleton card-skeleton"></div>
+                            </div>
+                            <button class="row-arrow row-arrow-left" data-row="cwList">‹</button>
+                            <button class="row-arrow row-arrow-right" data-row="cwList">›</button>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /rows-container -->
+            </div>
+            <!-- /home-content -->
+
+            <!-- AI COPILOT PAGE -->
+            <div id="aiPage" class="ai-floating-box" style="display:none;">
+                
+                <div class="ai-box-header">
+                    <h2 style="font-family: 'Outfit', sans-serif; font-size: 18px; font-weight: 700; color: var(--text);">AI Copilot</h2>
+                    <div id="aiCloseBtn" class="ai-close-btn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                    </div>
+                </div>
+
+                <div style="flex:1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 16px;">
+                    <div style="text-align: center; margin-bottom: 10px;">
+                        <p style="font-size: 12px; color: var(--muted); margin-top: 4px;">Ask for suggestions based on genre or plot!</p>
+                        
+                        <div style="display: flex; gap: 8px; justify-content: center; margin-top: 12px; flex-wrap: wrap;">
+                            <span class="tag" style="cursor: pointer; font-size: 11px; padding: 4px 10px;" onclick="setAiInput('Suggest some 90s classic action movies')">90s action</span>
+                            <span class="tag" style="cursor: pointer; font-size: 11px; padding: 4px 10px;" onclick="setAiInput('Find me a romantic comedy')">Rom-com</span>
+                            <span class="tag" style="cursor: pointer; font-size: 11px; padding: 4px 10px;" onclick="setAiInput('Heist movies')">Heist movies</span>
+                        </div>
+                    </div>
+                    
+                    <div id="aiChatLog" style="display: flex; flex-direction: column; gap: 16px; margin-bottom: 20px; flex: 1;">
+                        <div class="ai-msg ai-msg-bot" style="align-self: flex-start; max-width: 80%; background: rgba(255,255,255,0.05); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 16px 16px 16px 4px; padding: 12px 16px; font-size: 14px; line-height: 1.5; color: var(--text);">
+                            Hi there! 👋 I'm your StreamFlix AI Copilot. What kind of movie are you in the mood for today?
+                        </div>
+                    </div>
+                    
+                    <div id="aiMoviesGrid" class="movie-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 16px; margin-bottom: 20px;">
+                        <!-- AI movie results will appear here -->
+                    </div>
+                </div>
+                <div style="padding: 16px; background: rgba(13, 14, 20, 0.95); border-top: 1px solid var(--glass-border); display: flex; gap: 10px; align-items: center; border-radius: 0 0 16px 16px;">
+                    <input type="text" id="aiInput" placeholder="Describe what you want to watch..." style="flex: 1; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--glass-border); border-radius: 20px; padding: 10px 16px; font-size: 13px; color: var(--text); outline: none;">
+                    <button id="aiSubmitBtn" style="background: linear-gradient(135deg, var(--accent), var(--accent2)); border: none; border-radius: 50%; width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: white;">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                    </button>
+                </div>
+            </div>
+            <!-- /AI COPILOT PAGE -->
+        </div>
+        <!-- /main -->
+        
+        <!-- FLOATING AI BUTTON -->
+        <div id="aiSidebarBtn" class="floating-ai-btn" title="AI Copilot">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+            </svg>
+        </div>
+
+        <!-- PLAYER MODAL -->
+        <div class="modal-backdrop" id="modalBackdrop">
+            <div class="modal" id="modal">
+                <div class="modal-left">
+                    <div class="modal-player">
+                        <div class="player-placeholder" id="playerPlaceholder">
+                            <div class="spinner"></div>
+                            <div style="font-size:13px;color:var(--muted);">Loading player…</div>
+                        </div>
+                        <iframe id="playerIframe" allowfullscreen allow="autoplay; encrypted-media; fullscreen" referrerpolicy="origin"></iframe>
+                    </div>
+
+                    <div class="modal-info">
+
+                        <div class="modal-title" id="modalTitle"></div>
+
+                        <div class="modal-meta" id="modalMeta"></div>
+
+                        <div class="modal-lang-bar" id="modalLangBar" style="display:none;">
+
+                            <span class="modal-lang-label">
+        🌐 Audio / Subs
+    </span>
+
+                            <div id="modalLangPills"></div>
+
+                        </div>
+
+                        <div class="server-bar" id="serverBar">
+
+                            <button class="server-btn active" data-server="nxsha">
+          SER-HIN🇮🇳
+    </button>
+
+                            <button class="server-btn" data-server="server1">
+         SER-ENG🇺🇸
+    </button>
+
+                            <button class="server-btn" data-server="server2">
+           SER2-HIN🇮🇳
+    </button>
+
+                            <button class="server-btn" data-server="vidfast">
+   SER3
+</button>
+
+
+                        </div>
+
+                        <div class="modal-overview" id="modalOverview"></div>
+
+                    </div>
+                </div>
+
+                <div class="modal-right">
+                    <div class="modal-close" id="modalClose">✕</div>
+                    <div class="season-panel" id="seasonPanel">
+                        <div class="season-panel-title">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="15" rx="2"/><polyline points="17 2 12 7 7 2"/></svg> Episodes
+                        </div>
+                        <div class="season-tabs" id="seasonTabs"></div>
+                        <div class="episode-list" id="episodeList"></div>
+                    </div>
+                    <div class="season-panel" id="modalRecommendations" style="display:none; flex-direction:column; height: 100%;">
+                        <div class="season-panel-title">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>                            Recommended For You
+                        </div>
+                        <div class="episode-list" id="modalRecommendationsList"></div>
+                    </div>
+                    <div class="no-episodes-msg" id="noEpisodesMsg">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="7" width="20" height="15" rx="2"/><polyline points="17 2 12 7 7 2"/></svg>
+                        <div>Episode list appears here for TV series</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- /appShell -->
+
+    <script type="module" src="js/app.js?v=2"></script>
+</body>
+
+</html>

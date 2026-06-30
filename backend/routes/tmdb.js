@@ -1,28 +1,34 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 
-router.use(async (req, res) => {
-    try {
-        const url = new URL(`https://api.themoviedb.org/3${req.path}`);
-        if (req.url.includes('?')) {
-            url.search = req.url.substring(req.url.indexOf('?'));
-        }
-        
-        url.searchParams.set('api_key', process.env.TMDB_KEY);
+const BASE = "https://api.themoviedb.org/3";
 
-        const response = await fetch(url.toString(), {
-            method: req.method,
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
+router.get("*", async (req, res) => {
+  try {
+    const url = new URL(BASE + req.path);
 
-        const data = await response.json();
-        res.status(response.status).json(data);
-    } catch (error) {
-        console.error('TMDB Proxy Error:', error);
-        res.status(500).json({ message: 'Error communicating with TMDB API' });
-    }
+    Object.entries(req.query).forEach(([k, v]) => {
+      url.searchParams.set(k, v);
+    });
+
+    url.searchParams.set("api_key", process.env.TMDB_KEY);
+
+    const response = await fetch(url);
+
+    const data = await response.json();
+
+    res.status(response.status).json(data);
+
+  } catch (err) {
+
+    console.error(err);
+
+    res.status(500).json({
+      success: false,
+      error: err.message
+    });
+
+  }
 });
 
 module.exports = router;

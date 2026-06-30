@@ -13,7 +13,7 @@ export function imgUrl(path, size = 'w500') {
 }
 
 async function get(endpoint, params = {}) {
-    const url = new URL(`${TMDB}${endpoint}`);
+    const url = new URL(`${TMDB}${endpoint}`, window.location.origin);
     Object.entries(params).forEach(([k, v]) => url.searchParams.set(k, v));
     const res = await fetch(url);
     return res.json();

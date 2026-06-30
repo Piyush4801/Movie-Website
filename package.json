@@ -2,9 +2,10 @@
   "name": "movie-website",
   "version": "1.0.0",
   "private": true,
-  "main": "api/index.js",
+  "main": "backend/server.js",
   "scripts": {
-    "start": "node api/index.js"
+    "start": "node backend/server.js",
+    "dev": "nodemon backend/server.js"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",
@@ -16,5 +17,8 @@
     "helmet": "^8.2.0",
     "jsonwebtoken": "^9.0.3",
     "mongoose": "^9.7.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
   }
 }

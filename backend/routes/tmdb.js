@@ -3,7 +3,7 @@ const router = express.Router();
 
 const BASE = "https://api.themoviedb.org/3";
 
-router.get("*", async (req, res) => {
+router.get(/(.*)/, async (req, res) => {
   try {
     const url = new URL(BASE + req.path);
 

@@ -44,6 +44,7 @@ import {
 } from './modules/language.js';
 
 import { initAI } from './modules/ai.js';
+import { applyTranslations } from './modules/translations.js';
 
 
 function showApp() {
@@ -117,136 +118,147 @@ function showApp() {
 
 
 /* ============================================================
-   LANGUAGE PICKER
+   LANGUAGE PICKER — Premium Netflix-style
    ============================================================ */
 function initLangPicker() {
-
     const picker = document.getElementById('langPicker');
     if (!picker) return;
-    
+
     const dropdown = document.getElementById('langDropdown');
     const flagEl = document.getElementById('langFlag');
     const codeEl = document.getElementById('langCode');
 
-    const current = getLang(
-        getPreferredLang()
-    );
+    // Apply saved language on load
+    const savedCode = getPreferredLang();
+    const current = getLang(savedCode);
+    flagEl.textContent = current.flag;
+    codeEl.textContent = current.code.toUpperCase();
+    applyTranslations(savedCode);
 
-    flagEl.textContent =
-        current.flag;
+    // Build premium dropdown HTML
+    function buildDropdown(activeCode) {
+        dropdown.innerHTML = `
+            <div class="lang-dropdown-header">🌐 Select Language</div>
+            <div class="lang-dropdown-list">
+                ${SUPPORTED_LANGUAGES.map(lang => `
+                    <div class="lang-option ${lang.code === activeCode ? 'active' : ''}" 
+                         data-code="${lang.code}" 
+                         role="option" 
+                         aria-selected="${lang.code === activeCode}"
+                         tabindex="0">
+                        <span class="lang-option-flag">${lang.flag}</span>
+                        <span class="lang-option-name">${lang.name}</span>
+                        ${lang.code === activeCode ? '<span class="lang-option-check">✓</span>' : '<span class="lang-option-check" style="opacity:0">✓</span>'}
+                    </div>
+                `).join('')}
+            </div>
+        `;
 
-    codeEl.textContent =
-        current.code.toUpperCase();
+        // Scroll active item into view
+        setTimeout(() => {
+            const activeEl = dropdown.querySelector('.lang-option.active');
+            if (activeEl) activeEl.scrollIntoView({ block: 'nearest' });
+        }, 50);
 
-    dropdown.innerHTML =
-        SUPPORTED_LANGUAGES.map(lang => `
-
-    <div
-      class="lang-option"
-      data-code="${lang.code}"
-    >
-
-      <span>${lang.flag}</span>
-
-      <span>
-      ${lang.name}
-      </span>
-
-    </div>
-
-  `).join('');
-
-    // open/close dropdown
-    picker.onclick = (e) => {
-
-        e.stopPropagation();
-
-        dropdown.classList.toggle(
-            'open'
-        );
-
-    };
-
-    // select language
-    dropdown
-        .querySelectorAll(
-            '.lang-option'
-        )
-        .forEach(opt => {
-
-            opt.onclick =
-                async () => {
-
-                    const code =
-                        opt.dataset.code;
-
-                    setPreferredLang(
-                        code
-                    );
-
-                    const lang =
-                        getLang(code);
-
-                    flagEl.textContent =
-                        lang.flag;
-
-                    codeEl.textContent =
-                        lang.code.toUpperCase();
-
-                    const trending =
-                        await fetchTrendingByLanguage(
-                            code
-                        );
-
-                    const popular =
-                        await fetchPopularByLanguage(
-                            code
-                        );
-
-                    const tv =
-                        await fetchTVByLanguage(
-                            code
-                        );
-
-                    renderRow(
-                        'trendingList',
-                        trending
-                    );
-
-                    renderRow(
-                        'moviesList',
-                        popular
-                    );
-
-                    renderRow(
-                        'seriesList',
-                        tv
-                    );
-
-                    trendingMovies = trending;
-                    heroIdx = 0;
-                    if (trendingMovies.length) {
-                        setHero(trendingMovies[0]);
-                        startHeroRotation();
-                    }
-
-                    dropdown.classList.remove(
-                        'open'
-                    );
-
-                };
-
+        // Bind click on each option
+        dropdown.querySelectorAll('.lang-option').forEach(opt => {
+            opt.addEventListener('click', async (e) => {
+                e.stopPropagation();
+                await selectLang(opt.dataset.code);
+            });
+            // Keyboard: Enter/Space selects
+            opt.addEventListener('keydown', async (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    await selectLang(opt.dataset.code);
+                } else if (e.key === 'ArrowDown') {
+                    e.preventDefault();
+                    const next = opt.nextElementSibling;
+                    if (next) next.focus();
+                } else if (e.key === 'ArrowUp') {
+                    e.preventDefault();
+                    const prev = opt.previousElementSibling;
+                    if (prev) prev.focus();
+                } else if (e.key === 'Escape') {
+                    closeDropdown();
+                    picker.focus();
+                }
+            });
         });
+    }
 
-    document.onclick =
-        () => {
+    function openDropdown() {
+        buildDropdown(getPreferredLang());
+        dropdown.classList.add('open');
+        picker.setAttribute('aria-expanded', 'true');
+        // Focus first option
+        setTimeout(() => {
+            const active = dropdown.querySelector('.lang-option.active') || dropdown.querySelector('.lang-option');
+            if (active) active.focus();
+        }, 80);
+    }
 
-            dropdown.classList.remove(
-                'open'
-            );
+    function closeDropdown() {
+        dropdown.classList.remove('open');
+        picker.setAttribute('aria-expanded', 'false');
+    }
 
-        };
+    async function selectLang(code) {
+        setPreferredLang(code);
+        const lang = getLang(code);
 
+        // Update trigger button
+        flagEl.textContent = lang.flag;
+        codeEl.textContent = lang.code.toUpperCase();
+
+        // Apply UI translations immediately
+        applyTranslations(code);
+
+        closeDropdown();
+
+        // Fetch content in selected language
+        const [trending, popular, tv] = await Promise.all([
+            fetchTrendingByLanguage(code),
+            fetchPopularByLanguage(code),
+            fetchTVByLanguage(code),
+        ]);
+
+        renderRow('trendingList', trending);
+        renderRow('moviesList', popular);
+        renderRow('seriesList', tv);
+
+        trendingMovies = trending;
+        heroIdx = 0;
+        if (trendingMovies.length) {
+            setHero(trendingMovies[0]);
+            startHeroRotation();
+        }
+    }
+
+    // Toggle dropdown on click
+    picker.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (dropdown.classList.contains('open')) {
+            closeDropdown();
+        } else {
+            openDropdown();
+        }
+    });
+
+    // Keyboard on picker button
+    picker.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ' || e.key === 'ArrowDown') {
+            e.preventDefault();
+            openDropdown();
+        } else if (e.key === 'Escape') {
+            closeDropdown();
+        }
+    });
+
+    // Close on outside click
+    document.addEventListener('click', (e) => {
+        if (!picker.contains(e.target)) closeDropdown();
+    });
 }
 
 /* ============================================================
@@ -517,5 +529,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initLangPicker();
     initUserMenu();
     init();
+    // Apply saved language translations on page load
+    applyTranslations(getPreferredLang());
 
 });

@@ -54,11 +54,11 @@
                     </div>
 
                     <!-- Language Picker -->
-                    <div class="lang-picker" id="langPicker">
+                    <div class="lang-picker" id="langPicker" role="combobox" aria-label="Select language" aria-expanded="false" aria-haspopup="listbox" tabindex="0">
                         <span class="lang-flag" id="langFlag">🇬🇧</span>
                         <span class="lang-code" id="langCode">EN</span>
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-                        <div class="lang-dropdown" id="langDropdown">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="lang-chevron"><polyline points="6 9 12 15 18 9"/></svg>
+                        <div class="lang-dropdown" id="langDropdown" role="listbox" aria-label="Languages">
                             <!-- populated by js -->
                         </div>
                     </div>
@@ -180,12 +180,12 @@
                 <div class="categories-section">
                     <h2 class="cat-title">POPULAR CATEGORIES</h2>
                     <div class="cat-pills">
-                        <button class="cat-pill" data-genre="28">🏃 ACTION</button>
-                        <button class="cat-pill" data-genre="878">⚛️ SCI-FI</button>
-                        <button class="cat-pill" data-genre="18">🎭 DRAMA</button>
-                        <button class="cat-pill" data-genre="53">🔪 THRILLER</button>
-                        <button class="cat-pill" data-genre="35">🤣 COMEDY</button>
-                        <button class="cat-pill" data-genre="27">👻 HORROR</button>
+                        <button class="cat-pill" data-genre="28"><span class="pill-emoji">🏃</span> <span class="pill-label">ACTION</span></button>
+                        <button class="cat-pill" data-genre="878"><span class="pill-emoji">⚛️</span> <span class="pill-label">SCI-FI</span></button>
+                        <button class="cat-pill" data-genre="18"><span class="pill-emoji">🎭</span> <span class="pill-label">DRAMA</span></button>
+                        <button class="cat-pill" data-genre="53"><span class="pill-emoji">🔪</span> <span class="pill-label">THRILLER</span></button>
+                        <button class="cat-pill" data-genre="35"><span class="pill-emoji">🤣</span> <span class="pill-label">COMEDY</span></button>
+                        <button class="cat-pill" data-genre="27"><span class="pill-emoji">👻</span> <span class="pill-label">HORROR</span></button>
                     </div>
                 </div>
 

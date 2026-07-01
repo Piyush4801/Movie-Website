@@ -11,94 +11,8 @@
 
 <body>
 
-    <!-- LOGIN PAGE -->
-    <div id="loginPage">
-        <!-- Left Side: Cinematic Art & Features -->
-        <div class="login-left">
-            <div class="login-left-bg"></div>
-            <div class="login-left-content">
-                <div class="login-logo left-logo">
-                    <img src="images.png" alt="Logo" class="custom-logo-large">
-                    <div class="login-logo-text">StreamFlix</div>
-                </div>
-                <h1 class="login-hero-title">Unlimited Movies,<br>TV Shows <span>& More</span></h1>
-                <p class="login-hero-sub">Your favourite entertainment, all in one place.</p>
-                
-                <div class="feature-cards">
-                    <div class="feature-card">
-                        <div class="f-icon">▶</div>
-                        <div class="f-text">
-                            <h3>Huge Collection</h3>
-                            <p>Explore thousands of movies and shows.</p>
-                        </div>
-                    </div>
-                    <div class="feature-card">
-                        <div class="f-icon">★</div>
-                        <div class="f-text">
-                            <h3>Personalised for You</h3>
-                            <p>Get recommendations you'll love.</p>
-                        </div>
-                    </div>
-                    <div class="feature-card">
-                        <div class="f-icon">💻</div>
-                        <div class="f-text">
-                            <h3>Watch Anywhere</h3>
-                            <p>Stream on any device, anytime.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="info-badges">
-                    <div class="badge">🔒 Secure & Private</div>
-                    <div class="badge">⚡ No Commitments</div>
-                    <div class="badge">🎧 24/7 Support</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Right Side: Login Form -->
-        <div class="login-right">
-            <div class="login-card">
-                <h2 class="login-heading">Welcome back 👋</h2>
-                <p class="login-subtext">Sign in to continue streaming your favourite movies and series.</p>
-                <div class="login-error" id="loginError"></div>
-                <form id="loginForm" novalidate>
-                    <div class="login-field">
-                        <label class="login-label" for="loginEmail">Email</label>
-                        <div class="input-wrapper">
-                            <span class="input-icon">✉</span>
-                            <input class="login-input" id="loginEmail" type="email" placeholder="you@example.com" autocomplete="email">
-                        </div>
-                    </div>
-                    <div class="login-field">
-                        <label class="login-label" for="loginPassword">Password</label>
-                        <div class="input-wrapper">
-                            <span class="input-icon">🔒</span>
-                            <input class="login-input" id="loginPassword" type="password" placeholder="••••••••" autocomplete="current-password">
-                            <span class="input-icon toggle-password" id="togglePassword">👁</span>
-                        </div>
-                    </div>
-                    <div class="login-options">
-                        <label class="remember-me">
-                            <input type="checkbox" id="rememberMe"> Remember Me
-                        </label>
-                        <a href="#" class="forgot-link">Forgot password?</a>
-                    </div>
-                    <button type="submit" class="login-btn">Sign In</button>
-                </form>
-                <div class="login-divider">or</div>
-                <button type="button" class="login-demo-btn" id="demoBtn">
-                    <span class="demo-icon">👤</span> Continue with Demo Account
-                </button>
-                <div class="login-footer">
-                    Don't have an account? <a class="login-link">Sign up</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- APP SHELL -->
-    <div id="appShell" style="display:none;">
+    <div id="appShell">
 
         <!-- MAIN -->
         <div class="main">
@@ -157,9 +71,7 @@
                             <div class="user-dropdown-item">
                                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> My Profile
                             </div>
-                            <div class="user-dropdown-item danger" id="logoutBtn">
-                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg> Sign Out
-                            </div>
+                            
                         </div>
                     </div>
                 </div>

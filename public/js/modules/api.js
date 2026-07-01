@@ -3,7 +3,8 @@
  * Handles all TMDB API interactions.
  */
 
-const TMDB = '/api/tmdb';
+const TMDB = 'https://api.themoviedb.org/3';
+const TMDB_KEY = '852b496a6ab5e48324fac3a942903058';
 const IMG = 'https://image.tmdb.org/t/p/';
 
 export const genreMap = {};
@@ -13,7 +14,8 @@ export function imgUrl(path, size = 'w500') {
 }
 
 async function get(endpoint, params = {}) {
-    const url = new URL(`${TMDB}${endpoint}`, window.location.origin);
+    const url = new URL(`${TMDB}${endpoint}`);
+    url.searchParams.set('api_key', TMDB_KEY);
     Object.entries(params).forEach(([k, v]) => url.searchParams.set(k, v));
     const res = await fetch(url);
     return res.json();

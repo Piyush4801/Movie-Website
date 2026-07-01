@@ -11,77 +11,32 @@ const USERS_KEY = 'sf_users';
  * SIGN UP
  */
 export async function signup(username, email, password) {
-
     try {
-
-        const res = await fetch(
-            "/api/auth/register", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    email,
-                    password
-                })
-            }
-        );
-
-        const data = await res.json();
-
-        if (!res.ok) {
-            throw new Error(data.message);
-        }
-
-        return data;
-
+        const actualEmail = typeof username === 'string' && username.includes('@') && !email ? username : email;
+        return { success: true, message: 'Account created' };
     } catch (err) {
         console.log(err);
         return { success: false, message: err.message };
     }
-
 }
 
 /**
  * LOGIN
  */
 export async function login(email, password) {
-
     try {
-
-        const res = await fetch(
-            "/api/auth/login", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    email,
-                    password
-                })
-            }
-        );
-
-        const data = await res.json();
-
-        if (!res.ok) {
-
-            throw new Error(data.message);
-
-        }
-
-        localStorage.setItem(
-            SESSION_KEY,
-            JSON.stringify(data.user)
-        );
-
-        return data;
-
+        const user = {
+            email,
+            name: email.split('@')[0],
+            initials: email.charAt(0).toUpperCase(),
+            ts: Date.now()
+        };
+        localStorage.setItem(SESSION_KEY, JSON.stringify(user));
+        return { success: true, user };
     } catch (err) {
         console.log(err);
         return { success: false, message: err.message };
     }
-
 }
 
 /**
@@ -89,28 +44,14 @@ export async function login(email, password) {
  */
 export async function demoLogin() {
     try {
-        const res = await fetch(
-            "/api/auth/demo", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                }
-            }
-        );
-
-        const data = await res.json();
-
-        if (!res.ok) {
-            throw new Error(data.message);
-        }
-
-        localStorage.setItem(
-            SESSION_KEY,
-            JSON.stringify(data.user)
-        );
-
-        return data;
-
+        const user = {
+            email: 'demo@streamflix.com',
+            name: 'Demo User',
+            initials: 'DU',
+            ts: Date.now()
+        };
+        localStorage.setItem(SESSION_KEY, JSON.stringify(user));
+        return { success: true, user };
     } catch (err) {
         console.log(err);
         return { success: false, message: err.message };

@@ -7,7 +7,8 @@ import { imgUrl, searchMulti } from './api.js';
 import { openPlayer } from './player.js';
 
 // TMDB constants
-const TMDB_BASE = '/api/tmdb';
+const TMDB_BASE = 'https://api.themoviedb.org/3';
+const TMDB_KEY = '852b496a6ab5e48324fac3a942903058';
 
 // Keyword Map for Languages
 const LANGUAGES = {
@@ -80,6 +81,7 @@ function cleanQueryText(query) {
 async function discoverMovies(genreIds, langCode, sortBy = 'popularity.desc', minVoteCount = 0, page = 1) {
   try {
     const url = new URL(`${TMDB_BASE}/discover/movie`);
+    url.searchParams.set('api_key', TMDB_KEY);
     url.searchParams.set('sort_by', sortBy);
     url.searchParams.set('page', page);
     
@@ -346,6 +348,7 @@ function extractPotentialActorName(text) {
 async function searchActorMovies(name) {
   try {
     const searchUrl = new URL(`${TMDB_BASE}/search/person`);
+    searchUrl.searchParams.set('api_key', TMDB_KEY);
     searchUrl.searchParams.set('query', name);
     const searchRes = await fetch(searchUrl);
     const searchData = await searchRes.json();
@@ -355,6 +358,7 @@ async function searchActorMovies(name) {
       // Only treat as high-confidence if popularity is substantial (>0.5)
       if (person.popularity > 0.5) {
         const creditsUrl = new URL(`${TMDB_BASE}/person/${person.id}/movie_credits`);
+        creditsUrl.searchParams.set('api_key', TMDB_KEY);
         const creditsRes = await fetch(creditsUrl);
         const creditsData = await creditsRes.json();
         return {

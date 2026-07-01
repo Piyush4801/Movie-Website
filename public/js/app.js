@@ -73,12 +73,8 @@ from './modules/language.js';
 import { initAI } from './modules/ai.js';
 
 function showApp() {
-
-    
-
-    document.getElementById(
-        'appShell'
-    ).style.display = 'block';
+    const appShell = document.getElementById('appShell');
+    if (appShell) appShell.style.display = 'block';
 
     const session =
         getSession();
@@ -146,7 +142,236 @@ function showApp() {
 
 
 
+/* ============================================================
+   LANGUAGE PICKER
+   ============================================================ */
+function initLangPicker() {
 
+    const picker = document.getElementById('langPicker');
+    if (!picker) return;
+    
+    const dropdown = document.getElementById('langDropdown');
+    const flagEl = document.getElementById('langFlag');
+    const codeEl = document.getElementById('langCode');
+
+    const current = getLang(
+        getPreferredLang()
+    );
+
+    flagEl.textContent =
+        current.flag;
+
+    codeEl.textContent =
+        current.code.toUpperCase();
+
+    dropdown.innerHTML =
+        SUPPORTED_LANGUAGES.map(lang => `
+
+    <div
+      class="lang-option"
+      data-code="${lang.code}"
+    >
+
+      <span>${lang.flag}</span>
+
+      <span>
+      ${lang.name}
+      </span>
+
+    </div>
+
+  `).join('');
+
+    // open/close dropdown
+    picker.onclick = (e) => {
+
+        e.stopPropagation();
+
+        dropdown.classList.toggle(
+            'open'
+        );
+
+    };
+
+    // select language
+    dropdown
+        .querySelectorAll(
+            '.lang-option'
+        )
+        .forEach(opt => {
+
+            opt.onclick =
+                async () => {
+
+                    const code =
+                        opt.dataset.code;
+
+                    setPreferredLang(
+                        code
+                    );
+
+                    const lang =
+                        getLang(code);
+
+                    flagEl.textContent =
+                        lang.flag;
+
+                    codeEl.textContent =
+                        lang.code.toUpperCase();
+
+                    const trending =
+                        await fetchTrendingByLanguage(
+                            code
+                        );
+
+                    const popular =
+                        await fetchPopularByLanguage(
+                            code
+                        );
+
+                    const tv =
+                        await fetchTVByLanguage(
+                            code
+                        );
+
+                    renderRow(
+                        'trendingList',
+                        trending
+                    );
+
+                    renderRow(
+                        'moviesList',
+                        popular
+                    );
+
+                    renderRow(
+                        'seriesList',
+                        tv
+                    );
+
+                    trendingMovies = trending;
+                    heroIdx = 0;
+                    if (trendingMovies.length) {
+                        setHero(trendingMovies[0]);
+                        startHeroRotation();
+                    }
+
+                    dropdown.classList.remove(
+                        'open'
+                    );
+
+                };
+
+        });
+
+    document.onclick =
+        () => {
+
+            dropdown.classList.remove(
+                'open'
+            );
+
+        };
+
+}
+
+/* ============================================================
+   USER DROPDOWN
+   ============================================================ */
+function initUserMenu() {
+    const chip = document.getElementById('userChip');
+    const dropdown = document.getElementById('userDropdown');
+
+    const newChip = chip.cloneNode(true);
+    chip.parentNode.replaceChild(newChip, chip);
+
+    document.getElementById('userChip').addEventListener('click', e => {
+        e.stopPropagation();
+        document.getElementById('userDropdown').classList.toggle('open');
+    });
+    document.addEventListener('click', () => {
+        const dd = document.getElementById('userDropdown');
+        if (dd) dd.classList.remove('open');
+    });
+}
+
+/* ============================================================
+   HOME BUTTON
+============================================================ */
+
+/* ============================================================
+   HOME BUTTON
+============================================================ */
+
+function initHomeButton() {
+
+    const homeBtn =
+        document.getElementById(
+            'homeBtn'
+        );
+
+    if (!homeBtn) {
+        return;
+    }
+
+    homeBtn.addEventListener(
+        'click',
+        async () => {
+
+            await init();
+
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+
+        }
+    );
+
+}
+/* ============================================================
+   MODAL
+   ============================================================ */
+function initModal() {
+    document.getElementById('modalClose').addEventListener('click', closePlayer);
+    document.getElementById('modalBackdrop').addEventListener('click', e => {
+        if (e.target === document.getElementById('modalBackdrop')) closePlayer();
+    });
+}
+
+/* ============================================================
+   HERO ROTATION
+   ============================================================ */
+let trendingMovies = [],
+    heroIdx = 0,
+    heroInterval;
+
+function startHeroRotation() {
+    clearInterval(heroInterval);
+    heroInterval = setInterval(() => {
+        heroIdx = (heroIdx + 1) % Math.min(trendingMovies.length, 8);
+        setHero(trendingMovies[heroIdx]);
+    }, 6000);
+}
+
+function initHeroNav() {
+    const heroPrev = document.getElementById('heroPrev');
+    if (heroPrev) {
+        heroPrev.addEventListener('click', () => {
+            heroIdx = (heroIdx - 1 + trendingMovies.length) % Math.min(trendingMovies.length, 8);
+            setHero(trendingMovies[heroIdx]);
+            startHeroRotation();
+        });
+    }
+    const heroNext = document.getElementById('heroNext');
+    if (heroNext) {
+        heroNext.addEventListener('click', () => {
+            heroIdx = (heroIdx + 1) % Math.min(trendingMovies.length, 8);
+            setHero(trendingMovies[heroIdx]);
+            startHeroRotation();
+        });
+    }
+}
 
 /* ============================================================
    ROW ARROWS
@@ -303,7 +528,6 @@ async function init() {
 
 document.addEventListener('DOMContentLoaded', () => {
 
-    
     initModal();
     initHeroNav();
     initNavTabs();

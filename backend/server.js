@@ -44,6 +44,9 @@ app.use(cors({
     credentials: true // Allow sending cookies
 }));
 
+// Trust proxy for Render deployment so rate limit works per IP
+app.set('trust proxy', 1);
+
 // Rate limiting
 const limiter = rateLimit({
   windowMs: 10 * 60 * 1000, // 10 mins

@@ -112,11 +112,14 @@
                 </div>
 
                 <div class="nav-tabs">
-                    <button class="nav-tab active" id="homeBtn">HOME</button>
-                    <button class="nav-tab" data-type="movie">MOVIES</button>
-                    <button class="nav-tab" data-type="tv">TV SHOWS</button>
-                    <button class="nav-tab">TRENDING</button>
-                    <button class="nav-tab" data-type="mylist" id="myListNavBtn">MY LIST</button>
+                    <button class="nav-tab active" data-route="home">HOME</button>
+                    <button class="nav-tab" data-route="movies">MOVIES</button>
+                    <button class="nav-tab" data-route="tv">TV SHOWS</button>
+                    <button class="nav-tab" data-route="trending">TRENDING</button>
+                    <button class="nav-tab" data-route="top-rated">TOP RATED</button>
+                    <button class="nav-tab" data-route="genres">GENRES</button>
+                    <button class="nav-tab" data-route="favorites">FAVORITES</button>
+                    <button class="nav-tab" data-route="watch-later">WATCH LATER</button>
                 </div>
 
                 <div class="topbar-right">
@@ -126,6 +129,9 @@
                         </span>
                         <input type="text" id="searchInput" placeholder="Search..." autocomplete="off">
                     </div>
+
+                    <div id="voice-search-root"></div>
+                    <div id="theme-toggle-root"></div>
 
                     <!-- Bell -->
                     <div id="bellBtn" class="bell">
@@ -186,8 +192,11 @@
 
             </div>
 
+            <!-- REACT ROUTER PAGES -->
+            <div id="react-router-root"></div>
+
             <!-- HOME CONTENT -->
-            <div class="home-content">
+            <div class="home-content" id="homeContent">
 
                 <!-- HERO -->
                 <div class="hero" id="heroSection">
@@ -231,6 +240,7 @@
                             <button class="btn-outline" id="heroList">
                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> My List
                             </button>
+                            <div id="mood-scanner-root" style="display:inline-block; margin-left: 10px;"></div>
                         </div>
                         
                         <!-- Pagination dots at the bottom right -->
@@ -427,7 +437,13 @@
 
                     <div class="modal-info">
 
-                        <div class="modal-title" id="modalTitle"></div>
+                        <div style="display: flex; justify-content: space-between; alignItems: flex-start;">
+                            <div class="modal-title" id="modalTitle"></div>
+                            <div style="display: flex; gap: 8px;">
+                                <div id="react-modal-actions-container"></div>
+                                <div id="cinema-mode-button-root"></div>
+                            </div>
+                        </div>
 
                         <div class="modal-meta" id="modalMeta"></div>
 
@@ -493,7 +509,10 @@
     </div>
     <!-- /appShell -->
 
+    <div id="cinema-mode-root"></div>
+
     <script type="module" src="js/app.js?v=2"></script>
+    <script src="js/mood-scanner.bundle.js?v=3"></script>
 </body>
 
 </html>

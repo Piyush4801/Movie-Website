@@ -1,5 +1,0 @@
-services:
-  - type: static_site
-    name: movie-website
-    buildCommand: ''
-    staticPublishPath: ./public

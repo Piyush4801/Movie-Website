@@ -147,9 +147,11 @@ alt="${m.title || m.name || ''}"
 <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
 </div>
 
-<div class="hcard-add-btn ${isAdded ? 'added' : ''}" data-idx="${i}">
+<div class="hcard-add-btn ${isAdded ? 'added' : ''}" data-idx="${i}" style="display:none;">
     ${addIcon}
 </div>
+
+<div class="react-action-buttons" data-variant="card" data-movie-data="${encodeURIComponent(JSON.stringify(m))}"></div>
 
 </div>
 
@@ -223,9 +225,10 @@ export function renderMyList() {
                     <div class="hcard-play-overlay">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
                     </div>
-                    <div class="hcard-add-btn added" data-idx="${i}">
+                    <div class="hcard-add-btn added" data-idx="${i}" style="display:none;">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
                     </div>
+                    <div class="react-action-buttons" data-variant="card" data-movie-data="${encodeURIComponent(JSON.stringify(m))}"></div>
                 </div>
                 <div class="hcard-title">${m.title || m.name || ''}</div>
                 <div class="hcard-sub">${rating ? `<span class="hstar">★</span> <span style="font-weight:600;color:#fff">${rating}</span><span style="font-size:10px;margin-right:4px">/10</span> | ` : ''} 2h 46min</div>
@@ -385,7 +388,7 @@ m.poster_path,
 )}"
 alt=""
 >
-
+<div class="react-action-buttons" data-variant="card" data-movie-data="${encodeURIComponent(JSON.stringify(m))}"></div>
 </div>
 
 <div>

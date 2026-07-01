@@ -197,37 +197,28 @@ function renderEpisodes(episodes, seasonNum) {
 
 /* ---- open player ---- */
 export async function openPlayer(media) {
-
     saveWatch(media);
-
     currentMedia = media;
-
     currentLang = getPreferredLang();
     currentSeason = 1;
     currentEp = 1;
 
-
-
     const bd = backdrop();
-
     bd.classList.add('open');
-
     iframe().style.display = 'none';
-
     placeholder().style.display = 'flex';
-
-    placeholder().innerHTML =
-        `
-    <div class="spinner"></div>
-    <div style="font-size:13px;color:var(--muted);">
-    Loading...
-    </div>
+    placeholder().innerHTML = `
+        <div class="spinner"></div>
+        <div style="font-size:13px;color:var(--muted);">Loading...</div>
     `;
 
-    document.getElementById(
-            'modalTitle'
-        ).textContent =
-        media.title || media.name || '';
+    document.getElementById('modalTitle').textContent = media.title || media.name || '';
+
+        
+    const modalActionsContainer = document.getElementById('react-modal-actions-container');
+    if (modalActionsContainer) {
+        modalActionsContainer.innerHTML = `<div class="react-action-buttons" data-variant="modal" data-movie-data="${encodeURIComponent(JSON.stringify(media))}"></div>`;
+    }
 
     const year =
         (

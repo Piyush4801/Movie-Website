@@ -487,130 +487,45 @@ function initRowArrows() {
    NAV TABS
    ============================================================ */
 function initNavTabs() {
-
-    document.querySelectorAll('.nav-tab')
-        .forEach(btn => {
-
-            btn.addEventListener(
-                'click',
-                async function() {
-
-                    document
-                        .querySelectorAll('.nav-tab')
-                        .forEach(
-                            b => b.classList.remove('active')
-                        );
-
-                    this.classList.add('active');
-
-                    const type =
-                        this.dataset.type;
-                        
-                    const homeContent = document.querySelector('.home-content');
-                    const libraryPage = document.getElementById('libraryPage');
-
-                    if (type === 'mylist') {
-                        if (homeContent) homeContent.style.display = 'none';
-                        if (libraryPage) {
-                            libraryPage.style.display = 'block';
-                            renderMyList();
-                        }
-                        return;
-                    } else {
-                        if (homeContent) homeContent.style.display = 'block';
-                        if (libraryPage) libraryPage.style.display = 'none';
-                    }
-
-                    // TV Series
-                    if (type === "tv") {
-
-                        const trending =
-                            await fetchTopRatedTV();
-
-                        const popular =
-                            await fetchPopular("tv");
-
-                        renderRow(
-                            "trendingList",
-                            trending
-                        );
-
-                        renderRow(
-                            "seriesList",
-                            popular
-                        );
-
-                    }
-
-                    // Animation
-                    else if (type === "animation") {
-
-                        const animation =
-                            await fetchByGenre(
-                                16,
-                                "movie"
-                            );
-
-                        renderRow(
-                            "trendingList",
-                            animation
-                        );
-
-                        renderRow(
-                            "moviesList",
-                            animation
-                        );
-
-                    }
-
-                    // Anime
-                    else if (type === "anime") {
-
-                        const anime =
-                            await fetchAnimeSuggestions();
-
-                        renderRow(
-                            "trendingList",
-                            anime
-                        );
-
-                        renderRow(
-                            "moviesList",
-                            anime
-                        );
-
-                    }
-
-                    // Movies
-                    else {
-
-                        const trending =
-                            await fetchTrending(
-                                "movie"
-                            );
-
-                        const popular =
-                            await fetchPopular(
-                                "movie"
-                            );
-
-                        renderRow(
-                            "trendingList",
-                            trending
-                        );
-
-                        renderRow(
-                            "moviesList",
-                            popular
-                        );
-
-                    }
-
-                }
-            );
-
+    document.querySelectorAll('.nav-tab').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const route = this.getAttribute('data-route') || 'home';
+            window.location.hash = route;
         });
+    });
 
+    window.addEventListener('hashchange', () => {
+        const hash = window.location.hash.replace('#', '') || 'home';
+        document.querySelectorAll('.nav-tab').forEach(b => {
+            if (b.getAttribute('data-route') === hash) {
+                b.classList.add('active');
+            } else {
+                b.classList.remove('active');
+            }
+        });
+        
+        // Hide vanilla sections if not home
+        const homeContent = document.getElementById('homeContent');
+        if (homeContent) {
+            homeContent.style.display = (hash === 'home' || hash === 'movies' || hash === 'tv') ? 'block' : 'none';
+        }
+        const libraryPage = document.getElementById('libraryPage');
+        if (libraryPage) libraryPage.style.display = 'none'; // Replaced by React
+        
+        // Fetch specific data for vanilla pages
+        if (hash === 'tv') {
+            fetchTopRatedTV().then(trending => renderRow("trendingList", trending));
+            fetchPopular("tv").then(popular => renderRow("seriesList", popular));
+        } else if (hash === 'movies' || hash === 'home') {
+            fetchTrending("movie").then(trending => renderRow("trendingList", trending));
+            fetchPopular("movie").then(popular => renderRow("moviesList", popular));
+        }
+    });
+    
+    // Trigger initial
+    setTimeout(() => {
+        window.dispatchEvent(new Event('hashchange'));
+    }, 100);
 }
 
 /* ============================================================

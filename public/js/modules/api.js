@@ -1,10 +1,9 @@
 /**
  * StreamFlix — API Module
- * Handles all TMDB API interactions.
+ * All TMDB requests go through the backend proxy at /api/tmdb
+ * to avoid CSP issues and keep the API key secure.
  */
 
-const TMDB = 'https://api.themoviedb.org/3';
-const TMDB_KEY = '852b496a6ab5e48324fac3a942903058';
 const IMG = 'https://image.tmdb.org/t/p/';
 
 export const genreMap = {};
@@ -14,10 +13,10 @@ export function imgUrl(path, size = 'w500') {
 }
 
 async function get(endpoint, params = {}) {
-    const url = new URL(`${TMDB}${endpoint}`);
-    url.searchParams.set('api_key', TMDB_KEY);
+    const url = new URL(`/api/tmdb${endpoint}`, window.location.origin);
     Object.entries(params).forEach(([k, v]) => url.searchParams.set(k, v));
     const res = await fetch(url);
+    if (!res.ok) throw new Error(`API error: ${res.status}`);
     return res.json();
 }
 
@@ -35,9 +34,7 @@ export async function fetchTrending(type = 'all') {
 }
 
 export async function fetchPopular(type = 'movie', page = 1) {
-    const data = await get(`/${type}/popular`, {
-        page
-    });
+    const data = await get(`/${type}/popular`, { page });
     return data.results || [];
 }
 
@@ -47,9 +44,7 @@ export async function fetchTopRatedTV() {
 }
 
 export async function searchMulti(query) {
-    const data = await get('/search/multi', {
-        query
-    });
+    const data = await get('/search/multi', { query });
     return (data.results || []).filter(m => m.poster_path || m.backdrop_path);
 }
 
@@ -62,9 +57,7 @@ export async function fetchByGenre(genreId, type = 'movie') {
 }
 
 export async function fetchSeasons(tvId, numberOfSeasons) {
-    const seasonNumbers = Array.from({
-        length: numberOfSeasons
-    }, (_, i) => i + 1);
+    const seasonNumbers = Array.from({ length: numberOfSeasons }, (_, i) => i + 1);
     const seasons = await Promise.all(
         seasonNumbers.map(n => get(`/tv/${tvId}/season/${n}`))
     );
@@ -76,62 +69,44 @@ export async function fetchTVDetails(tvId) {
 }
 
 export async function fetchByLanguage(lang = 'en') {
-
-    const data = await get(
-        '/discover/movie', {
-            with_original_language: lang,
-            sort_by: 'popularity.desc'
-        }
-    );
-
+    const data = await get('/discover/movie', {
+        with_original_language: lang,
+        sort_by: 'popularity.desc'
+    });
     return data.results || [];
 }
 
 export async function fetchTrendingByLanguage(lang = 'en') {
-
-    const data = await get(
-        '/discover/movie', {
-            with_original_language: lang,
-            sort_by: 'popularity.desc'
-        }
-    );
-
+    const data = await get('/discover/movie', {
+        with_original_language: lang,
+        sort_by: 'popularity.desc'
+    });
     return data.results || [];
 }
 
 export async function fetchPopularByLanguage(lang = 'en') {
-
-    const data = await get(
-        '/discover/movie', {
-            with_original_language: lang,
-            sort_by: 'vote_average.desc',
-            vote_count_gte: 100
-        }
-    );
-
+    const data = await get('/discover/movie', {
+        with_original_language: lang,
+        sort_by: 'vote_average.desc',
+        vote_count_gte: 100
+    });
     return data.results || [];
 }
 
 export async function fetchTVByLanguage(lang = 'en') {
-
-    const data = await get(
-        '/discover/tv', {
-            with_original_language: lang,
-            sort_by: 'popularity.desc'
-        }
-    );
-
+    const data = await get('/discover/tv', {
+        with_original_language: lang,
+        sort_by: 'popularity.desc'
+    });
     return data.results || [];
 }
 
 export async function fetchAnimeSuggestions() {
-    const data = await get(
-        '/discover/tv', {
-            with_genres: 16,
-            with_original_language: 'ja',
-            sort_by: 'popularity.desc'
-        }
-    );
+    const data = await get('/discover/tv', {
+        with_genres: 16,
+        with_original_language: 'ja',
+        sort_by: 'popularity.desc'
+    });
     return data.results || [];
 }
 

@@ -1,28 +1,6 @@
 /**
  * StreamFlix — App Entry Point
-
-import {
-imgUrl,
-fetchGenres,
-fetchTrending,
-fetchPopular,
-fetchTopRatedTV,
-fetchByGenre,
-searchMulti,
-fetchTrendingByLanguage,
-fetchPopularByLanguage,
-fetchTVByLanguage,
-fetchAnimeSuggestions
-}
-from './modules/api.js';
-import { login, signup, demoLogin, logout, getSession } from './modules/auth.js';
-import { openPlayer, closePlayer } from './modules/player.js';
-import { setHero, renderRow, renderContinueWatching, renderSearchResults, renderMyList } from './modules/render.js';
-import { SUPPORTED_LANGUAGES, getPreferredLang, setPreferredLang, getLang } from './modules/language.js';
-/* ============================================================
-   LOGIN
-  
-   ============================================================ */
+ */
 
 import {
     imgUrl,
@@ -36,8 +14,7 @@ import {
     fetchPopularByLanguage,
     fetchTVByLanguage,
     fetchAnimeSuggestions
-}
-from './modules/api.js';
+} from './modules/api.js';
 
 import {
     login,
@@ -45,32 +22,29 @@ import {
     demoLogin,
     logout,
     getSession
-}
-from './modules/auth.js';
+} from './modules/auth.js';
 
 import {
     openPlayer,
     closePlayer
-}
-from './modules/player.js';
+} from './modules/player.js';
 
 import {
     setHero,
     renderRow,
     renderContinueWatching,
     renderSearchResults
-}
-from './modules/render.js';
+} from './modules/render.js';
 
 import {
     SUPPORTED_LANGUAGES,
     getPreferredLang,
     setPreferredLang,
     getLang
-}
-from './modules/language.js';
+} from './modules/language.js';
 
 import { initAI } from './modules/ai.js';
+
 
 function showApp() {
     const appShell = document.getElementById('appShell');

@@ -47,10 +47,12 @@ app.use(cors({
 // Trust proxy for Render deployment so rate limit works per IP
 app.set('trust proxy', 1);
 
-// Rate limiting
+// Rate limiting - higher limit needed since each page load makes many TMDB proxy requests
 const limiter = rateLimit({
   windowMs: 10 * 60 * 1000, // 10 mins
-  max: 100 // 100 requests per 10 mins
+  max: 500, // 500 requests per 10 mins per IP
+  standardHeaders: true,
+  legacyHeaders: false,
 });
 app.use(limiter);
 

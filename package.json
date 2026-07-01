@@ -4,8 +4,8 @@
   "private": true,
   "main": "backend/server.js",
   "scripts": {
-    "start": "npx http-server public -p 5050 -c-1",
-    "dev": "npx http-server public -p 5050 -c-1",
+    "start": "node backend/server.js",
+    "dev": "node backend/server.js",
     "build:react": "esbuild public/js/react/index.jsx --bundle --outfile=public/js/mood-scanner.bundle.js --loader:.js=jsx --target=es2020",
     "watch:react": "esbuild public/js/react/index.jsx --bundle --outfile=public/js/mood-scanner.bundle.js --loader:.js=jsx --target=es2020 --watch"
   },

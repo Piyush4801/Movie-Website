@@ -138,7 +138,7 @@ function initLangPicker() {
     // Build premium dropdown HTML
     function buildDropdown(activeCode) {
         dropdown.innerHTML = `
-            <div class="lang-dropdown-header">🌐 Select Language</div>
+            <div class="lang-dropdown-header" data-i18n="select_language">Select Language</div>
             <div class="lang-dropdown-list">
                 ${SUPPORTED_LANGUAGES.map(lang => `
                     <div class="lang-option ${lang.code === activeCode ? 'active' : ''}" 
@@ -148,7 +148,8 @@ function initLangPicker() {
                          tabindex="0">
                         <span class="lang-option-flag">${lang.flag}</span>
                         <span class="lang-option-name">${lang.name}</span>
-                        ${lang.code === activeCode ? '<span class="lang-option-check">✓</span>' : '<span class="lang-option-check" style="opacity:0">✓</span>'}
+                        <span class="lang-option-abbr">${lang.code.toUpperCase()}</span>
+                        <span class="lang-option-check" style="opacity:${lang.code === activeCode ? '1' : '0'}">✓</span>
                     </div>
                 `).join('')}
             </div>
@@ -518,8 +519,6 @@ document.addEventListener('DOMContentLoaded', () => {
     initHeroNav();
     initNavTabs();
     initRowArrows();
-    initLangPicker();
-    initUserMenu();
     initSearch();
     initHomeButton();
     initCategories();
@@ -529,6 +528,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initLangPicker();
     initUserMenu();
     init();
+
     // Apply saved language translations on page load
     applyTranslations(getPreferredLang());
 

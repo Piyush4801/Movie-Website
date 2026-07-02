@@ -748,6 +748,23 @@ body::after {
     color: rgba(255, 255, 255, 0.9);
 }
 
+.lang-option-abbr {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    color: rgba(255, 255, 255, 0.3);
+    flex-shrink: 0;
+    padding: 2px 6px;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 6px;
+    font-family: 'Inter', monospace;
+}
+
+.lang-option.active .lang-option-abbr {
+    color: #FF5A00;
+    border-color: rgba(255, 90, 0, 0.4);
+}
+
 .lang-option.active .lang-option-name {
     color: #FF5A00;
     font-weight: 600;
@@ -2691,8 +2708,6 @@ body::after {
 .sicon,
 .search-bar,
 .nav-tab,
-.lang-picker,
-.lang-dropdown,
 .bell,
 .user-chip,
 .user-dropdown,
@@ -3404,65 +3419,6 @@ body::after {
 
 .ai-close-btn:hover {
     color: white;
-}
-
-/* ============================================================
-   LANGUAGE PICKER
-   ============================================================ */
-.lang-picker {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 8px 16px;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid var(--glass-border);
-    border-radius: 20px;
-    cursor: pointer;
-    position: relative;
-    font-size: 14px;
-    font-weight: 500;
-    transition: all 0.2s;
-    user-select: none;
-}
-
-.lang-picker:hover {
-    background: rgba(255, 255, 255, 0.1);
-}
-
-.lang-dropdown {
-    position: absolute;
-    top: calc(100% + 12px);
-    right: 0;
-    background: rgba(20, 21, 27, 0.95);
-    backdrop-filter: blur(20px);
-    border: 1px solid var(--glass-border);
-    border-radius: 16px;
-    padding: 10px;
-    width: 160px;
-    display: none;
-    flex-direction: column;
-    gap: 4px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
-    z-index: 100;
-}
-
-.lang-dropdown.open {
-    display: flex;
-}
-
-.lang-option {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 10px 14px;
-    border-radius: 12px;
-    cursor: pointer;
-    font-size: 14px;
-    transition: background 0.2s;
-}
-
-.lang-option:hover {
-    background: rgba(255, 255, 255, 0.08);
 }
 
 

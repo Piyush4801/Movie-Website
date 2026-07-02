@@ -382,20 +382,89 @@ function initRowArrows() {
    NAV TABS
    ============================================================ */
 function initNavTabs() {
-    document.querySelectorAll('.nav-tab').forEach(btn => {
+    // Topbar Tabs (filter out more button)
+    document.querySelectorAll('.nav-tab:not(.more-trigger-btn)').forEach(btn => {
         btn.addEventListener('click', function() {
             const route = this.getAttribute('data-route') || 'home';
             window.location.hash = route;
         });
     });
 
+    const moreDrawer = document.getElementById('moreDrawer');
+    const drawerOverlay = document.getElementById('drawerOverlay');
+    const openBtn = document.getElementById('openDrawerBtn');
+    const closeBtn = document.getElementById('closeDrawerBtn');
+
+    function openDrawer() {
+        if (moreDrawer) moreDrawer.classList.add('open');
+        if (drawerOverlay) drawerOverlay.classList.add('open');
+    }
+
+    function closeDrawer() {
+        if (moreDrawer) moreDrawer.classList.remove('open');
+        if (drawerOverlay) drawerOverlay.classList.remove('open');
+    }
+
+    if (openBtn) openBtn.addEventListener('click', (e) => { e.stopPropagation(); openDrawer(); });
+    if (closeBtn) closeBtn.addEventListener('click', closeDrawer);
+    if (drawerOverlay) drawerOverlay.addEventListener('click', closeDrawer);
+
+    // Escape closes drawer
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeDrawer();
+    });
+
+    // Drawer Items Clicks
+    document.querySelectorAll('.drawer-item').forEach(item => {
+        item.addEventListener('click', function() {
+            const action = this.dataset.action;
+            
+            if (action === 'route') {
+                const val = this.dataset.value;
+                window.location.hash = val;
+                closeDrawer();
+            } else if (action === 'mood-scanner') {
+                closeDrawer();
+                setTimeout(() => {
+                    document.querySelector('#mood-scanner-root button')?.click();
+                }, 200);
+            } else if (action === 'cinema-mode') {
+                closeDrawer();
+                setTimeout(() => {
+                    // Toggle React Cinema Mode if available, or dispatch event
+                    document.getElementById('cinema-mode-button-root')?.firstElementChild?.click();
+                }, 200);
+            } else if (action === 'logout') {
+                closeDrawer();
+                // Find and click vanilla signout if exists
+                const signOutBtn = document.querySelector('.user-dropdown-item.danger') || document.querySelector('[data-action="logout"]');
+                if (signOutBtn) signOutBtn.click();
+            } else {
+                // Secondary tools (Movie Map, Voice AI, Time Machine, AI memory, Help, Settings)
+                alert(`Opening ${this.querySelector('.drawer-label')?.textContent || 'Service'}...`);
+                closeDrawer();
+            }
+        });
+    });
+
     window.addEventListener('hashchange', () => {
         const hash = window.location.hash.replace('#', '') || 'home';
+        
+        // Update topbar active state
         document.querySelectorAll('.nav-tab').forEach(b => {
             if (b.getAttribute('data-route') === hash) {
                 b.classList.add('active');
             } else {
                 b.classList.remove('active');
+            }
+        });
+
+        // Update drawer item active state
+        document.querySelectorAll('.drawer-item').forEach(item => {
+            if (item.dataset.action === 'route' && item.dataset.value === hash) {
+                item.classList.add('active');
+            } else {
+                item.classList.remove('active');
             }
         });
         

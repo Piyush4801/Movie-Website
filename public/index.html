@@ -35,9 +35,9 @@
                     <button class="nav-tab" data-route="tv">TV SHOWS</button>
                     <button class="nav-tab" data-route="trending">TRENDING</button>
                     <button class="nav-tab" data-route="top-rated">TOP RATED</button>
-                    <button class="nav-tab" data-route="genres">GENRES</button>
-                    <button class="nav-tab" data-route="favorites">FAVORITES</button>
-                    <button class="nav-tab" data-route="watch-later">WATCH LATER</button>
+                    <button class="nav-tab more-trigger-btn" id="openDrawerBtn">
+                        <span class="more-icon">☰</span> <span class="more-label" data-i18n="more">MORE</span>
+                    </button>
                 </div>
 
                 <div class="topbar-right">
@@ -427,6 +427,87 @@
     <!-- /appShell -->
 
     <div id="cinema-mode-root"></div>
+
+    <!-- SLIDE DRAWER (SIDEBAR) -->
+    <div id="moreDrawer" class="more-drawer">
+        <div class="drawer-header">
+            <h2 class="drawer-title" data-i18n="moreServices">📌 MORE SERVICES</h2>
+            <button id="closeDrawerBtn" class="close-drawer-btn" aria-label="Close menu">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+        </div>
+        <div class="drawer-content">
+            <!-- Explore Section -->
+            <div class="drawer-section-title" data-i18n="explore">EXPLORE</div>
+            <button class="drawer-item" data-action="route" data-value="genres">
+                <span class="drawer-icon">🎭</span>
+                <span class="drawer-label" data-i18n="genres">Genres</span>
+                <span class="drawer-active-indicator"></span>
+            </button>
+            <button class="drawer-item" data-action="route" data-value="favorites">
+                <span class="drawer-icon">❤️</span>
+                <span class="drawer-label" data-i18n="favorites">Favorites</span>
+                <span class="drawer-active-indicator"></span>
+            </button>
+            <button class="drawer-item" data-action="route" data-value="watch-later">
+                <span class="drawer-icon">🕒</span>
+                <span class="drawer-label" data-i18n="watchLater">Watch Later</span>
+                <span class="drawer-active-indicator"></span>
+            </button>
+
+            <!-- smart tools -->
+            <div class="drawer-section-title" data-i18n="aiSmartTools">AI & SMART TOOLS</div>
+            <button class="drawer-item" data-action="mood-scanner">
+                <span class="drawer-icon">😊</span>
+                <span class="drawer-label" data-i18n="scanMood">Scan My Mood</span>
+                <span class="drawer-active-indicator"></span>
+            </button>
+            <button class="drawer-item" data-action="cinema-mode">
+                <span class="drawer-icon">🎬</span>
+                <span class="drawer-label" data-i18n="cinemaMode">Cinema Mode</span>
+                <span class="drawer-active-indicator"></span>
+            </button>
+            <button class="drawer-item" data-action="movie-map">
+                <span class="drawer-icon">🗺️</span>
+                <span class="drawer-label">Movie Map</span>
+                <span class="drawer-active-indicator"></span>
+            </button>
+            <button class="drawer-item" data-action="voice-ai">
+                <span class="drawer-icon">🎤</span>
+                <span class="drawer-label">Voice AI</span>
+                <span class="drawer-active-indicator"></span>
+            </button>
+            <button class="drawer-item" data-action="time-machine">
+                <span class="drawer-icon">⏳</span>
+                <span class="drawer-label">Time Machine</span>
+                <span class="drawer-active-indicator"></span>
+            </button>
+            <button class="drawer-item" data-action="ai-timeline">
+                <span class="drawer-icon">📈</span>
+                <span class="drawer-label">AI Memory Timeline</span>
+                <span class="drawer-active-indicator"></span>
+            </button>
+
+            <!-- account actions -->
+            <div class="drawer-section-title" data-i18n="account">ACCOUNT</div>
+            <button class="drawer-item" data-action="settings">
+                <span class="drawer-icon">⚙️</span>
+                <span class="drawer-label" data-i18n="settings">Settings</span>
+                <span class="drawer-active-indicator"></span>
+            </button>
+            <button class="drawer-item" data-action="help">
+                <span class="drawer-icon">❓</span>
+                <span class="drawer-label">Help</span>
+                <span class="drawer-active-indicator"></span>
+            </button>
+            <button class="drawer-item danger" data-action="logout">
+                <span class="drawer-icon">🚪</span>
+                <span class="drawer-label" data-i18n="signOut">Logout</span>
+                <span class="drawer-active-indicator"></span>
+            </button>
+        </div>
+    </div>
+    <div id="drawerOverlay" class="drawer-overlay"></div>
 
     <script type="module" src="js/app.js?v=2"></script>
     <script src="js/mood-scanner.bundle.js?v=3"></script>

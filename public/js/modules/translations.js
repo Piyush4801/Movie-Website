@@ -49,7 +49,7 @@ export const UI_TRANSLATIONS = {
     en: {
         dir: 'ltr', lang: 'en',
         // Navbar
-        home: 'HOME', movies: 'MOVIES', tvShows: 'TV SHOWS', trending: 'TRENDING',
+        more: 'MORE', moreServices: 'MORE SERVICES', explore: 'EXPLORE', aiSmartTools: 'AI & SMART TOOLS', account: 'ACCOUNT', home: 'HOME', movies: 'MOVIES', tvShows: 'TV SHOWS', trending: 'TRENDING',
         topRated: 'TOP RATED', genres: 'GENRES', favorites: 'FAVORITES', watchLater: 'WATCH LATER',
         // Search
         search: 'Search movies, shows…', searchTitle: 'SEARCH RESULTS',
@@ -97,7 +97,7 @@ export const UI_TRANSLATIONS = {
     /* ---- Hindi ---- */
     hi: {
         dir: 'ltr', lang: 'hi',
-        home: 'होम', movies: 'फ़िल्में', tvShows: 'टीवी शोज़', trending: 'ट्रेंडिंग',
+        more: 'और', moreServices: 'अधिक सेवाएँ', explore: 'अन्वेषण करें', aiSmartTools: 'एआई और स्मार्ट टूल्स', account: 'खाता', home: 'होम', movies: 'फ़िल्में', tvShows: 'टीवी शोज़', trending: 'ट्रेंडिंग',
         topRated: 'टॉप रेटेड', genres: 'शैलियाँ', favorites: 'पसंदीदा', watchLater: 'बाद में देखें',
         search: 'फ़िल्में, शो खोजें…', searchTitle: 'खोज परिणाम',
         watchNow: 'अभी देखें', trailer: 'ट्रेलर', myList: 'मेरी सूची', scanMood: '😊 मूड स्कैन',
@@ -133,7 +133,7 @@ export const UI_TRANSLATIONS = {
     /* ---- Marathi ---- */
     mr: {
         dir: 'ltr', lang: 'mr',
-        home: 'मुखपृष्ठ', movies: 'चित्रपट', tvShows: 'टीव्ही शो', trending: 'ट्रेंडिंग',
+        more: 'अधिक', moreServices: 'अधिक सेवा', explore: 'शोधा', aiSmartTools: 'एआय आणि स्मार्ट साधने', account: 'खाते', home: 'मुखपृष्ठ', movies: 'चित्रपट', tvShows: 'टीव्ही शो', trending: 'ट्रेंडिंग',
         topRated: 'सर्वोत्तम', genres: 'शैली', favorites: 'आवडते', watchLater: 'नंतर पाहा',
         search: 'चित्रपट, शो शोधा…', searchTitle: 'शोध निकाल',
         watchNow: 'आता पाहा', trailer: 'ट्रेलर', myList: 'माझी यादी', scanMood: '😊 मूड स्कॅन',
@@ -169,7 +169,7 @@ export const UI_TRANSLATIONS = {
     /* ---- Tamil ---- */
     ta: {
         dir: 'ltr', lang: 'ta',
-        home: 'முகப்பு', movies: 'திரைப்படங்கள்', tvShows: 'தொலைக்காட்சி', trending: 'டிரெண்டிங்',
+        more: 'மேலும்', moreServices: 'கூடுதல் சேவைகள்', explore: 'ஆராயுங்கள்', aiSmartTools: 'AI & ஸ்மார்ட் கருவிகள்', account: 'கணக்கு', home: 'முகப்பு', movies: 'திரைப்படங்கள்', tvShows: 'தொலைக்காட்சி', trending: 'டிரெண்டிங்',
         topRated: 'சிறந்தவை', genres: 'வகைகள்', favorites: 'பிடித்தவை', watchLater: 'பிறகு பார்',
         search: 'தேடு…', searchTitle: 'தேடல் முடிவுகள்',
         watchNow: 'இப்போது பார்', trailer: 'டிரெய்லர்', myList: 'என் பட்டியல்', scanMood: '😊 மனநிலை ஸ்கேன்',
@@ -205,7 +205,7 @@ export const UI_TRANSLATIONS = {
     /* ---- Telugu ---- */
     te: {
         dir: 'ltr', lang: 'te',
-        home: 'హోమ్', movies: 'సినిమాలు', tvShows: 'టీవీ షోలు', trending: 'ట్రెండింగ్',
+        more: 'మరింత', moreServices: 'మరిన్ని సేవలు', explore: 'అన్వేషించండి', aiSmartTools: 'AI & స్మార్ట్ టూల్స్', account: 'ఖాతా', home: 'హోమ్', movies: 'సినిమాలు', tvShows: 'టీవీ షోలు', trending: 'ట్రెండింగ్',
         topRated: 'అత్యుత్తమ', genres: 'శైలులు', favorites: 'ఇష్టమైనవి', watchLater: 'తర్వాత చూడు',
         search: 'సినిమాలు, షోలు వెతకండి…', searchTitle: 'శోధన ఫలితాలు',
         watchNow: 'ఇప్పుడు చూడు', trailer: 'ట్రైలర్', myList: 'నా జాబితా', scanMood: '😊 మూడ్ స్కాన్',
@@ -241,7 +241,7 @@ export const UI_TRANSLATIONS = {
     /* ---- Spanish ---- */
     es: {
         dir: 'ltr', lang: 'es',
-        home: 'INICIO', movies: 'PELÍCULAS', tvShows: 'SERIES', trending: 'TENDENCIAS',
+        more: 'MÁS', moreServices: 'MÁS SERVICIOS', explore: 'EXPLORAR', aiSmartTools: 'HERRAMIENTAS IA', account: 'CUENTA', home: 'INICIO', movies: 'PELÍCULAS', tvShows: 'SERIES', trending: 'TENDENCIAS',
         topRated: 'LO MEJOR', genres: 'GÉNEROS', favorites: 'FAVORITOS', watchLater: 'VER DESPUÉS',
         search: 'Buscar películas, series…', searchTitle: 'RESULTADOS',
         watchNow: 'Ver ahora', trailer: 'Tráiler', myList: 'Mi lista', scanMood: '😊 Escanear estado',
@@ -277,7 +277,7 @@ export const UI_TRANSLATIONS = {
     /* ---- French ---- */
     fr: {
         dir: 'ltr', lang: 'fr',
-        home: 'ACCUEIL', movies: 'FILMS', tvShows: 'SÉRIES', trending: 'TENDANCES',
+        more: 'PLUS', moreServices: 'PLUS DE SERVICES', explore: 'EXPLORER', aiSmartTools: 'OUTILS IA', account: 'COMPTE', home: 'ACCUEIL', movies: 'FILMS', tvShows: 'SÉRIES', trending: 'TENDANCES',
         topRated: 'LES MIEUX NOTÉS', genres: 'GENRES', favorites: 'FAVORIS', watchLater: 'À REGARDER',
         search: 'Rechercher films, séries…', searchTitle: 'RÉSULTATS',
         watchNow: 'Regarder', trailer: 'Bande-annonce', myList: 'Ma liste', scanMood: '😊 Scanner humeur',
@@ -313,7 +313,7 @@ export const UI_TRANSLATIONS = {
     /* ---- German ---- */
     de: {
         dir: 'ltr', lang: 'de',
-        home: 'START', movies: 'FILME', tvShows: 'SERIEN', trending: 'TRENDS',
+        more: 'MEHR', moreServices: 'WEITERE DIENSTE', explore: 'ENTDECKEN', aiSmartTools: 'KI-TOOLS', account: 'KONTO', home: 'START', movies: 'FILME', tvShows: 'SERIEN', trending: 'TRENDS',
         topRated: 'BESTBEWERTET', genres: 'GENRES', favorites: 'FAVORITEN', watchLater: 'SPÄTER ANSEHEN',
         search: 'Filme, Serien suchen…', searchTitle: 'SUCHERGEBNISSE',
         watchNow: 'Jetzt ansehen', trailer: 'Trailer', myList: 'Meine Liste', scanMood: '😊 Stimmung scannen',
@@ -349,7 +349,7 @@ export const UI_TRANSLATIONS = {
     /* ---- Japanese ---- */
     ja: {
         dir: 'ltr', lang: 'ja',
-        home: 'ホーム', movies: '映画', tvShows: 'テレビ番組', trending: 'トレンド',
+        more: 'もっと見る', moreServices: 'その他のサービス', explore: '探索する', aiSmartTools: 'AIツール', account: 'アカウント', home: 'ホーム', movies: '映画', tvShows: 'テレビ番組', trending: 'トレンド',
         topRated: '高評価', genres: 'ジャンル', favorites: 'お気に入り', watchLater: '後で見る',
         search: '映画・番組を検索…', searchTitle: '検索結果',
         watchNow: '今すぐ見る', trailer: 'トレーラー', myList: 'マイリスト', scanMood: '😊 気分スキャン',
@@ -385,7 +385,7 @@ export const UI_TRANSLATIONS = {
     /* ---- Korean ---- */
     ko: {
         dir: 'ltr', lang: 'ko',
-        home: '홈', movies: '영화', tvShows: 'TV 프로그램', trending: '트렌딩',
+        more: '더 보기', moreServices: '기타 서비스', explore: '탐색', aiSmartTools: 'AI 스마트 도구', account: '계정', home: '홈', movies: '영화', tvShows: 'TV 프로그램', trending: '트렌딩',
         topRated: '최고 평점', genres: '장르', favorites: '즐겨찾기', watchLater: '나중에 보기',
         search: '영화, 프로그램 검색…', searchTitle: '검색 결과',
         watchNow: '지금 보기', trailer: '예고편', myList: '내 목록', scanMood: '😊 기분 스캔',
@@ -421,7 +421,7 @@ export const UI_TRANSLATIONS = {
     /* ---- Chinese (Simplified) ---- */
     zh: {
         dir: 'ltr', lang: 'zh',
-        home: '主页', movies: '电影', tvShows: '电视剧', trending: '热门',
+        more: '更多', moreServices: '更多服务', explore: '探索', aiSmartTools: 'AI与智能工具', account: '账户', home: '主页', movies: '电影', tvShows: '电视剧', trending: '热门',
         topRated: '高分', genres: '类型', favorites: '收藏', watchLater: '稍后观看',
         search: '搜索电影、剧集…', searchTitle: '搜索结果',
         watchNow: '立即播放', trailer: '预告片', myList: '我的列表', scanMood: '😊 情绪扫描',
@@ -457,7 +457,7 @@ export const UI_TRANSLATIONS = {
     /* ---- Portuguese ---- */
     pt: {
         dir: 'ltr', lang: 'pt',
-        home: 'INÍCIO', movies: 'FILMES', tvShows: 'SÉRIES', trending: 'TENDÊNCIAS',
+        more: 'MAIS', moreServices: 'MAIS SERVIÇOS', explore: 'EXPLORAR', aiSmartTools: 'FERRAMENTAS IA', account: 'CONTA', home: 'INÍCIO', movies: 'FILMES', tvShows: 'SÉRIES', trending: 'TENDÊNCIAS',
         topRated: 'MAIS VOTADOS', genres: 'GÊNEROS', favorites: 'FAVORITOS', watchLater: 'VER DEPOIS',
         search: 'Pesquisar filmes, séries…', searchTitle: 'RESULTADOS',
         watchNow: 'Assistir agora', trailer: 'Trailer', myList: 'Minha lista', scanMood: '😊 Escanear humor',
@@ -493,7 +493,7 @@ export const UI_TRANSLATIONS = {
     /* ---- Italian ---- */
     it: {
         dir: 'ltr', lang: 'it',
-        home: 'HOME', movies: 'FILM', tvShows: 'SERIE TV', trending: 'TENDENZE',
+        more: 'ALTRO', moreServices: 'ALTRI SERVIZI', explore: 'ESPLORA', aiSmartTools: 'STRUMENTI IA', account: 'ACCOUNT', home: 'HOME', movies: 'FILM', tvShows: 'SERIE TV', trending: 'TENDENZE',
         topRated: 'TOP VALUTATI', genres: 'GENERI', favorites: 'PREFERITI', watchLater: 'DA VEDERE',
         search: 'Cerca film, serie…', searchTitle: 'RISULTATI',
         watchNow: 'Guarda ora', trailer: 'Trailer', myList: 'La mia lista', scanMood: '😊 Scansiona umore',
@@ -529,7 +529,7 @@ export const UI_TRANSLATIONS = {
     /* ---- Russian ---- */
     ru: {
         dir: 'ltr', lang: 'ru',
-        home: 'ГЛАВНАЯ', movies: 'ФИЛЬМЫ', tvShows: 'СЕРИАЛЫ', trending: 'ТРЕНДЫ',
+        more: 'ЕЩЕ', moreServices: 'ДРУГИЕ СЛУЖБЫ', explore: 'ОБЗОР', aiSmartTools: 'КИ-ИНСТРУМЕНТЫ', account: 'АККАУНТ', home: 'ГЛАВНАЯ', movies: 'ФИЛЬМЫ', tvShows: 'СЕРИАЛЫ', trending: 'ТРЕНДЫ',
         topRated: 'ЛУЧШИЕ', genres: 'ЖАНРЫ', favorites: 'ИЗБРАННОЕ', watchLater: 'СМОТРЕТЬ ПОЗЖЕ',
         search: 'Поиск фильмов, сериалов…', searchTitle: 'РЕЗУЛЬТАТЫ',
         watchNow: 'Смотреть', trailer: 'Трейлер', myList: 'Мой список', scanMood: '😊 Сканировать настроение',
@@ -565,7 +565,7 @@ export const UI_TRANSLATIONS = {
     /* ---- Arabic ---- */
     ar: {
         dir: 'rtl', lang: 'ar',
-        home: 'الرئيسية', movies: 'أفلام', tvShows: 'مسلسلات', trending: 'الرائج',
+        more: 'المزيد', moreServices: 'المزيد من الخدمات', explore: 'استكشاف', aiSmartTools: 'أدوات الذكاء الاصطناعي', account: 'الحساب', home: 'الرئيسية', movies: 'أفلام', tvShows: 'مسلسلات', trending: 'الرائج',
         topRated: 'الأعلى تقييماً', genres: 'الأنواع', favorites: 'المفضلة', watchLater: 'شاهد لاحقاً',
         search: 'ابحث عن أفلام، مسلسلات…', searchTitle: 'نتائج البحث',
         watchNow: 'شاهد الآن', trailer: 'مقطع دعائي', myList: 'قائمتي', scanMood: '😊 مسح المزاج',
@@ -642,6 +642,14 @@ export function applyTranslations(langCode) {
     document.querySelectorAll('.nav-tab[data-route]').forEach(btn => {
         const route = btn.getAttribute('data-route');
         if (tabMap[route]) btn.textContent = tabMap[route];
+    });
+
+    // Translate dynamic i18n attributes (covers slide-drawer, More button)
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (t[key]) {
+            el.textContent = t[key];
+        }
     });
 
     /* 4. Search */

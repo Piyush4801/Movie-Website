@@ -34,10 +34,6 @@
                     <button class="nav-tab" data-route="movies">MOVIES</button>
                     <button class="nav-tab" data-route="tv">TV SHOWS</button>
                     <button class="nav-tab" data-route="trending">TRENDING</button>
-                    <button class="nav-tab" data-route="top-rated">TOP RATED</button>
-                    <button class="nav-tab more-trigger-btn" id="openDrawerBtn">
-                        <span class="more-icon">☰</span> <span class="more-label" data-i18n="more">MORE</span>
-                    </button>
                 </div>
 
                 <div class="topbar-right">
@@ -79,6 +75,11 @@
                             
                         </div>
                     </div>
+
+                    <!-- Hamburger Drawer Trigger -->
+                    <button class="hamburger-menu-btn" id="openDrawerBtn" aria-label="Open menu">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+                    </button>
                 </div>
             </div>
 
@@ -439,6 +440,11 @@
         <div class="drawer-content">
             <!-- Explore Section -->
             <div class="drawer-section-title" data-i18n="explore">EXPLORE</div>
+            <button class="drawer-item" data-action="route" data-value="top-rated">
+                <span class="drawer-icon">⭐</span>
+                <span class="drawer-label" data-i18n="topRated">Top Rated</span>
+                <span class="drawer-active-indicator"></span>
+            </button>
             <button class="drawer-item" data-action="route" data-value="genres">
                 <span class="drawer-icon">🎭</span>
                 <span class="drawer-label" data-i18n="genres">Genres</span>

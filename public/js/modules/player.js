@@ -1,6 +1,7 @@
 /**
  * StreamFlix — Player Module (fixed language + side-by-side modal)
  */
+import { t } from './translations.js';
 import {
     addToWatchlist,
     addDownload,
@@ -63,37 +64,49 @@ function isTV(media) {
 function loadEmbed(season, ep) {
     const el = iframe();
     const ph = placeholder();
+    if (!el || !ph) return;
+
     el.style.display = 'none';
     ph.style.display = 'flex';
     ph.innerHTML = '<div class="spinner"></div><div style="font-size:13px;color:var(--muted);">Loading player…</div>';
-    // Re-read current lang at load time to respect latest preference
-    currentLang = getPreferredLang();
 
-    // Disable sandbox ONLY for vidfast (SER3) because it refuses to play otherwise,
-    // but keep it active for all other servers to block ads.
-    const server = getCurrentServer();
+    try {
+        // Re-read current lang at load time to respect latest preference
+        currentLang = getPreferredLang();
 
-    if (
-        server === "server1" || // SER-ENG
-        server === "vidfast" // SER3
-    ) {
-        // No sandbox
-        el.removeAttribute("sandbox");
-        window.preventRedirect = true;
-    } else {
-        // Sandbox ON
-        el.setAttribute(
-            "sandbox",
-            "allow-scripts allow-same-origin allow-forms"
-        );
-        window.preventRedirect = false;
+        // Disable sandbox ONLY for vidfast (SER3) because it refuses to play otherwise,
+        // but keep it active for all other servers to block ads.
+        const server = getCurrentServer();
+
+        if (
+            server === "server1" || // SER-ENG
+            server === "vidfast" // SER3
+        ) {
+            // No sandbox
+            el.removeAttribute("sandbox");
+            window.preventRedirect = true;
+        } else {
+            // Sandbox ON
+            el.setAttribute(
+                "sandbox",
+                "allow-scripts allow-same-origin allow-forms"
+            );
+            window.preventRedirect = false;
+        }
+
+        if (!currentMedia) {
+            throw new Error("No media selected");
+        }
+
+        el.src = buildEmbedUrl(currentMedia, currentLang, season, ep);
+        setTimeout(() => {
+            ph.style.display = 'none';
+            el.style.display = 'block';
+        }, 1500);
+    } catch (err) {
+        console.error("loadEmbed failed:", err);
+        ph.innerHTML = `<div style="color:#ff4444;font-size:14px;padding:20px;text-align:center;">Error: ${err.message}</div>`;
     }
-
-    el.src = buildEmbedUrl(currentMedia, currentLang, season, ep);
-    setTimeout(() => {
-        ph.style.display = 'none';
-        el.style.display = 'block';
-    }, 1500);
 }
 
 /* ---- language bar ---- */
@@ -198,22 +211,26 @@ function renderEpisodes(episodes, seasonNum) {
 
 /* ---- open player ---- */
 export async function openPlayer(media) {
-    saveWatch(media);
-    currentMedia = media;
-    currentLang = getPreferredLang();
-    currentSeason = 1;
-    currentEp = 1;
+    try {
+        saveWatch(media);
+        currentMedia = media;
+        currentLang = getPreferredLang();
+        currentSeason = 1;
+        currentEp = 1;
 
-    const bd = backdrop();
-    bd.classList.add('open');
-    iframe().style.display = 'none';
-    placeholder().style.display = 'flex';
-    placeholder().innerHTML = `
-        <div class="spinner"></div>
-        <div style="font-size:13px;color:var(--muted);">${t('loading')}</div>
-    `;
+        const bd = backdrop();
+        if (bd) bd.classList.add('open');
+        if (iframe()) iframe().style.display = 'none';
+        if (placeholder()) {
+            placeholder().style.display = 'flex';
+            placeholder().innerHTML = `
+                <div class="spinner"></div>
+                <div style="font-size:13px;color:var(--muted);">${t('loading')}</div>
+            `;
+        }
 
-    document.getElementById('modalTitle').textContent = media.title || media.name || '';
+        const titleEl = document.getElementById('modalTitle');
+        if (titleEl) titleEl.textContent = media.title || media.name || '';
 
         
     const modalActionsContainer = document.getElementById('react-modal-actions-container');
@@ -360,7 +377,13 @@ export async function openPlayer(media) {
     }
 
     loadEmbed(1, 1);
-
+    } catch (err) {
+        console.error("openPlayer crashed:", err);
+        const ph = placeholder();
+        if (ph) {
+            ph.innerHTML = `<div style="color:#ff4444;font-size:14px;padding:20px;text-align:center;">Error: ${err.message}</div>`;
+        }
+    }
 }
 
 async function loadModalRecommendations(media) {

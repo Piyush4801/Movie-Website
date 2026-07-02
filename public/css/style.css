@@ -469,6 +469,8 @@ body::after {
 .topbar-left {
     display: flex;
     align-items: center;
+    margin-right: 40px;
+    flex-shrink: 0;
 }
 .topbar-left .sidebar-logo {
     display: flex;

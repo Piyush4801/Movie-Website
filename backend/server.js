@@ -54,7 +54,8 @@ const limiter = rateLimit({
   standardHeaders: true,
   legacyHeaders: false,
 });
-app.use(limiter);
+// Only apply the limiter to API endpoints, NOT static assets
+app.use('/api', limiter);
 
 // Route files
 const auth = require('./routes/auth');

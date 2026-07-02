@@ -19,6 +19,7 @@ import {
     removeFromWatchlist,
     addNotification
 } from './userData.js';
+import { t } from './translations.js';
 
 
 /* ---- Hero ---- */
@@ -73,11 +74,13 @@ export function setHero(movie) {
         const updateListBtn = () => {
             const inList = getWatchlist().find(m => m.id === movie.id);
             if (inList) {
-                heroListBtn.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg> Added`;
+                heroListBtn.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg> ${t('addedToList')}`;
+
                 heroListBtn.style.color = 'var(--accent)';
                 heroListBtn.style.borderColor = 'var(--accent)';
             } else {
-                heroListBtn.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> My List`;
+                heroListBtn.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> ${t('myList')}`;
+
                 heroListBtn.style.color = '';
                 heroListBtn.style.borderColor = '';
             }
@@ -209,7 +212,7 @@ export function renderMyList() {
     if (!el) return;
 
     if (!items.length) {
-        el.innerHTML = `<p style="padding:20px; color:var(--text);">Your list is empty. Add movies and TV shows to watch them later!</p>`;
+        el.innerHTML = `<p style="padding:20px; color:var(--text);">${t('emptyList')}</p>`;
         return;
     }
 
@@ -400,7 +403,7 @@ ${m.title || m.name || ''}
 <div class="sr-year">
 ${(m.release_date || m.first_air_date || '').slice(0,4)}
 ·
-${m.media_type==='tv' ? 'TV':'Movie'}
+${m.media_type==='tv' ? t('tvSeries') : t('movie')}
 </div>
 
 </div>

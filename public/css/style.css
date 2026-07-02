@@ -20,6 +20,8 @@
     --text: #f5f3f0;
     --muted: rgba(245, 243, 240, 0.5);
     --card-r: 16px;
+    /* Dynamic font variable — updated by translations.js per language */
+    --ui-font: 'Inter', 'DM Sans', sans-serif;
 }
 
 *,
@@ -31,12 +33,31 @@
 }
 
 body {
-    font-family: 'DM Sans', sans-serif;
+    font-family: var(--ui-font);
     background: var(--bg);
     color: var(--text);
     min-height: 100vh;
     overflow-x: hidden;
+    transition: font-family 0.15s ease;
 }
+
+/* ============================================================
+   RTL LAYOUT SUPPORT (Arabic)
+   ============================================================ */
+[dir="rtl"] .topbar-left { order: 2; }
+[dir="rtl"] .topbar-right { order: 1; flex-direction: row-reverse; }
+[dir="rtl"] .nav-tabs { flex-direction: row-reverse; }
+[dir="rtl"] .lang-dropdown { right: auto; left: 0; transform-origin: top left; }
+[dir="rtl"] .user-dropdown { right: auto; left: 0; }
+[dir="rtl"] .hero-content { text-align: right; }
+[dir="rtl"] .hero-actions { flex-direction: row-reverse; }
+[dir="rtl"] .hero-meta { flex-direction: row-reverse; }
+[dir="rtl"] .row-header { flex-direction: row-reverse; }
+[dir="rtl"] .card-row { direction: rtl; }
+[dir="rtl"] .lang-option-check { margin-left: 0; margin-right: auto; }
+[dir="rtl"] .search-bar { flex-direction: row-reverse; }
+[dir="rtl"] .topbar { flex-direction: row-reverse; }
+
 
 /* Moving animated mesh gradient background */
 body::before {

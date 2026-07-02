@@ -143,7 +143,7 @@ function renderSeasonPanel(seasons) {
     const tabsEl = document.getElementById('seasonTabs');
     tabsEl.innerHTML = seasons.map((s, i) => `
     <button class="season-tab ${i === 0 ? 'active' : ''}" data-idx="${i}">
-      S${s.season_number}
+      ${t('seasonShort')} ${s.season_number}
     </button>
   `).join('');
 
@@ -163,7 +163,8 @@ function renderSeasonPanel(seasons) {
 function renderEpisodes(episodes, seasonNum) {
     const listEl = document.getElementById('episodeList');
     if (!episodes || !episodes.length) {
-        listEl.innerHTML = '<div style="font-size:13px;color:var(--muted);padding:10px;">No episodes found.</div>';
+        listEl.innerHTML = `<div style="font-size:13px;color:var(--muted);padding:10px;">${t('noEpisodes')}</div>`;
+
         return;
     }
     listEl.innerHTML = episodes.map(ep => `
@@ -209,7 +210,7 @@ export async function openPlayer(media) {
     placeholder().style.display = 'flex';
     placeholder().innerHTML = `
         <div class="spinner"></div>
-        <div style="font-size:13px;color:var(--muted);">Loading...</div>
+        <div style="font-size:13px;color:var(--muted);">${t('loading')}</div>
     `;
 
     document.getElementById('modalTitle').textContent = media.title || media.name || '';
@@ -251,7 +252,7 @@ export async function openPlayer(media) {
     </span>
     <span>|</span>
     <span>
-    ${genres || (isTV(media) ? 'TV Series':'Movie')}
+    ${genres || (isTV(media) ? t('tvSeries') : t('movie'))}
     </span>
     `;
 

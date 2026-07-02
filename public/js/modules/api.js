@@ -1,12 +1,25 @@
 /**
  * StreamFlix — API Module
  * All TMDB requests go through the backend proxy at /api/tmdb
- * to avoid CSP issues and keep the API key secure.
+ * Language-aware: passes `language` param to TMDB for localised content.
  */
+
+import { getPreferredLang } from './language.js';
 
 const IMG = 'https://image.tmdb.org/t/p/';
 
 export const genreMap = {};
+
+/** Map language code → TMDB locale string */
+const TMDB_LOCALE = {
+    en: 'en-US', hi: 'hi-IN', mr: 'mr-IN', ta: 'ta-IN', te: 'te-IN',
+    es: 'es-ES', fr: 'fr-FR', de: 'de-DE', ja: 'ja-JP', ko: 'ko-KR',
+    zh: 'zh-CN', pt: 'pt-BR', it: 'it-IT', ru: 'ru-RU', ar: 'ar-SA'
+};
+
+export function getTmdbLocale(code) {
+    return TMDB_LOCALE[code] || 'en-US';
+}
 
 export function imgUrl(path, size = 'w500') {
     return path ? `${IMG}${size}${path}` : '';
@@ -14,16 +27,32 @@ export function imgUrl(path, size = 'w500') {
 
 async function get(endpoint, params = {}) {
     const url = new URL(`/api/tmdb${endpoint}`, window.location.origin);
+    // Always add language for localised titles/overviews
+    const langCode = getPreferredLang();
+    url.searchParams.set('language', getTmdbLocale(langCode));
     Object.entries(params).forEach(([k, v]) => url.searchParams.set(k, v));
-    const res = await fetch(url);
-    if (!res.ok) throw new Error(`API error: ${res.status}`);
-    return res.json();
+    try {
+        const res = await fetch(url);
+        if (!res.ok) throw new Error(`API error: ${res.status}`);
+        const data = await res.json();
+        // If TMDB returns no overview (non-English fallback gap), we accept it gracefully
+        return data;
+    } catch (e) {
+        console.warn(`TMDB fetch failed for ${endpoint}:`, e);
+        // Fallback: retry with English
+        const fallback = new URL(`/api/tmdb${endpoint}`, window.location.origin);
+        fallback.searchParams.set('language', 'en-US');
+        Object.entries(params).forEach(([k, v]) => fallback.searchParams.set(k, v));
+        const res2 = await fetch(fallback);
+        return res2.json();
+    }
 }
 
-export async function fetchGenres() {
+export async function fetchGenres(langCode) {
+    const locale = getTmdbLocale(langCode || getPreferredLang());
     const [mg, tg] = await Promise.all([
-        get('/genre/movie/list'),
-        get('/genre/tv/list'),
+        get('/genre/movie/list', { language: locale }),
+        get('/genre/tv/list', { language: locale }),
     ]);
     [...(mg.genres || []), ...(tg.genres || [])].forEach(g => (genreMap[g.id] = g.name));
 }
@@ -77,26 +106,32 @@ export async function fetchByLanguage(lang = 'en') {
 }
 
 export async function fetchTrendingByLanguage(lang = 'en') {
+    const locale = getTmdbLocale(lang);
     const data = await get('/discover/movie', {
         with_original_language: lang,
-        sort_by: 'popularity.desc'
+        sort_by: 'popularity.desc',
+        language: locale
     });
     return data.results || [];
 }
 
 export async function fetchPopularByLanguage(lang = 'en') {
+    const locale = getTmdbLocale(lang);
     const data = await get('/discover/movie', {
         with_original_language: lang,
         sort_by: 'vote_average.desc',
-        vote_count_gte: 100
+        vote_count_gte: 100,
+        language: locale
     });
     return data.results || [];
 }
 
 export async function fetchTVByLanguage(lang = 'en') {
+    const locale = getTmdbLocale(lang);
     const data = await get('/discover/tv', {
         with_original_language: lang,
-        sort_by: 'popularity.desc'
+        sort_by: 'popularity.desc',
+        language: locale
     });
     return data.results || [];
 }

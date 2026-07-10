@@ -68,31 +68,7 @@ export const SUPPORTED_LANGUAGES = [{
         name: 'Portuguese',
         flag: '🇧🇷',
         tmdb: 'pt'
-    },
-    {
-        code: 'it',
-        name: 'Italian',
-        flag: '🇮🇹',
-        tmdb: 'it'
-    },
-    {
-        code: 'ru',
-        name: 'Russian',
-        flag: '🇷🇺',
-        tmdb: 'ru'
-    },
-    {
-        code: 'zh',
-        name: 'Chinese',
-        flag: '🇨🇳',
-        tmdb: 'zh'
-    },
-    {
-        code: 'ar',
-        name: 'Arabic',
-        flag: '🇸🇦',
-        tmdb: 'ar'
-    },
+    }
 ];
 /**
  * Get preferred language (default: 'en').

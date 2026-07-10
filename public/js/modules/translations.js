@@ -624,15 +624,16 @@ function applyFont(langCode) {
    MASTER applyTranslations() — updates entire DOM
    ============================================================ */
 export function applyTranslations(langCode) {
-    const t = getT(langCode);
+    // Force English dictionary for UI layout elements
+    const t = getT('en');
 
     /* 1. Direction & lang attribute */
-    document.documentElement.setAttribute('dir', t.dir || 'ltr');
-    document.documentElement.setAttribute('lang', t.lang || langCode);
-    document.body.setAttribute('dir', t.dir || 'ltr');
+    document.documentElement.setAttribute('dir', 'ltr');
+    document.documentElement.setAttribute('lang', 'en');
+    document.body.setAttribute('dir', 'ltr');
 
     /* 2. Font */
-    applyFont(langCode);
+    applyFont('en');
 
     /* 3. Nav tabs */
     const tabMap = {
@@ -713,11 +714,11 @@ export function applyTranslations(langCode) {
     /* 13. Page title update */
     document.title = 'CineStream';
 
-    /* 14. Persist in data attribute for dynamic render.js calls */
+    /* 14. Persist selected code in data attribute for player and recommendation contexts */
     document.documentElement.dataset.lang = langCode;
 
-    /* 15. Dispatch custom event so other modules can react */
-    window.dispatchEvent(new CustomEvent('langchange', { detail: { code: langCode, t } }));
+    /* 15. Dispatch event so player/APIs can read selected audio/sub language */
+    window.dispatchEvent(new CustomEvent('langchange', { detail: { code: langCode, t: getT(langCode) } }));
 }
 
 /* ============================================================
@@ -736,10 +737,8 @@ function _setRowTitle(rowId, text) {
 }
 
 /* ============================================================
-   LIVE TEXT HELPER — used by render.js for dynamic labels
+   LIVE TEXT HELPER — always returns English text for runtime strings
    ============================================================ */
 export function t(key) {
-    const langCode = document.documentElement.dataset.lang || 'en';
-    const translations = UI_TRANSLATIONS[langCode] || UI_TRANSLATIONS['en'];
-    return translations[key] || UI_TRANSLATIONS['en'][key] || key;
+    return UI_TRANSLATIONS['en'][key] || key;
 }

@@ -27,9 +27,8 @@ export function imgUrl(path, size = 'w500') {
 
 async function get(endpoint, params = {}) {
     const url = new URL(`/api/tmdb${endpoint}`, window.location.origin);
-    // Always add language for localised titles/overviews
-    const langCode = getPreferredLang();
-    url.searchParams.set('language', getTmdbLocale(langCode));
+    // Always request English locale for movie details, titles, genres, and descriptions
+    url.searchParams.set('language', 'en-US');
     Object.entries(params).forEach(([k, v]) => url.searchParams.set(k, v));
     try {
         const res = await fetch(url);

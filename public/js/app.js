@@ -414,6 +414,27 @@ function initNavTabs() {
         if (e.key === 'Escape') closeDrawer();
     });
 
+    // Custom Toast Notification helper
+    function showToast(message, icon = '💡') {
+        const existing = document.querySelector('.toast-notification');
+        if (existing) existing.remove();
+
+        const toast = document.createElement('div');
+        toast.className = 'toast-notification';
+        toast.innerHTML = `
+            <span class="toast-icon">${icon}</span>
+            <span class="toast-message">${message}</span>
+        `;
+        document.body.appendChild(toast);
+
+        setTimeout(() => toast.classList.add('show'), 50);
+
+        setTimeout(() => {
+            toast.classList.remove('show');
+            setTimeout(() => toast.remove(), 400);
+        }, 3000);
+    }
+
     // Drawer Items Clicks
     document.querySelectorAll('.drawer-item').forEach(item => {
         item.addEventListener('click', function() {
@@ -436,7 +457,9 @@ function initNavTabs() {
                 });
             } else {
                 // Secondary tools (Movie Map, Voice AI, Time Machine, AI memory, Help, Settings)
-                alert(`Opening ${this.querySelector('.drawer-label')?.textContent || 'Service'}...`);
+                const label = this.querySelector('.drawer-label')?.textContent || 'Service';
+                const icon = this.querySelector('.drawer-icon')?.textContent || '💡';
+                showToast(`Opening ${label}...`, icon);
                 closeDrawer();
             }
         });

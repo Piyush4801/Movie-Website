@@ -4,6 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        window.addEventListener('error', function(e) {
+            alert("JS ERROR: " + e.message + " at " + e.filename + ":" + e.lineno);
+        });
+        window.addEventListener('unhandledrejection', function(e) {
+            alert("UNHANDLED REJECTION: " + e.reason);
+        });
+    </script>
     <title>CineStream</title>
     <link rel="icon" type="image/x-icon" href="images.png">
     <!-- Google Fonts: Inter (base) — other fonts loaded dynamically by translations.js -->

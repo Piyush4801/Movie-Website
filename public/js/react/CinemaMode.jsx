@@ -22,10 +22,17 @@ const CinemaMode = () => {
     const savedPreference = localStorage.getItem('cinemaModePreference');
     if (savedPreference === 'true') {
       // setIsCinemaMode(true); // Auto-enable if preferred? 
-      // The user asked to "Remember user's preference", so if it's true, we could auto-activate it.
     }
 
-    return () => clearInterval(interval);
+    const handleToggle = () => {
+      setIsCinemaMode(prev => !prev);
+    };
+    window.addEventListener('toggle-cinema-mode', handleToggle);
+
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener('toggle-cinema-mode', handleToggle);
+    };
   }, [rootElement]);
 
   const toggleCinemaMode = () => {

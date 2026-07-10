@@ -21899,7 +21899,7 @@
   }
 
   // node_modules/motion-utils/dist/es/easing/cubic-bezier.mjs
-  var calcBezier = (t2, a1, a2) => (((1 - 3 * a2 + 3 * a1) * t2 + (3 * a2 - 6 * a1)) * t2 + 3 * a1) * t2;
+  var calcBezier = (t3, a1, a2) => (((1 - 3 * a2 + 3 * a1) * t3 + (3 * a2 - 6 * a1)) * t3 + 3 * a1) * t3;
   var subdivisionPrecision = 1e-7;
   var subdivisionMaxIterations = 12;
   function binarySubdivide(x2, lowerBound, upperBound, mX1, mX2) {
@@ -21922,7 +21922,7 @@
     if (mX1 === mY1 && mX2 === mY2)
       return noop;
     const getTForX = (aX) => binarySubdivide(aX, 0, 1, mX1, mX2);
-    return (t2) => t2 === 0 || t2 === 1 ? t2 : calcBezier(getTForX(t2), mY1, mY2);
+    return (t3) => t3 === 0 || t3 === 1 ? t3 : calcBezier(getTForX(t3), mY1, mY2);
   }
 
   // node_modules/motion-utils/dist/es/easing/modifiers/mirror.mjs
@@ -22398,17 +22398,17 @@
   };
 
   // node_modules/motion-dom/dist/es/value/types/color/hsla-to-rgba.mjs
-  function hueToRgb(p2, q2, t2) {
-    if (t2 < 0)
-      t2 += 1;
-    if (t2 > 1)
-      t2 -= 1;
-    if (t2 < 1 / 6)
-      return p2 + (q2 - p2) * 6 * t2;
-    if (t2 < 1 / 2)
+  function hueToRgb(p2, q2, t3) {
+    if (t3 < 0)
+      t3 += 1;
+    if (t3 > 1)
+      t3 -= 1;
+    if (t3 < 1 / 6)
+      return p2 + (q2 - p2) * 6 * t3;
+    if (t3 < 1 / 2)
       return q2;
-    if (t2 < 2 / 3)
-      return p2 + (q2 - p2) * (2 / 3 - t2) * 6;
+    if (t3 < 2 / 3)
+      return p2 + (q2 - p2) * (2 / 3 - t3) * 6;
     return p2;
   }
   function hslaToRgba({ hue, saturation, lightness, alpha: alpha2 }) {
@@ -22786,56 +22786,56 @@
     if (dampingRatio < 1) {
       angularFreq = calcAngularFreq(undampedAngularFreq, dampingRatio);
       A2 = (initialVelocity + dampingRatio * undampedAngularFreq * initialDelta) / angularFreq;
-      resolveSpring = (t2) => {
-        const envelope = Math.exp(-dampingRatio * undampedAngularFreq * t2);
-        return target - envelope * (A2 * Math.sin(angularFreq * t2) + initialDelta * Math.cos(angularFreq * t2));
+      resolveSpring = (t3) => {
+        const envelope = Math.exp(-dampingRatio * undampedAngularFreq * t3);
+        return target - envelope * (A2 * Math.sin(angularFreq * t3) + initialDelta * Math.cos(angularFreq * t3));
       };
       sinCoeff = dampingRatio * undampedAngularFreq * A2 + initialDelta * angularFreq;
       cosCoeff = dampingRatio * undampedAngularFreq * initialDelta - A2 * angularFreq;
-      resolveVelocity = (t2) => {
-        const envelope = Math.exp(-dampingRatio * undampedAngularFreq * t2);
-        return envelope * (sinCoeff * Math.sin(angularFreq * t2) + cosCoeff * Math.cos(angularFreq * t2));
+      resolveVelocity = (t3) => {
+        const envelope = Math.exp(-dampingRatio * undampedAngularFreq * t3);
+        return envelope * (sinCoeff * Math.sin(angularFreq * t3) + cosCoeff * Math.cos(angularFreq * t3));
       };
     } else if (dampingRatio === 1) {
-      resolveSpring = (t2) => target - Math.exp(-undampedAngularFreq * t2) * (initialDelta + (initialVelocity + undampedAngularFreq * initialDelta) * t2);
+      resolveSpring = (t3) => target - Math.exp(-undampedAngularFreq * t3) * (initialDelta + (initialVelocity + undampedAngularFreq * initialDelta) * t3);
       const C2 = initialVelocity + undampedAngularFreq * initialDelta;
-      resolveVelocity = (t2) => Math.exp(-undampedAngularFreq * t2) * (undampedAngularFreq * C2 * t2 - initialVelocity);
+      resolveVelocity = (t3) => Math.exp(-undampedAngularFreq * t3) * (undampedAngularFreq * C2 * t3 - initialVelocity);
     } else {
       const dampedAngularFreq = undampedAngularFreq * Math.sqrt(dampingRatio * dampingRatio - 1);
-      resolveSpring = (t2) => {
-        const envelope = Math.exp(-dampingRatio * undampedAngularFreq * t2);
-        const freqForT = Math.min(dampedAngularFreq * t2, 300);
+      resolveSpring = (t3) => {
+        const envelope = Math.exp(-dampingRatio * undampedAngularFreq * t3);
+        const freqForT = Math.min(dampedAngularFreq * t3, 300);
         return target - envelope * ((initialVelocity + dampingRatio * undampedAngularFreq * initialDelta) * Math.sinh(freqForT) + dampedAngularFreq * initialDelta * Math.cosh(freqForT)) / dampedAngularFreq;
       };
       const P2 = (initialVelocity + dampingRatio * undampedAngularFreq * initialDelta) / dampedAngularFreq;
       const sinhCoeff = dampingRatio * undampedAngularFreq * P2 - initialDelta * dampedAngularFreq;
       const coshCoeff = dampingRatio * undampedAngularFreq * initialDelta - P2 * dampedAngularFreq;
-      resolveVelocity = (t2) => {
-        const envelope = Math.exp(-dampingRatio * undampedAngularFreq * t2);
-        const freqForT = Math.min(dampedAngularFreq * t2, 300);
+      resolveVelocity = (t3) => {
+        const envelope = Math.exp(-dampingRatio * undampedAngularFreq * t3);
+        const freqForT = Math.min(dampedAngularFreq * t3, 300);
         return envelope * (sinhCoeff * Math.sinh(freqForT) + coshCoeff * Math.cosh(freqForT));
       };
     }
     const generator = {
       calculatedDuration: isResolvedFromDuration ? duration || null : null,
-      velocity: (t2) => secondsToMilliseconds(resolveVelocity(t2)),
-      next: (t2) => {
+      velocity: (t3) => secondsToMilliseconds(resolveVelocity(t3)),
+      next: (t3) => {
         if (!isResolvedFromDuration && dampingRatio < 1) {
-          const envelope = Math.exp(-dampingRatio * undampedAngularFreq * t2);
-          const sin = Math.sin(angularFreq * t2);
-          const cos = Math.cos(angularFreq * t2);
+          const envelope = Math.exp(-dampingRatio * undampedAngularFreq * t3);
+          const sin = Math.sin(angularFreq * t3);
+          const cos = Math.cos(angularFreq * t3);
           const current2 = target - envelope * (A2 * sin + initialDelta * cos);
           const currentVelocity = secondsToMilliseconds(envelope * (sinCoeff * sin + cosCoeff * cos));
           state.done = Math.abs(currentVelocity) <= restSpeed && Math.abs(target - current2) <= restDelta;
           state.value = state.done ? target : current2;
           return state;
         }
-        const current = resolveSpring(t2);
+        const current = resolveSpring(t3);
         if (!isResolvedFromDuration) {
-          const currentVelocity = secondsToMilliseconds(resolveVelocity(t2));
+          const currentVelocity = secondsToMilliseconds(resolveVelocity(t3));
           state.done = Math.abs(currentVelocity) <= restSpeed && Math.abs(target - current) <= restDelta;
         } else {
-          state.done = t2 >= duration;
+          state.done = t3 >= duration;
         }
         state.value = state.done ? target : current;
         return state;
@@ -22860,9 +22860,9 @@
 
   // node_modules/motion-dom/dist/es/animation/generators/utils/velocity.mjs
   var velocitySampleDuration = 5;
-  function getGeneratorVelocity(resolveValue, t2, current) {
-    const prevT = Math.max(t2 - velocitySampleDuration, 0);
-    return velocityPerSecond(current - resolveValue(prevT), t2 - prevT);
+  function getGeneratorVelocity(resolveValue, t3, current) {
+    const prevT = Math.max(t3 - velocitySampleDuration, 0);
+    return velocityPerSecond(current - resolveValue(prevT), t3 - prevT);
   }
 
   // node_modules/motion-dom/dist/es/animation/generators/inertia.mjs
@@ -22885,23 +22885,23 @@
     const target = modifyTarget === void 0 ? ideal : modifyTarget(ideal);
     if (target !== ideal)
       amplitude = target - origin;
-    const calcDelta = (t2) => -amplitude * Math.exp(-t2 / timeConstant);
-    const calcLatest = (t2) => target + calcDelta(t2);
-    const applyFriction = (t2) => {
-      const delta = calcDelta(t2);
-      const latest = calcLatest(t2);
+    const calcDelta = (t3) => -amplitude * Math.exp(-t3 / timeConstant);
+    const calcLatest = (t3) => target + calcDelta(t3);
+    const applyFriction = (t3) => {
+      const delta = calcDelta(t3);
+      const latest = calcLatest(t3);
       state.done = Math.abs(delta) <= restDelta;
       state.value = state.done ? target : latest;
     };
     let timeReachedBoundary;
     let spring$1;
-    const checkCatchBoundary = (t2) => {
+    const checkCatchBoundary = (t3) => {
       if (!isOutOfBounds(state.value))
         return;
-      timeReachedBoundary = t2;
+      timeReachedBoundary = t3;
       spring$1 = spring({
         keyframes: [state.value, nearestBoundary(state.value)],
-        velocity: getGeneratorVelocity(calcLatest, t2, state.value),
+        velocity: getGeneratorVelocity(calcLatest, t3, state.value),
         // TODO: This should be passing * 1000
         damping: bounceDamping,
         stiffness: bounceStiffness,
@@ -22912,17 +22912,17 @@
     checkCatchBoundary(0);
     return {
       calculatedDuration: null,
-      next: (t2) => {
+      next: (t3) => {
         let hasUpdatedFrame = false;
         if (!spring$1 && timeReachedBoundary === void 0) {
           hasUpdatedFrame = true;
-          applyFriction(t2);
-          checkCatchBoundary(t2);
+          applyFriction(t3);
+          checkCatchBoundary(t3);
         }
-        if (timeReachedBoundary !== void 0 && t2 >= timeReachedBoundary) {
-          return spring$1.next(t2 - timeReachedBoundary);
+        if (timeReachedBoundary !== void 0 && t3 >= timeReachedBoundary) {
+          return spring$1.next(t3 - timeReachedBoundary);
         } else {
-          !hasUpdatedFrame && applyFriction(t2);
+          !hasUpdatedFrame && applyFriction(t3);
           return state;
         }
       }
@@ -23016,9 +23016,9 @@
     });
     return {
       calculatedDuration: duration,
-      next: (t2) => {
-        state.value = mapTimeToKeyframe(t2);
-        state.done = t2 >= duration;
+      next: (t3) => {
+        state.value = mapTimeToKeyframe(t3);
+        state.done = t3 >= duration;
         return state;
       }
     };
@@ -23255,14 +23255,14 @@
      * the MotionValue's frame-dependent velocity estimation.
      */
     getGeneratorVelocity() {
-      const t2 = this.currentTime;
-      if (t2 <= 0)
+      const t3 = this.currentTime;
+      if (t3 <= 0)
         return this.options.velocity || 0;
       if (this.generator.velocity) {
-        return this.generator.velocity(t2);
+        return this.generator.velocity(t3);
       }
-      const current = this.generator.next(t2).value;
-      return getGeneratorVelocity((s2) => this.generator.next(s2).value, t2, current);
+      const current = this.generator.next(t3).value;
+      return getGeneratorVelocity((s2) => this.generator.next(s2).value, t3, current);
     }
     get speed() {
       return this.playbackSpeed;
@@ -30469,70 +30469,70 @@
 
   // node_modules/react-icons/lib/iconBase.mjs
   var _excluded = ["attr", "size", "title"];
-  function _objectWithoutProperties(e2, t2) {
+  function _objectWithoutProperties(e2, t3) {
     if (null == e2) return {};
-    var o2, r2, i2 = _objectWithoutPropertiesLoose(e2, t2);
+    var o2, r2, i2 = _objectWithoutPropertiesLoose(e2, t3);
     if (Object.getOwnPropertySymbols) {
       var n2 = Object.getOwnPropertySymbols(e2);
-      for (r2 = 0; r2 < n2.length; r2++) o2 = n2[r2], -1 === t2.indexOf(o2) && {}.propertyIsEnumerable.call(e2, o2) && (i2[o2] = e2[o2]);
+      for (r2 = 0; r2 < n2.length; r2++) o2 = n2[r2], -1 === t3.indexOf(o2) && {}.propertyIsEnumerable.call(e2, o2) && (i2[o2] = e2[o2]);
     }
     return i2;
   }
   function _objectWithoutPropertiesLoose(r2, e2) {
     if (null == r2) return {};
-    var t2 = {};
+    var t3 = {};
     for (var n2 in r2) if ({}.hasOwnProperty.call(r2, n2)) {
       if (-1 !== e2.indexOf(n2)) continue;
-      t2[n2] = r2[n2];
+      t3[n2] = r2[n2];
     }
-    return t2;
+    return t3;
   }
   function _extends() {
     return _extends = Object.assign ? Object.assign.bind() : function(n2) {
       for (var e2 = 1; e2 < arguments.length; e2++) {
-        var t2 = arguments[e2];
-        for (var r2 in t2) ({}).hasOwnProperty.call(t2, r2) && (n2[r2] = t2[r2]);
+        var t3 = arguments[e2];
+        for (var r2 in t3) ({}).hasOwnProperty.call(t3, r2) && (n2[r2] = t3[r2]);
       }
       return n2;
     }, _extends.apply(null, arguments);
   }
   function ownKeys(e2, r2) {
-    var t2 = Object.keys(e2);
+    var t3 = Object.keys(e2);
     if (Object.getOwnPropertySymbols) {
       var o2 = Object.getOwnPropertySymbols(e2);
       r2 && (o2 = o2.filter(function(r3) {
         return Object.getOwnPropertyDescriptor(e2, r3).enumerable;
-      })), t2.push.apply(t2, o2);
+      })), t3.push.apply(t3, o2);
     }
-    return t2;
+    return t3;
   }
   function _objectSpread(e2) {
     for (var r2 = 1; r2 < arguments.length; r2++) {
-      var t2 = null != arguments[r2] ? arguments[r2] : {};
-      r2 % 2 ? ownKeys(Object(t2), true).forEach(function(r3) {
-        _defineProperty(e2, r3, t2[r3]);
-      }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e2, Object.getOwnPropertyDescriptors(t2)) : ownKeys(Object(t2)).forEach(function(r3) {
-        Object.defineProperty(e2, r3, Object.getOwnPropertyDescriptor(t2, r3));
+      var t3 = null != arguments[r2] ? arguments[r2] : {};
+      r2 % 2 ? ownKeys(Object(t3), true).forEach(function(r3) {
+        _defineProperty(e2, r3, t3[r3]);
+      }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e2, Object.getOwnPropertyDescriptors(t3)) : ownKeys(Object(t3)).forEach(function(r3) {
+        Object.defineProperty(e2, r3, Object.getOwnPropertyDescriptor(t3, r3));
       });
     }
     return e2;
   }
-  function _defineProperty(e2, r2, t2) {
-    return (r2 = _toPropertyKey(r2)) in e2 ? Object.defineProperty(e2, r2, { value: t2, enumerable: true, configurable: true, writable: true }) : e2[r2] = t2, e2;
+  function _defineProperty(e2, r2, t3) {
+    return (r2 = _toPropertyKey(r2)) in e2 ? Object.defineProperty(e2, r2, { value: t3, enumerable: true, configurable: true, writable: true }) : e2[r2] = t3, e2;
   }
-  function _toPropertyKey(t2) {
-    var i2 = _toPrimitive(t2, "string");
+  function _toPropertyKey(t3) {
+    var i2 = _toPrimitive(t3, "string");
     return "symbol" == typeof i2 ? i2 : i2 + "";
   }
-  function _toPrimitive(t2, r2) {
-    if ("object" != typeof t2 || !t2) return t2;
-    var e2 = t2[Symbol.toPrimitive];
+  function _toPrimitive(t3, r2) {
+    if ("object" != typeof t3 || !t3) return t3;
+    var e2 = t3[Symbol.toPrimitive];
     if (void 0 !== e2) {
-      var i2 = e2.call(t2, r2 || "default");
+      var i2 = e2.call(t3, r2 || "default");
       if ("object" != typeof i2) return i2;
       throw new TypeError("@@toPrimitive must return a primitive value.");
     }
-    return ("string" === r2 ? String : Number)(t2);
+    return ("string" === r2 ? String : Number)(t3);
   }
   function Tree2Element(tree) {
     return tree && tree.map((node, i2) => /* @__PURE__ */ import_react25.default.createElement(node.tag, _objectSpread({
@@ -30671,28 +30671,28 @@
   function n() {
     throw Error("Invalid UTF8");
   }
-  function r(t2, e2) {
-    return e2 = String.fromCharCode.apply(null, e2), null == t2 ? e2 : t2 + e2;
+  function r(t3, e2) {
+    return e2 = String.fromCharCode.apply(null, e2), null == t3 ? e2 : t3 + e2;
   }
   var i;
   var s;
   var o = "undefined" != typeof TextDecoder;
   var a;
   var c = "undefined" != typeof TextEncoder;
-  function h(t2) {
-    if (c) t2 = (a || (a = new TextEncoder())).encode(t2);
+  function h(t3) {
+    if (c) t3 = (a || (a = new TextEncoder())).encode(t3);
     else {
       let n2 = 0;
-      const r2 = new Uint8Array(3 * t2.length);
-      for (let i2 = 0; i2 < t2.length; i2++) {
-        var e2 = t2.charCodeAt(i2);
+      const r2 = new Uint8Array(3 * t3.length);
+      for (let i2 = 0; i2 < t3.length; i2++) {
+        var e2 = t3.charCodeAt(i2);
         if (e2 < 128) r2[n2++] = e2;
         else {
           if (e2 < 2048) r2[n2++] = e2 >> 6 | 192;
           else {
             if (e2 >= 55296 && e2 <= 57343) {
-              if (e2 <= 56319 && i2 < t2.length) {
-                const s2 = t2.charCodeAt(++i2);
+              if (e2 <= 56319 && i2 < t3.length) {
+                const s2 = t3.charCodeAt(++i2);
                 if (s2 >= 56320 && s2 <= 57343) {
                   e2 = 1024 * (e2 - 55296) + s2 - 56320 + 65536, r2[n2++] = e2 >> 18 | 240, r2[n2++] = e2 >> 12 & 63 | 128, r2[n2++] = e2 >> 6 & 63 | 128, r2[n2++] = 63 & e2 | 128;
                   continue;
@@ -30706,9 +30706,9 @@
           r2[n2++] = 63 & e2 | 128;
         }
       }
-      t2 = n2 === r2.length ? r2 : r2.subarray(0, n2);
+      t3 = n2 === r2.length ? r2 : r2.subarray(0, n2);
     }
-    return t2;
+    return t3;
   }
   function u(e2) {
     t.setTimeout((() => {
@@ -30723,23 +30723,23 @@
     return e2 && (e2 = e2.userAgent) ? e2 : "";
   }
   var g = t.navigator;
-  function m(t2) {
-    return m[" "](t2), t2;
+  function m(t3) {
+    return m[" "](t3), t3;
   }
   l = g && g.userAgentData || null, m[" "] = function() {
   };
   var y = {};
   var _ = null;
-  function v(t2) {
-    const e2 = t2.length;
+  function v(t3) {
+    const e2 = t3.length;
     let n2 = 3 * e2 / 4;
-    n2 % 3 ? n2 = Math.floor(n2) : -1 != "=.".indexOf(t2[e2 - 1]) && (n2 = -1 != "=.".indexOf(t2[e2 - 2]) ? n2 - 2 : n2 - 1);
+    n2 % 3 ? n2 = Math.floor(n2) : -1 != "=.".indexOf(t3[e2 - 1]) && (n2 = -1 != "=.".indexOf(t3[e2 - 2]) ? n2 - 2 : n2 - 1);
     const r2 = new Uint8Array(n2);
     let i2 = 0;
-    return (function(t3, e3) {
+    return (function(t4, e3) {
       function n3(e4) {
-        for (; r3 < t3.length; ) {
-          const e5 = t3.charAt(r3++), n4 = _[e5];
+        for (; r3 < t4.length; ) {
+          const e5 = t4.charAt(r3++), n4 = _[e5];
           if (null != n4) return n4;
           if (!/^[\s\xa0]*$/.test(e5)) throw Error("Unknown base64 encoding at char: " + e5);
         }
@@ -30748,24 +30748,24 @@
       E();
       let r3 = 0;
       for (; ; ) {
-        const t4 = n3(-1), r4 = n3(0), i3 = n3(64), s2 = n3(64);
-        if (64 === s2 && -1 === t4) break;
-        e3(t4 << 2 | r4 >> 4), 64 != i3 && (e3(r4 << 4 & 240 | i3 >> 2), 64 != s2 && e3(i3 << 6 & 192 | s2));
+        const t5 = n3(-1), r4 = n3(0), i3 = n3(64), s2 = n3(64);
+        if (64 === s2 && -1 === t5) break;
+        e3(t5 << 2 | r4 >> 4), 64 != i3 && (e3(r4 << 4 & 240 | i3 >> 2), 64 != s2 && e3(i3 << 6 & 192 | s2));
       }
-    })(t2, (function(t3) {
-      r2[i2++] = t3;
+    })(t3, (function(t4) {
+      r2[i2++] = t4;
     })), i2 !== n2 ? r2.subarray(0, i2) : r2;
   }
   function E() {
     if (!_) {
       _ = {};
-      var t2 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789".split(""), e2 = ["+/=", "+/", "-_=", "-_.", "-_"];
+      var t3 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789".split(""), e2 = ["+/=", "+/", "-_=", "-_.", "-_"];
       for (let n2 = 0; n2 < 5; n2++) {
-        const r2 = t2.concat(e2[n2].split(""));
+        const r2 = t3.concat(e2[n2].split(""));
         y[n2] = r2;
-        for (let t3 = 0; t3 < r2.length; t3++) {
-          const e3 = r2[t3];
-          void 0 === _[e3] && (_[e3] = t3);
+        for (let t4 = 0; t4 < r2.length; t4++) {
+          const e3 = r2[t4];
+          void 0 === _[e3] && (_[e3] = t4);
         }
       }
     }
@@ -30774,59 +30774,59 @@
   var T = !(!(f && l && l.brands.length > 0) && (-1 != p().indexOf("Trident") || -1 != p().indexOf("MSIE"))) && "function" == typeof btoa;
   var A = /[-_.]/g;
   var b = { "-": "+", _: "/", ".": "=" };
-  function k(t2) {
-    return b[t2] || "";
+  function k(t3) {
+    return b[t3] || "";
   }
-  function S(t2) {
-    if (!T) return v(t2);
-    t2 = A.test(t2) ? t2.replace(A, k) : t2, t2 = atob(t2);
-    const e2 = new Uint8Array(t2.length);
-    for (let n2 = 0; n2 < t2.length; n2++) e2[n2] = t2.charCodeAt(n2);
+  function S(t3) {
+    if (!T) return v(t3);
+    t3 = A.test(t3) ? t3.replace(A, k) : t3, t3 = atob(t3);
+    const e2 = new Uint8Array(t3.length);
+    for (let n2 = 0; n2 < t3.length; n2++) e2[n2] = t3.charCodeAt(n2);
     return e2;
   }
-  function x(t2) {
-    return w && null != t2 && t2 instanceof Uint8Array;
+  function x(t3) {
+    return w && null != t3 && t3 instanceof Uint8Array;
   }
   var L = {};
   function R() {
     return M || (M = new F(null, L));
   }
-  function I(t2) {
+  function I(t3) {
     C(L);
-    var e2 = t2.g;
-    return null == (e2 = null == e2 || x(e2) ? e2 : "string" == typeof e2 ? S(e2) : null) ? e2 : t2.g = e2;
+    var e2 = t3.g;
+    return null == (e2 = null == e2 || x(e2) ? e2 : "string" == typeof e2 ? S(e2) : null) ? e2 : t3.g = e2;
   }
   var F = class {
     h() {
       return new Uint8Array(I(this) || 0);
     }
-    constructor(t2, e2) {
-      if (C(e2), this.g = t2, null != t2 && 0 === t2.length) throw Error("ByteString should be constructed with non-empty values");
+    constructor(t3, e2) {
+      if (C(e2), this.g = t3, null != t3 && 0 === t3.length) throw Error("ByteString should be constructed with non-empty values");
     }
   };
   var M;
   var P;
-  function C(t2) {
-    if (t2 !== L) throw Error("illegal external caller");
+  function C(t3) {
+    if (t3 !== L) throw Error("illegal external caller");
   }
-  function O(t2, e2) {
-    t2.__closure__error__context__984382 || (t2.__closure__error__context__984382 = {}), t2.__closure__error__context__984382.severity = e2;
+  function O(t3, e2) {
+    t3.__closure__error__context__984382 || (t3.__closure__error__context__984382 = {}), t3.__closure__error__context__984382.severity = e2;
   }
-  function N(t2) {
-    return O(t2 = Error(t2), "warning"), t2;
+  function N(t3) {
+    return O(t3 = Error(t3), "warning"), t3;
   }
-  function U(t2, e2) {
-    if (null != t2) {
-      var n2 = P ?? (P = {}), r2 = n2[t2] || 0;
-      r2 >= e2 || (n2[t2] = r2 + 1, O(t2 = Error(), "incident"), u(t2));
+  function U(t3, e2) {
+    if (null != t3) {
+      var n2 = P ?? (P = {}), r2 = n2[t3] || 0;
+      r2 >= e2 || (n2[t3] = r2 + 1, O(t3 = Error(), "incident"), u(t3));
     }
   }
   function D() {
     return "function" == typeof BigInt;
   }
   var B = "function" == typeof Symbol && "symbol" == typeof /* @__PURE__ */ Symbol();
-  function G(t2, e2, n2 = false) {
-    return "function" == typeof Symbol && "symbol" == typeof /* @__PURE__ */ Symbol() ? n2 && Symbol.for && t2 ? Symbol.for(t2) : null != t2 ? Symbol(t2) : /* @__PURE__ */ Symbol() : e2;
+  function G(t3, e2, n2 = false) {
+    return "function" == typeof Symbol && "symbol" == typeof /* @__PURE__ */ Symbol() ? n2 && Symbol.for && t3 ? Symbol.for(t3) : null != t3 ? Symbol(t3) : /* @__PURE__ */ Symbol() : e2;
   }
   var j = G("jas", void 0, true);
   var V = G(void 0, "0di");
@@ -30843,87 +30843,87 @@
   var Q = B ? j : "Ga";
   var tt;
   var et = [];
-  function nt(t2, e2) {
-    B || Q in t2 || Z(t2, J), t2[Q] |= e2;
+  function nt(t3, e2) {
+    B || Q in t3 || Z(t3, J), t3[Q] |= e2;
   }
-  function rt(t2, e2) {
-    B || Q in t2 || Z(t2, J), t2[Q] = e2;
+  function rt(t3, e2) {
+    B || Q in t3 || Z(t3, J), t3[Q] = e2;
   }
-  function it(t2) {
-    return nt(t2, 34), t2;
+  function it(t3) {
+    return nt(t3, 34), t3;
   }
-  function st(t2) {
-    return nt(t2, 8192), t2;
+  function st(t3) {
+    return nt(t3, 8192), t3;
   }
   rt(et, 7), tt = Object.freeze(et);
   var ot = {};
-  function at(t2, e2) {
-    return void 0 === e2 ? t2.h !== ct && !!(2 & (0 | t2.v[Q])) : !!(2 & e2) && t2.h !== ct;
+  function at(t3, e2) {
+    return void 0 === e2 ? t3.h !== ct && !!(2 & (0 | t3.v[Q])) : !!(2 & e2) && t3.h !== ct;
   }
   var ct = {};
-  function ht(t2, e2) {
-    if (null != t2) {
-      if ("string" == typeof t2) t2 = t2 ? new F(t2, L) : R();
-      else if (t2.constructor !== F) if (x(t2)) t2 = t2.length ? new F(new Uint8Array(t2), L) : R();
+  function ht(t3, e2) {
+    if (null != t3) {
+      if ("string" == typeof t3) t3 = t3 ? new F(t3, L) : R();
+      else if (t3.constructor !== F) if (x(t3)) t3 = t3.length ? new F(new Uint8Array(t3), L) : R();
       else {
         if (!e2) throw Error();
-        t2 = void 0;
+        t3 = void 0;
       }
     }
-    return t2;
+    return t3;
   }
   var ut = class {
-    constructor(t2, e2, n2) {
-      this.g = t2, this.h = e2, this.l = n2;
+    constructor(t3, e2, n2) {
+      this.g = t3, this.h = e2, this.l = n2;
     }
     next() {
-      const t2 = this.g.next();
-      return t2.done || (t2.value = this.h.call(this.l, t2.value)), t2;
+      const t3 = this.g.next();
+      return t3.done || (t3.value = this.h.call(this.l, t3.value)), t3;
     }
     [Symbol.iterator]() {
       return this;
     }
   };
   var lt = Object.freeze({});
-  function ft(t2, e2, n2) {
-    const r2 = 128 & e2 ? 0 : -1, i2 = t2.length;
+  function ft(t3, e2, n2) {
+    const r2 = 128 & e2 ? 0 : -1, i2 = t3.length;
     var s2;
-    (s2 = !!i2) && (s2 = null != (s2 = t2[i2 - 1]) && "object" == typeof s2 && s2.constructor === Object);
+    (s2 = !!i2) && (s2 = null != (s2 = t3[i2 - 1]) && "object" == typeof s2 && s2.constructor === Object);
     const o2 = i2 + (s2 ? -1 : 0);
-    for (e2 = 128 & e2 ? 1 : 0; e2 < o2; e2++) n2(e2 - r2, t2[e2]);
+    for (e2 = 128 & e2 ? 1 : 0; e2 < o2; e2++) n2(e2 - r2, t3[e2]);
     if (s2) {
-      t2 = t2[i2 - 1];
-      for (const e3 in t2) !isNaN(e3) && n2(+e3, t2[e3]);
+      t3 = t3[i2 - 1];
+      for (const e3 in t3) !isNaN(e3) && n2(+e3, t3[e3]);
     }
   }
   var dt = {};
-  function pt(t2) {
-    return 128 & t2 ? dt : void 0;
+  function pt(t3) {
+    return 128 & t3 ? dt : void 0;
   }
-  function gt(t2) {
-    return t2.Na = true, t2;
+  function gt(t3) {
+    return t3.Na = true, t3;
   }
-  var mt = gt(((t2) => "number" == typeof t2));
-  var yt = gt(((t2) => "string" == typeof t2));
-  var _t = gt(((t2) => "boolean" == typeof t2));
+  var mt = gt(((t3) => "number" == typeof t3));
+  var yt = gt(((t3) => "string" == typeof t3));
+  var _t = gt(((t3) => "boolean" == typeof t3));
   var vt = "function" == typeof t.BigInt && "bigint" == typeof t.BigInt(0);
-  function Et(t2) {
-    var e2 = t2;
+  function Et(t3) {
+    var e2 = t3;
     if (yt(e2)) {
       if (!/^\s*(?:-?[1-9]\d*|0)?\s*$/.test(e2)) throw Error(String(e2));
     } else if (mt(e2) && !Number.isSafeInteger(e2)) throw Error(String(e2));
-    return vt ? BigInt(t2) : t2 = _t(t2) ? t2 ? "1" : "0" : yt(t2) ? t2.trim() || "0" : String(t2);
+    return vt ? BigInt(t3) : t3 = _t(t3) ? t3 ? "1" : "0" : yt(t3) ? t3.trim() || "0" : String(t3);
   }
-  var wt = gt(((t2) => vt ? t2 >= At && t2 <= kt : "-" === t2[0] ? St(t2, Tt) : St(t2, bt)));
+  var wt = gt(((t3) => vt ? t3 >= At && t3 <= kt : "-" === t3[0] ? St(t3, Tt) : St(t3, bt)));
   var Tt = Number.MIN_SAFE_INTEGER.toString();
   var At = vt ? BigInt(Number.MIN_SAFE_INTEGER) : void 0;
   var bt = Number.MAX_SAFE_INTEGER.toString();
   var kt = vt ? BigInt(Number.MAX_SAFE_INTEGER) : void 0;
-  function St(t2, e2) {
-    if (t2.length > e2.length) return false;
-    if (t2.length < e2.length || t2 === e2) return true;
-    for (let n2 = 0; n2 < t2.length; n2++) {
-      const r2 = t2[n2], i2 = e2[n2];
+  function St(t3, e2) {
+    if (t3.length > e2.length) return false;
+    if (t3.length < e2.length || t3 === e2) return true;
+    for (let n2 = 0; n2 < t3.length; n2++) {
+      const r2 = t3[n2], i2 = e2[n2];
       if (r2 > i2) return false;
       if (r2 < i2) return true;
     }
@@ -30932,70 +30932,70 @@
   var Lt;
   var Rt = 0;
   var It = 0;
-  function Ft(t2) {
-    const e2 = t2 >>> 0;
-    Rt = e2, It = (t2 - e2) / 4294967296 >>> 0;
+  function Ft(t3) {
+    const e2 = t3 >>> 0;
+    Rt = e2, It = (t3 - e2) / 4294967296 >>> 0;
   }
-  function Mt(t2) {
-    if (t2 < 0) {
-      Ft(-t2);
+  function Mt(t3) {
+    if (t3 < 0) {
+      Ft(-t3);
       const [e2, n2] = jt(Rt, It);
       Rt = e2 >>> 0, It = n2 >>> 0;
-    } else Ft(t2);
+    } else Ft(t3);
   }
-  function Pt(t2) {
+  function Pt(t3) {
     const e2 = Lt || (Lt = new DataView(new ArrayBuffer(8)));
-    e2.setFloat32(0, +t2, true), It = 0, Rt = e2.getUint32(0, true);
+    e2.setFloat32(0, +t3, true), It = 0, Rt = e2.getUint32(0, true);
   }
-  function Ct(t2, e2) {
-    const n2 = 4294967296 * e2 + (t2 >>> 0);
-    return Number.isSafeInteger(n2) ? n2 : Ut(t2, e2);
+  function Ct(t3, e2) {
+    const n2 = 4294967296 * e2 + (t3 >>> 0);
+    return Number.isSafeInteger(n2) ? n2 : Ut(t3, e2);
   }
-  function Ot(t2, e2) {
-    return Et(D() ? BigInt.asUintN(64, (BigInt(e2 >>> 0) << BigInt(32)) + BigInt(t2 >>> 0)) : Ut(t2, e2));
+  function Ot(t3, e2) {
+    return Et(D() ? BigInt.asUintN(64, (BigInt(e2 >>> 0) << BigInt(32)) + BigInt(t3 >>> 0)) : Ut(t3, e2));
   }
-  function Nt(t2, e2) {
-    return D() ? Et(BigInt.asIntN(64, (BigInt.asUintN(32, BigInt(e2)) << BigInt(32)) + BigInt.asUintN(32, BigInt(t2)))) : Et(Bt(t2, e2));
+  function Nt(t3, e2) {
+    return D() ? Et(BigInt.asIntN(64, (BigInt.asUintN(32, BigInt(e2)) << BigInt(32)) + BigInt.asUintN(32, BigInt(t3)))) : Et(Bt(t3, e2));
   }
-  function Ut(t2, e2) {
-    if (t2 >>>= 0, (e2 >>>= 0) <= 2097151) var n2 = "" + (4294967296 * e2 + t2);
-    else D() ? n2 = "" + (BigInt(e2) << BigInt(32) | BigInt(t2)) : (t2 = (16777215 & t2) + 6777216 * (n2 = 16777215 & (t2 >>> 24 | e2 << 8)) + 6710656 * (e2 = e2 >> 16 & 65535), n2 += 8147497 * e2, e2 *= 2, t2 >= 1e7 && (n2 += t2 / 1e7 >>> 0, t2 %= 1e7), n2 >= 1e7 && (e2 += n2 / 1e7 >>> 0, n2 %= 1e7), n2 = e2 + Dt(n2) + Dt(t2));
+  function Ut(t3, e2) {
+    if (t3 >>>= 0, (e2 >>>= 0) <= 2097151) var n2 = "" + (4294967296 * e2 + t3);
+    else D() ? n2 = "" + (BigInt(e2) << BigInt(32) | BigInt(t3)) : (t3 = (16777215 & t3) + 6777216 * (n2 = 16777215 & (t3 >>> 24 | e2 << 8)) + 6710656 * (e2 = e2 >> 16 & 65535), n2 += 8147497 * e2, e2 *= 2, t3 >= 1e7 && (n2 += t3 / 1e7 >>> 0, t3 %= 1e7), n2 >= 1e7 && (e2 += n2 / 1e7 >>> 0, n2 %= 1e7), n2 = e2 + Dt(n2) + Dt(t3));
     return n2;
   }
-  function Dt(t2) {
-    return t2 = String(t2), "0000000".slice(t2.length) + t2;
+  function Dt(t3) {
+    return t3 = String(t3), "0000000".slice(t3.length) + t3;
   }
-  function Bt(t2, e2) {
-    if (2147483648 & e2) if (D()) t2 = "" + (BigInt(0 | e2) << BigInt(32) | BigInt(t2 >>> 0));
+  function Bt(t3, e2) {
+    if (2147483648 & e2) if (D()) t3 = "" + (BigInt(0 | e2) << BigInt(32) | BigInt(t3 >>> 0));
     else {
-      const [n2, r2] = jt(t2, e2);
-      t2 = "-" + Ut(n2, r2);
+      const [n2, r2] = jt(t3, e2);
+      t3 = "-" + Ut(n2, r2);
     }
-    else t2 = Ut(t2, e2);
-    return t2;
+    else t3 = Ut(t3, e2);
+    return t3;
   }
-  function Gt(t2) {
-    if (t2.length < 16) Mt(Number(t2));
-    else if (D()) t2 = BigInt(t2), Rt = Number(t2 & BigInt(4294967295)) >>> 0, It = Number(t2 >> BigInt(32) & BigInt(4294967295));
+  function Gt(t3) {
+    if (t3.length < 16) Mt(Number(t3));
+    else if (D()) t3 = BigInt(t3), Rt = Number(t3 & BigInt(4294967295)) >>> 0, It = Number(t3 >> BigInt(32) & BigInt(4294967295));
     else {
-      const e2 = +("-" === t2[0]);
+      const e2 = +("-" === t3[0]);
       It = Rt = 0;
-      const n2 = t2.length;
+      const n2 = t3.length;
       for (let r2 = e2, i2 = (n2 - e2) % 6 + e2; i2 <= n2; r2 = i2, i2 += 6) {
-        const e3 = Number(t2.slice(r2, i2));
+        const e3 = Number(t3.slice(r2, i2));
         It *= 1e6, Rt = 1e6 * Rt + e3, Rt >= 4294967296 && (It += Math.trunc(Rt / 4294967296), It >>>= 0, Rt >>>= 0);
       }
       if (e2) {
-        const [t3, e3] = jt(Rt, It);
-        Rt = t3, It = e3;
+        const [t4, e3] = jt(Rt, It);
+        Rt = t4, It = e3;
       }
     }
   }
-  function jt(t2, e2) {
-    return e2 = ~e2, t2 ? t2 = 1 + ~t2 : e2 += 1, [t2, e2];
+  function jt(t3, e2) {
+    return e2 = ~e2, t3 ? t3 = 1 + ~t3 : e2 += 1, [t3, e2];
   }
-  function Vt(t2) {
-    return Array.prototype.slice.call(t2);
+  function Vt(t3) {
+    return Array.prototype.slice.call(t3);
   }
   var Xt = "function" == typeof BigInt ? BigInt.asIntN : void 0;
   var Ht = "function" == typeof BigInt ? BigInt.asUintN : void 0;
@@ -31003,92 +31003,92 @@
   var zt = Number.isFinite;
   var Kt = Math.trunc;
   var Yt = Et(0);
-  function qt(t2) {
-    if (null != t2 && "number" != typeof t2) throw Error(`Value of float/double field must be a number, found ${typeof t2}: ${t2}`);
-    return t2;
+  function qt(t3) {
+    if (null != t3 && "number" != typeof t3) throw Error(`Value of float/double field must be a number, found ${typeof t3}: ${t3}`);
+    return t3;
   }
-  function $t(t2) {
-    return null == t2 || "number" == typeof t2 ? t2 : "NaN" === t2 || "Infinity" === t2 || "-Infinity" === t2 ? Number(t2) : void 0;
+  function $t(t3) {
+    return null == t3 || "number" == typeof t3 ? t3 : "NaN" === t3 || "Infinity" === t3 || "-Infinity" === t3 ? Number(t3) : void 0;
   }
-  function Jt(t2) {
-    if (null != t2 && "boolean" != typeof t2) {
-      var e2 = typeof t2;
-      throw Error(`Expected boolean but got ${"object" != e2 ? e2 : t2 ? Array.isArray(t2) ? "array" : e2 : "null"}: ${t2}`);
+  function Jt(t3) {
+    if (null != t3 && "boolean" != typeof t3) {
+      var e2 = typeof t3;
+      throw Error(`Expected boolean but got ${"object" != e2 ? e2 : t3 ? Array.isArray(t3) ? "array" : e2 : "null"}: ${t3}`);
     }
-    return t2;
+    return t3;
   }
-  function Zt(t2) {
-    return null == t2 || "boolean" == typeof t2 ? t2 : "number" == typeof t2 ? !!t2 : void 0;
+  function Zt(t3) {
+    return null == t3 || "boolean" == typeof t3 ? t3 : "number" == typeof t3 ? !!t3 : void 0;
   }
   var Qt = /^-?([1-9][0-9]*|0)(\.[0-9]+)?$/;
-  function te(t2) {
-    switch (typeof t2) {
+  function te(t3) {
+    switch (typeof t3) {
       case "bigint":
         return true;
       case "number":
-        return zt(t2);
+        return zt(t3);
       case "string":
-        return Qt.test(t2);
+        return Qt.test(t3);
       default:
         return false;
     }
   }
-  function ee(t2) {
-    if (null == t2) return t2;
-    if ("string" == typeof t2 && t2) t2 = +t2;
-    else if ("number" != typeof t2) return;
-    return zt(t2) ? 0 | t2 : void 0;
+  function ee(t3) {
+    if (null == t3) return t3;
+    if ("string" == typeof t3 && t3) t3 = +t3;
+    else if ("number" != typeof t3) return;
+    return zt(t3) ? 0 | t3 : void 0;
   }
-  function ne(t2) {
-    if (null == t2) return t2;
-    if ("string" == typeof t2 && t2) t2 = +t2;
-    else if ("number" != typeof t2) return;
-    return zt(t2) ? t2 >>> 0 : void 0;
+  function ne(t3) {
+    if (null == t3) return t3;
+    if ("string" == typeof t3 && t3) t3 = +t3;
+    else if ("number" != typeof t3) return;
+    return zt(t3) ? t3 >>> 0 : void 0;
   }
-  function re(t2) {
-    const e2 = t2.length;
-    return ("-" === t2[0] ? e2 < 20 || 20 === e2 && t2 <= "-9223372036854775808" : e2 < 19 || 19 === e2 && t2 <= "9223372036854775807") ? t2 : (Gt(t2), Bt(Rt, It));
+  function re(t3) {
+    const e2 = t3.length;
+    return ("-" === t3[0] ? e2 < 20 || 20 === e2 && t3 <= "-9223372036854775808" : e2 < 19 || 19 === e2 && t3 <= "9223372036854775807") ? t3 : (Gt(t3), Bt(Rt, It));
   }
-  function ie(t2) {
-    if (t2 = Kt(t2), !Wt(t2)) {
-      Mt(t2);
+  function ie(t3) {
+    if (t3 = Kt(t3), !Wt(t3)) {
+      Mt(t3);
       var e2 = Rt, n2 = It;
-      (t2 = 2147483648 & n2) && (n2 = ~n2 >>> 0, 0 == (e2 = 1 + ~e2 >>> 0) && (n2 = n2 + 1 >>> 0)), t2 = "number" == typeof (e2 = Ct(e2, n2)) ? t2 ? -e2 : e2 : t2 ? "-" + e2 : e2;
+      (t3 = 2147483648 & n2) && (n2 = ~n2 >>> 0, 0 == (e2 = 1 + ~e2 >>> 0) && (n2 = n2 + 1 >>> 0)), t3 = "number" == typeof (e2 = Ct(e2, n2)) ? t3 ? -e2 : e2 : t3 ? "-" + e2 : e2;
     }
-    return t2;
+    return t3;
   }
-  function se(t2) {
-    var e2 = Kt(Number(t2));
-    return Wt(e2) ? String(e2) : (-1 !== (e2 = t2.indexOf(".")) && (t2 = t2.substring(0, e2)), re(t2));
+  function se(t3) {
+    var e2 = Kt(Number(t3));
+    return Wt(e2) ? String(e2) : (-1 !== (e2 = t3.indexOf(".")) && (t3 = t3.substring(0, e2)), re(t3));
   }
-  function oe(t2) {
-    var e2 = Kt(Number(t2));
-    return Wt(e2) ? Et(e2) : (-1 !== (e2 = t2.indexOf(".")) && (t2 = t2.substring(0, e2)), D() ? Et(Xt(64, BigInt(t2))) : Et(re(t2)));
+  function oe(t3) {
+    var e2 = Kt(Number(t3));
+    return Wt(e2) ? Et(e2) : (-1 !== (e2 = t3.indexOf(".")) && (t3 = t3.substring(0, e2)), D() ? Et(Xt(64, BigInt(t3))) : Et(re(t3)));
   }
-  function ae(t2) {
-    return Wt(t2) ? t2 = Et(ie(t2)) : (t2 = Kt(t2), Wt(t2) ? t2 = String(t2) : (Mt(t2), t2 = Bt(Rt, It)), t2 = Et(t2)), t2;
+  function ae(t3) {
+    return Wt(t3) ? t3 = Et(ie(t3)) : (t3 = Kt(t3), Wt(t3) ? t3 = String(t3) : (Mt(t3), t3 = Bt(Rt, It)), t3 = Et(t3)), t3;
   }
-  function ce(t2) {
-    const e2 = typeof t2;
-    return null == t2 ? t2 : "bigint" === e2 ? Et(Xt(64, t2)) : te(t2) ? "string" === e2 ? oe(t2) : ae(t2) : void 0;
+  function ce(t3) {
+    const e2 = typeof t3;
+    return null == t3 ? t3 : "bigint" === e2 ? Et(Xt(64, t3)) : te(t3) ? "string" === e2 ? oe(t3) : ae(t3) : void 0;
   }
-  function he(t2) {
-    if ("string" != typeof t2) throw Error();
-    return t2;
+  function he(t3) {
+    if ("string" != typeof t3) throw Error();
+    return t3;
   }
-  function ue(t2) {
-    if (null != t2 && "string" != typeof t2) throw Error();
-    return t2;
+  function ue(t3) {
+    if (null != t3 && "string" != typeof t3) throw Error();
+    return t3;
   }
-  function le(t2) {
-    return null == t2 || "string" == typeof t2 ? t2 : void 0;
+  function le(t3) {
+    return null == t3 || "string" == typeof t3 ? t3 : void 0;
   }
-  function fe(t2, e2, n2, r2) {
-    return null != t2 && t2[q] === ot ? t2 : Array.isArray(t2) ? ((r2 = (n2 = 0 | t2[Q]) | 32 & r2 | 2 & r2) !== n2 && rt(t2, r2), new e2(t2)) : (n2 ? 2 & r2 ? ((t2 = e2[V]) || (it((t2 = new e2()).v), t2 = e2[V] = t2), e2 = t2) : e2 = new e2() : e2 = void 0, e2);
+  function fe(t3, e2, n2, r2) {
+    return null != t3 && t3[q] === ot ? t3 : Array.isArray(t3) ? ((r2 = (n2 = 0 | t3[Q]) | 32 & r2 | 2 & r2) !== n2 && rt(t3, r2), new e2(t3)) : (n2 ? 2 & r2 ? ((t3 = e2[V]) || (it((t3 = new e2()).v), t3 = e2[V] = t3), e2 = t3) : e2 = new e2() : e2 = void 0, e2);
   }
-  function de(t2, e2, n2) {
+  function de(t3, e2, n2) {
     if (e2) t: {
-      if (!te(e2 = t2)) throw N("int64");
+      if (!te(e2 = t3)) throw N("int64");
       switch (typeof e2) {
         case "string":
           e2 = oe(e2);
@@ -31100,8 +31100,8 @@
           e2 = ae(e2);
       }
     }
-    else e2 = ce(t2);
-    return null == (t2 = e2) ? n2 ? Yt : void 0 : t2;
+    else e2 = ce(t3);
+    return null == (t3 = e2) ? n2 ? Yt : void 0 : t3;
   }
   var pe = {};
   var ge = (function() {
@@ -31119,20 +31119,20 @@
     constructor() {
       this.g = /* @__PURE__ */ new Map();
     }
-    get(t2) {
-      return this.g.get(t2);
+    get(t3) {
+      return this.g.get(t3);
     }
-    set(t2, e2) {
-      return this.g.set(t2, e2), this.size = this.g.size, this;
+    set(t3, e2) {
+      return this.g.set(t3, e2), this.size = this.g.size, this;
     }
-    delete(t2) {
-      return t2 = this.g.delete(t2), this.size = this.g.size, t2;
+    delete(t3) {
+      return t3 = this.g.delete(t3), this.size = this.g.size, t3;
     }
     clear() {
       this.g.clear(), this.size = this.g.size;
     }
-    has(t2) {
-      return this.g.has(t2);
+    has(t3) {
+      return this.g.has(t3);
     }
     entries() {
       return this.g.entries();
@@ -31143,8 +31143,8 @@
     values() {
       return this.g.values();
     }
-    forEach(t2, e2) {
-      return this.g.forEach(t2, e2);
+    forEach(t3, e2) {
+      return this.g.forEach(t3, e2);
     }
     [Symbol.iterator]() {
       return this.entries();
@@ -31155,201 +31155,201 @@
       super();
     }
   };
-  function _e(t2) {
-    return t2;
+  function _e(t3) {
+    return t3;
   }
-  function ve(t2) {
-    if (2 & t2.J) throw Error("Cannot mutate an immutable Map");
+  function ve(t3) {
+    if (2 & t3.J) throw Error("Cannot mutate an immutable Map");
   }
   var Ee = class extends ye {
-    constructor(t2, e2, n2 = _e, r2 = _e) {
-      super(), this.J = 0 | t2[Q], this.K = e2, this.S = n2, this.fa = this.K ? we : r2;
-      for (let i2 = 0; i2 < t2.length; i2++) {
-        const s2 = t2[i2], o2 = n2(s2[0], false, true);
+    constructor(t3, e2, n2 = _e, r2 = _e) {
+      super(), this.J = 0 | t3[Q], this.K = e2, this.S = n2, this.fa = this.K ? we : r2;
+      for (let i2 = 0; i2 < t3.length; i2++) {
+        const s2 = t3[i2], o2 = n2(s2[0], false, true);
         let a2 = s2[1];
         e2 ? void 0 === a2 && (a2 = null) : a2 = r2(s2[1], false, true, void 0, void 0, this.J), super.set(o2, a2);
       }
     }
-    V(t2) {
-      return st(Array.from(super.entries(), t2));
+    V(t3) {
+      return st(Array.from(super.entries(), t3));
     }
     clear() {
       ve(this), super.clear();
     }
-    delete(t2) {
-      return ve(this), super.delete(this.S(t2, true, false));
+    delete(t3) {
+      return ve(this), super.delete(this.S(t3, true, false));
     }
     entries() {
       if (this.K) {
-        var t2 = super.keys();
-        t2 = new ut(t2, Te, this);
-      } else t2 = super.entries();
-      return t2;
+        var t3 = super.keys();
+        t3 = new ut(t3, Te, this);
+      } else t3 = super.entries();
+      return t3;
     }
     values() {
       if (this.K) {
-        var t2 = super.keys();
-        t2 = new ut(t2, Ee.prototype.get, this);
-      } else t2 = super.values();
-      return t2;
+        var t3 = super.keys();
+        t3 = new ut(t3, Ee.prototype.get, this);
+      } else t3 = super.values();
+      return t3;
     }
-    forEach(t2, e2) {
+    forEach(t3, e2) {
       this.K ? super.forEach(((n2, r2, i2) => {
-        t2.call(e2, i2.get(r2), r2, i2);
-      })) : super.forEach(t2, e2);
+        t3.call(e2, i2.get(r2), r2, i2);
+      })) : super.forEach(t3, e2);
     }
-    set(t2, e2) {
-      return ve(this), null == (t2 = this.S(t2, true, false)) ? this : null == e2 ? (super.delete(t2), this) : super.set(t2, this.fa(e2, true, true, this.K, false, this.J));
+    set(t3, e2) {
+      return ve(this), null == (t3 = this.S(t3, true, false)) ? this : null == e2 ? (super.delete(t3), this) : super.set(t3, this.fa(e2, true, true, this.K, false, this.J));
     }
-    Ma(t2) {
-      const e2 = this.S(t2[0], false, true);
-      t2 = t2[1], t2 = this.K ? void 0 === t2 ? null : t2 : this.fa(t2, false, true, void 0, false, this.J), super.set(e2, t2);
+    Ma(t3) {
+      const e2 = this.S(t3[0], false, true);
+      t3 = t3[1], t3 = this.K ? void 0 === t3 ? null : t3 : this.fa(t3, false, true, void 0, false, this.J), super.set(e2, t3);
     }
-    has(t2) {
-      return super.has(this.S(t2, false, false));
+    has(t3) {
+      return super.has(this.S(t3, false, false));
     }
-    get(t2) {
-      t2 = this.S(t2, false, false);
-      const e2 = super.get(t2);
+    get(t3) {
+      t3 = this.S(t3, false, false);
+      const e2 = super.get(t3);
       if (void 0 !== e2) {
         var n2 = this.K;
-        return n2 ? ((n2 = this.fa(e2, false, true, n2, this.ra, this.J)) !== e2 && super.set(t2, n2), n2) : e2;
+        return n2 ? ((n2 = this.fa(e2, false, true, n2, this.ra, this.J)) !== e2 && super.set(t3, n2), n2) : e2;
       }
     }
     [Symbol.iterator]() {
       return this.entries();
     }
   };
-  function we(t2, e2, n2, r2, i2, s2) {
-    return t2 = fe(t2, r2, n2, s2), i2 && (t2 = Xe(t2)), t2;
+  function we(t3, e2, n2, r2, i2, s2) {
+    return t3 = fe(t3, r2, n2, s2), i2 && (t3 = Xe(t3)), t3;
   }
-  function Te(t2) {
-    return [t2, this.get(t2)];
+  function Te(t3) {
+    return [t3, this.get(t3)];
   }
   var Ae;
   function be() {
     return Ae || (Ae = new Ee(it([]), void 0, void 0, void 0, pe));
   }
-  function ke(t2) {
-    return H ? t2[H] : void 0;
+  function ke(t3) {
+    return H ? t3[H] : void 0;
   }
-  function Se(t2, e2) {
-    for (const n2 in t2) !isNaN(n2) && e2(t2, +n2, t2[n2]);
+  function Se(t3, e2) {
+    for (const n2 in t3) !isNaN(n2) && e2(t3, +n2, t3[n2]);
   }
   Ee.prototype.toJSON = void 0;
   var xe = class {
   };
   var Le = { Ka: true };
-  function Re(t2, e2) {
+  function Re(t3, e2) {
     e2 < 100 || U(z, 1);
   }
-  function Ie(t2, e2, n2, r2) {
+  function Ie(t3, e2, n2, r2) {
     const i2 = void 0 !== r2;
     r2 = !!r2;
     var s2, o2 = H;
-    !i2 && B && o2 && (s2 = t2[o2]) && Se(s2, Re), o2 = [];
-    var a2 = t2.length;
+    !i2 && B && o2 && (s2 = t3[o2]) && Se(s2, Re), o2 = [];
+    var a2 = t3.length;
     let c2;
     s2 = 4294967295;
     let h2 = false;
     const u2 = !!(64 & e2), l2 = u2 ? 128 & e2 ? 0 : -1 : void 0;
-    1 & e2 || (c2 = a2 && t2[a2 - 1], null != c2 && "object" == typeof c2 && c2.constructor === Object ? s2 = --a2 : c2 = void 0, !u2 || 128 & e2 || i2 || (h2 = true, s2 = s2 - l2 + l2)), e2 = void 0;
+    1 & e2 || (c2 = a2 && t3[a2 - 1], null != c2 && "object" == typeof c2 && c2.constructor === Object ? s2 = --a2 : c2 = void 0, !u2 || 128 & e2 || i2 || (h2 = true, s2 = s2 - l2 + l2)), e2 = void 0;
     for (var f2 = 0; f2 < a2; f2++) {
-      let i3 = t2[f2];
+      let i3 = t3[f2];
       if (null != i3 && null != (i3 = n2(i3, r2))) if (u2 && f2 >= s2) {
-        const t3 = f2 - l2;
-        (e2 ?? (e2 = {}))[t3] = i3;
+        const t4 = f2 - l2;
+        (e2 ?? (e2 = {}))[t4] = i3;
       } else o2[f2] = i3;
     }
-    if (c2) for (let t3 in c2) {
-      if (null == (a2 = c2[t3]) || null == (a2 = n2(a2, r2))) continue;
+    if (c2) for (let t4 in c2) {
+      if (null == (a2 = c2[t4]) || null == (a2 = n2(a2, r2))) continue;
       let i3;
-      f2 = +t3, u2 && !Number.isNaN(f2) && (i3 = f2 + l2) < s2 ? o2[i3] = a2 : (e2 ?? (e2 = {}))[t3] = a2;
+      f2 = +t4, u2 && !Number.isNaN(f2) && (i3 = f2 + l2) < s2 ? o2[i3] = a2 : (e2 ?? (e2 = {}))[t4] = a2;
     }
-    return e2 && (h2 ? o2.push(e2) : o2[s2] = e2), i2 && H && (t2 = ke(t2)) && t2 instanceof xe && (o2[H] = (function(t3) {
+    return e2 && (h2 ? o2.push(e2) : o2[s2] = e2), i2 && H && (t3 = ke(t3)) && t3 instanceof xe && (o2[H] = (function(t4) {
       const e3 = new xe();
-      return Se(t3, ((t4, n3, r3) => {
+      return Se(t4, ((t5, n3, r3) => {
         e3[n3] = Vt(r3);
-      })), e3.da = t3.da, e3;
-    })(t2)), o2;
+      })), e3.da = t4.da, e3;
+    })(t3)), o2;
   }
-  function Fe(t2) {
-    return t2[0] = Me(t2[0]), t2[1] = Me(t2[1]), t2;
+  function Fe(t3) {
+    return t3[0] = Me(t3[0]), t3[1] = Me(t3[1]), t3;
   }
-  function Me(t2) {
-    switch (typeof t2) {
+  function Me(t3) {
+    switch (typeof t3) {
       case "number":
-        return Number.isFinite(t2) ? t2 : "" + t2;
+        return Number.isFinite(t3) ? t3 : "" + t3;
       case "bigint":
-        return wt(t2) ? Number(t2) : "" + t2;
+        return wt(t3) ? Number(t3) : "" + t3;
       case "boolean":
-        return t2 ? 1 : 0;
+        return t3 ? 1 : 0;
       case "object":
-        if (Array.isArray(t2)) {
-          var e2 = 0 | t2[Q];
-          return 0 === t2.length && 1 & e2 ? void 0 : Ie(t2, e2, Me);
+        if (Array.isArray(t3)) {
+          var e2 = 0 | t3[Q];
+          return 0 === t3.length && 1 & e2 ? void 0 : Ie(t3, e2, Me);
         }
-        if (null != t2 && t2[q] === ot) return Oe(t2);
-        if (t2 instanceof F) {
-          if (null == (e2 = t2.g)) t2 = "";
-          else if ("string" == typeof e2) t2 = e2;
+        if (null != t3 && t3[q] === ot) return Oe(t3);
+        if (t3 instanceof F) {
+          if (null == (e2 = t3.g)) t3 = "";
+          else if ("string" == typeof e2) t3 = e2;
           else {
             if (T) {
               for (var n2 = "", r2 = 0, i2 = e2.length - 10240; r2 < i2; ) n2 += String.fromCharCode.apply(null, e2.subarray(r2, r2 += 10240));
               n2 += String.fromCharCode.apply(null, r2 ? e2.subarray(r2) : e2), e2 = btoa(n2);
             } else {
               void 0 === n2 && (n2 = 0), E(), n2 = y[n2], r2 = Array(Math.floor(e2.length / 3)), i2 = n2[64] || "";
-              let t3 = 0, h2 = 0;
-              for (; t3 < e2.length - 2; t3 += 3) {
-                var s2 = e2[t3], o2 = e2[t3 + 1], a2 = e2[t3 + 2], c2 = n2[s2 >> 2];
+              let t4 = 0, h2 = 0;
+              for (; t4 < e2.length - 2; t4 += 3) {
+                var s2 = e2[t4], o2 = e2[t4 + 1], a2 = e2[t4 + 2], c2 = n2[s2 >> 2];
                 s2 = n2[(3 & s2) << 4 | o2 >> 4], o2 = n2[(15 & o2) << 2 | a2 >> 6], a2 = n2[63 & a2], r2[h2++] = c2 + s2 + o2 + a2;
               }
-              switch (c2 = 0, a2 = i2, e2.length - t3) {
+              switch (c2 = 0, a2 = i2, e2.length - t4) {
                 case 2:
-                  a2 = n2[(15 & (c2 = e2[t3 + 1])) << 2] || i2;
+                  a2 = n2[(15 & (c2 = e2[t4 + 1])) << 2] || i2;
                 case 1:
-                  e2 = e2[t3], r2[h2] = n2[e2 >> 2] + n2[(3 & e2) << 4 | c2 >> 4] + a2 + i2;
+                  e2 = e2[t4], r2[h2] = n2[e2 >> 2] + n2[(3 & e2) << 4 | c2 >> 4] + a2 + i2;
               }
               e2 = r2.join("");
             }
-            t2 = t2.g = e2;
+            t3 = t3.g = e2;
           }
-          return t2;
+          return t3;
         }
-        return t2 instanceof Ee ? t2 = 0 !== t2.size ? t2.V(Fe) : void 0 : void 0;
+        return t3 instanceof Ee ? t3 = 0 !== t3.size ? t3.V(Fe) : void 0 : void 0;
     }
-    return t2;
+    return t3;
   }
   var Pe;
   var Ce;
-  function Oe(t2) {
-    return Ie(t2 = t2.v, 0 | t2[Q], Me);
+  function Oe(t3) {
+    return Ie(t3 = t3.v, 0 | t3[Q], Me);
   }
-  function Ne(t2, e2) {
-    return Ue(t2, e2[0], e2[1]);
+  function Ne(t3, e2) {
+    return Ue(t3, e2[0], e2[1]);
   }
-  function Ue(t2, e2, n2, r2 = 0) {
-    if (null == t2) {
+  function Ue(t3, e2, n2, r2 = 0) {
+    if (null == t3) {
       var i2 = 32;
-      n2 ? (t2 = [n2], i2 |= 128) : t2 = [], e2 && (i2 = -16760833 & i2 | (1023 & e2) << 14);
+      n2 ? (t3 = [n2], i2 |= 128) : t3 = [], e2 && (i2 = -16760833 & i2 | (1023 & e2) << 14);
     } else {
-      if (!Array.isArray(t2)) throw Error("narr");
-      if (i2 = 0 | t2[Q], d && 1 & i2) throw Error("rfarr");
+      if (!Array.isArray(t3)) throw Error("narr");
+      if (i2 = 0 | t3[Q], d && 1 & i2) throw Error("rfarr");
       if (2048 & i2 && !(2 & i2) && (function() {
         if (d) throw Error("carr");
         U(Y, 5);
       })(), 256 & i2) throw Error("farr");
-      if (64 & i2) return (i2 | r2) !== i2 && rt(t2, i2 | r2), t2;
-      if (n2 && (i2 |= 128, n2 !== t2[0])) throw Error("mid");
+      if (64 & i2) return (i2 | r2) !== i2 && rt(t3, i2 | r2), t3;
+      if (n2 && (i2 |= 128, n2 !== t3[0])) throw Error("mid");
       t: {
         i2 |= 64;
-        var s2 = (n2 = t2).length;
+        var s2 = (n2 = t3).length;
         if (s2) {
           var o2 = s2 - 1;
-          const t3 = n2[o2];
-          if (null != t3 && "object" == typeof t3 && t3.constructor === Object) {
+          const t4 = n2[o2];
+          if (null != t4 && "object" == typeof t4 && t4.constructor === Object) {
             if ((o2 -= e2 = 128 & i2 ? 0 : -1) >= 1024) throw Error("pvtlmt");
-            for (var a2 in t3) (s2 = +a2) < o2 && (n2[s2 + e2] = t3[a2], delete t3[a2]);
+            for (var a2 in t4) (s2 = +a2) < o2 && (n2[s2 + e2] = t4[a2], delete t4[a2]);
             i2 = -16760833 & i2 | (1023 & o2) << 14;
             break t;
           }
@@ -31360,551 +31360,551 @@
         }
       }
     }
-    return rt(t2, 64 | i2 | r2), t2;
+    return rt(t3, 64 | i2 | r2), t3;
   }
-  function De(t2, e2) {
-    if ("object" != typeof t2) return t2;
-    if (Array.isArray(t2)) {
-      var n2 = 0 | t2[Q];
-      return 0 === t2.length && 1 & n2 ? void 0 : Be(t2, n2, e2);
+  function De(t3, e2) {
+    if ("object" != typeof t3) return t3;
+    if (Array.isArray(t3)) {
+      var n2 = 0 | t3[Q];
+      return 0 === t3.length && 1 & n2 ? void 0 : Be(t3, n2, e2);
     }
-    if (null != t2 && t2[q] === ot) return je(t2);
-    if (t2 instanceof Ee) {
-      if (2 & (e2 = t2.J)) return t2;
-      if (!t2.size) return;
-      if (n2 = it(t2.V()), t2.K) for (t2 = 0; t2 < n2.length; t2++) {
-        const r2 = n2[t2];
+    if (null != t3 && t3[q] === ot) return je(t3);
+    if (t3 instanceof Ee) {
+      if (2 & (e2 = t3.J)) return t3;
+      if (!t3.size) return;
+      if (n2 = it(t3.V()), t3.K) for (t3 = 0; t3 < n2.length; t3++) {
+        const r2 = n2[t3];
         let i2 = r2[1];
         i2 = null == i2 || "object" != typeof i2 ? void 0 : null != i2 && i2[q] === ot ? je(i2) : Array.isArray(i2) ? Be(i2, 0 | i2[Q], !!(32 & e2)) : void 0, r2[1] = i2;
       }
       return n2;
     }
-    return t2 instanceof F ? t2 : void 0;
+    return t3 instanceof F ? t3 : void 0;
   }
-  function Be(t2, e2, n2) {
-    return 2 & e2 || (!n2 || 4096 & e2 || 16 & e2 ? t2 = Ve(t2, e2, false, n2 && !(16 & e2)) : (nt(t2, 34), 4 & e2 && Object.freeze(t2))), t2;
+  function Be(t3, e2, n2) {
+    return 2 & e2 || (!n2 || 4096 & e2 || 16 & e2 ? t3 = Ve(t3, e2, false, n2 && !(16 & e2)) : (nt(t3, 34), 4 & e2 && Object.freeze(t3))), t3;
   }
-  function Ge(t2, e2, n2) {
-    return t2 = new t2.constructor(e2), n2 && (t2.h = ct), t2.m = ct, t2;
+  function Ge(t3, e2, n2) {
+    return t3 = new t3.constructor(e2), n2 && (t3.h = ct), t3.m = ct, t3;
   }
-  function je(t2) {
-    const e2 = t2.v, n2 = 0 | e2[Q];
-    return at(t2, n2) ? t2 : Ke(t2, e2, n2) ? Ge(t2, e2) : Ve(e2, n2);
+  function je(t3) {
+    const e2 = t3.v, n2 = 0 | e2[Q];
+    return at(t3, n2) ? t3 : Ke(t3, e2, n2) ? Ge(t3, e2) : Ve(e2, n2);
   }
-  function Ve(t2, e2, n2, r2) {
-    return r2 ?? (r2 = !!(34 & e2)), t2 = Ie(t2, e2, De, r2), r2 = 32, n2 && (r2 |= 2), rt(t2, e2 = 16769217 & e2 | r2), t2;
+  function Ve(t3, e2, n2, r2) {
+    return r2 ?? (r2 = !!(34 & e2)), t3 = Ie(t3, e2, De, r2), r2 = 32, n2 && (r2 |= 2), rt(t3, e2 = 16769217 & e2 | r2), t3;
   }
-  function Xe(t2) {
-    const e2 = t2.v, n2 = 0 | e2[Q];
-    return at(t2, n2) ? Ke(t2, e2, n2) ? Ge(t2, e2, true) : new t2.constructor(Ve(e2, n2, false)) : t2;
+  function Xe(t3) {
+    const e2 = t3.v, n2 = 0 | e2[Q];
+    return at(t3, n2) ? Ke(t3, e2, n2) ? Ge(t3, e2, true) : new t3.constructor(Ve(e2, n2, false)) : t3;
   }
-  function He(t2) {
-    if (t2.h !== ct) return false;
-    var e2 = t2.v;
-    return nt(e2 = Ve(e2, 0 | e2[Q]), 2048), t2.v = e2, t2.h = void 0, t2.m = void 0, true;
+  function He(t3) {
+    if (t3.h !== ct) return false;
+    var e2 = t3.v;
+    return nt(e2 = Ve(e2, 0 | e2[Q]), 2048), t3.v = e2, t3.h = void 0, t3.m = void 0, true;
   }
-  function We(t2) {
-    if (!He(t2) && at(t2, 0 | t2.v[Q])) throw Error();
+  function We(t3) {
+    if (!He(t3) && at(t3, 0 | t3.v[Q])) throw Error();
   }
-  function ze(t2, e2) {
-    void 0 === e2 && (e2 = 0 | t2[Q]), 32 & e2 && !(4096 & e2) && rt(t2, 4096 | e2);
+  function ze(t3, e2) {
+    void 0 === e2 && (e2 = 0 | t3[Q]), 32 & e2 && !(4096 & e2) && rt(t3, 4096 | e2);
   }
-  function Ke(t2, e2, n2) {
-    return !!(2 & n2) || !(!(32 & n2) || 4096 & n2) && (rt(e2, 2 | n2), t2.h = ct, true);
+  function Ke(t3, e2, n2) {
+    return !!(2 & n2) || !(!(32 & n2) || 4096 & n2) && (rt(e2, 2 | n2), t3.h = ct, true);
   }
   var Ye = Et(0);
   var qe = {};
-  function $e(t2, e2, n2, r2, i2) {
-    if (null !== (e2 = Je(t2.v, e2, n2, i2)) || r2 && t2.m !== ct) return e2;
+  function $e(t3, e2, n2, r2, i2) {
+    if (null !== (e2 = Je(t3.v, e2, n2, i2)) || r2 && t3.m !== ct) return e2;
   }
-  function Je(t2, e2, n2, r2) {
+  function Je(t3, e2, n2, r2) {
     if (-1 === e2) return null;
-    const i2 = e2 + (n2 ? 0 : -1), s2 = t2.length - 1;
+    const i2 = e2 + (n2 ? 0 : -1), s2 = t3.length - 1;
     let o2, a2;
     if (!(s2 < 1 + (n2 ? 0 : -1))) {
-      if (i2 >= s2) if (o2 = t2[s2], null != o2 && "object" == typeof o2 && o2.constructor === Object) n2 = o2[e2], a2 = true;
+      if (i2 >= s2) if (o2 = t3[s2], null != o2 && "object" == typeof o2 && o2.constructor === Object) n2 = o2[e2], a2 = true;
       else {
         if (i2 !== s2) return;
         n2 = o2;
       }
-      else n2 = t2[i2];
+      else n2 = t3[i2];
       if (r2 && null != n2) {
         if (null == (r2 = r2(n2))) return r2;
-        if (!Object.is(r2, n2)) return a2 ? o2[e2] = r2 : t2[i2] = r2, r2;
+        if (!Object.is(r2, n2)) return a2 ? o2[e2] = r2 : t3[i2] = r2, r2;
       }
       return n2;
     }
   }
-  function Ze(t2, e2, n2, r2) {
-    We(t2), Qe(t2 = t2.v, 0 | t2[Q], e2, n2, r2);
+  function Ze(t3, e2, n2, r2) {
+    We(t3), Qe(t3 = t3.v, 0 | t3[Q], e2, n2, r2);
   }
-  function Qe(t2, e2, n2, r2, i2) {
+  function Qe(t3, e2, n2, r2, i2) {
     const s2 = n2 + (i2 ? 0 : -1);
-    var o2 = t2.length - 1;
+    var o2 = t3.length - 1;
     if (o2 >= 1 + (i2 ? 0 : -1) && s2 >= o2) {
-      const i3 = t2[o2];
+      const i3 = t3[o2];
       if (null != i3 && "object" == typeof i3 && i3.constructor === Object) return i3[n2] = r2, e2;
     }
-    return s2 <= o2 ? (t2[s2] = r2, e2) : (void 0 !== r2 && (n2 >= (o2 = (e2 ?? (e2 = 0 | t2[Q])) >> 14 & 1023 || 536870912) ? null != r2 && (t2[o2 + (i2 ? 0 : -1)] = { [n2]: r2 }) : t2[s2] = r2), e2);
+    return s2 <= o2 ? (t3[s2] = r2, e2) : (void 0 !== r2 && (n2 >= (o2 = (e2 ?? (e2 = 0 | t3[Q])) >> 14 & 1023 || 536870912) ? null != r2 && (t3[o2 + (i2 ? 0 : -1)] = { [n2]: r2 }) : t3[s2] = r2), e2);
   }
   function tn() {
     return void 0 === lt ? 2 : 4;
   }
-  function en(t2, e2, n2, r2, i2) {
-    let s2 = t2.v, o2 = 0 | s2[Q];
-    r2 = at(t2, o2) ? 1 : r2, i2 = !!i2 || 3 === r2, 2 === r2 && He(t2) && (s2 = t2.v, o2 = 0 | s2[Q]);
-    let a2 = (t2 = rn(s2, e2)) === tt ? 7 : 0 | t2[Q], c2 = sn(a2, o2);
+  function en(t3, e2, n2, r2, i2) {
+    let s2 = t3.v, o2 = 0 | s2[Q];
+    r2 = at(t3, o2) ? 1 : r2, i2 = !!i2 || 3 === r2, 2 === r2 && He(t3) && (s2 = t3.v, o2 = 0 | s2[Q]);
+    let a2 = (t3 = rn(s2, e2)) === tt ? 7 : 0 | t3[Q], c2 = sn(a2, o2);
     var h2 = !(4 & c2);
     if (h2) {
-      4 & c2 && (t2 = Vt(t2), a2 = 0, c2 = An(c2, o2), o2 = Qe(s2, o2, e2, t2));
+      4 & c2 && (t3 = Vt(t3), a2 = 0, c2 = An(c2, o2), o2 = Qe(s2, o2, e2, t3));
       let r3 = 0, i3 = 0;
-      for (; r3 < t2.length; r3++) {
-        const e3 = n2(t2[r3]);
-        null != e3 && (t2[i3++] = e3);
+      for (; r3 < t3.length; r3++) {
+        const e3 = n2(t3[r3]);
+        null != e3 && (t3[i3++] = e3);
       }
-      i3 < r3 && (t2.length = i3), n2 = -513 & (4 | c2), c2 = n2 &= -1025, c2 &= -4097;
+      i3 < r3 && (t3.length = i3), n2 = -513 & (4 | c2), c2 = n2 &= -1025, c2 &= -4097;
     }
-    return c2 !== a2 && (rt(t2, c2), 2 & c2 && Object.freeze(t2)), nn(t2, c2, s2, o2, e2, r2, h2, i2);
+    return c2 !== a2 && (rt(t3, c2), 2 & c2 && Object.freeze(t3)), nn(t3, c2, s2, o2, e2, r2, h2, i2);
   }
-  function nn(t2, e2, n2, r2, i2, s2, o2, a2) {
+  function nn(t3, e2, n2, r2, i2, s2, o2, a2) {
     let c2 = e2;
-    return 1 === s2 || 4 === s2 && (2 & e2 || !(16 & e2) && 32 & r2) ? on(e2) || ((e2 |= !t2.length || o2 && !(4096 & e2) || 32 & r2 && !(4096 & e2 || 16 & e2) ? 2 : 256) !== c2 && rt(t2, e2), Object.freeze(t2)) : (2 === s2 && on(e2) && (t2 = Vt(t2), c2 = 0, e2 = An(e2, r2), r2 = Qe(n2, r2, i2, t2)), on(e2) || (a2 || (e2 |= 16), e2 !== c2 && rt(t2, e2))), 2 & e2 || !(4096 & e2 || 16 & e2) || ze(n2, r2), t2;
+    return 1 === s2 || 4 === s2 && (2 & e2 || !(16 & e2) && 32 & r2) ? on(e2) || ((e2 |= !t3.length || o2 && !(4096 & e2) || 32 & r2 && !(4096 & e2 || 16 & e2) ? 2 : 256) !== c2 && rt(t3, e2), Object.freeze(t3)) : (2 === s2 && on(e2) && (t3 = Vt(t3), c2 = 0, e2 = An(e2, r2), r2 = Qe(n2, r2, i2, t3)), on(e2) || (a2 || (e2 |= 16), e2 !== c2 && rt(t3, e2))), 2 & e2 || !(4096 & e2 || 16 & e2) || ze(n2, r2), t3;
   }
-  function rn(t2, e2, n2) {
-    return t2 = Je(t2, e2, n2), Array.isArray(t2) ? t2 : tt;
+  function rn(t3, e2, n2) {
+    return t3 = Je(t3, e2, n2), Array.isArray(t3) ? t3 : tt;
   }
-  function sn(t2, e2) {
-    return 2 & e2 && (t2 |= 2), 1 | t2;
+  function sn(t3, e2) {
+    return 2 & e2 && (t3 |= 2), 1 | t3;
   }
-  function on(t2) {
-    return !!(2 & t2) && !!(4 & t2) || !!(256 & t2);
+  function on(t3) {
+    return !!(2 & t3) && !!(4 & t3) || !!(256 & t3);
   }
-  function an(t2) {
-    return ht(t2, true);
+  function an(t3) {
+    return ht(t3, true);
   }
-  function cn(t2) {
-    t2 = Vt(t2);
-    for (let e2 = 0; e2 < t2.length; e2++) {
-      const n2 = t2[e2] = Vt(t2[e2]);
+  function cn(t3) {
+    t3 = Vt(t3);
+    for (let e2 = 0; e2 < t3.length; e2++) {
+      const n2 = t3[e2] = Vt(t3[e2]);
       Array.isArray(n2[1]) && (n2[1] = it(n2[1]));
     }
-    return st(t2);
+    return st(t3);
   }
-  function hn(t2, e2, n2, r2) {
-    We(t2), Qe(t2 = t2.v, 0 | t2[Q], e2, ("0" === r2 ? 0 === Number(n2) : n2 === r2) ? void 0 : n2);
+  function hn(t3, e2, n2, r2) {
+    We(t3), Qe(t3 = t3.v, 0 | t3[Q], e2, ("0" === r2 ? 0 === Number(n2) : n2 === r2) ? void 0 : n2);
   }
-  function un(t2, e2, n2) {
+  function un(t3, e2, n2) {
     if (2 & e2) throw Error();
     const r2 = pt(e2);
-    let i2 = rn(t2, n2, r2), s2 = i2 === tt ? 7 : 0 | i2[Q], o2 = sn(s2, e2);
-    return (2 & o2 || on(o2) || 16 & o2) && (o2 === s2 || on(o2) || rt(i2, o2), i2 = Vt(i2), s2 = 0, o2 = An(o2, e2), Qe(t2, e2, n2, i2, r2)), o2 &= -13, o2 !== s2 && rt(i2, o2), i2;
+    let i2 = rn(t3, n2, r2), s2 = i2 === tt ? 7 : 0 | i2[Q], o2 = sn(s2, e2);
+    return (2 & o2 || on(o2) || 16 & o2) && (o2 === s2 || on(o2) || rt(i2, o2), i2 = Vt(i2), s2 = 0, o2 = An(o2, e2), Qe(t3, e2, n2, i2, r2)), o2 &= -13, o2 !== s2 && rt(i2, o2), i2;
   }
-  function ln(t2, e2) {
+  function ln(t3, e2) {
     var n2 = Cs;
-    return pn(fn(t2 = t2.v), t2, void 0, n2) === e2 ? e2 : -1;
+    return pn(fn(t3 = t3.v), t3, void 0, n2) === e2 ? e2 : -1;
   }
-  function fn(t2) {
-    if (B) return t2[X] ?? (t2[X] = /* @__PURE__ */ new Map());
-    if (X in t2) return t2[X];
+  function fn(t3) {
+    if (B) return t3[X] ?? (t3[X] = /* @__PURE__ */ new Map());
+    if (X in t3) return t3[X];
     const e2 = /* @__PURE__ */ new Map();
-    return Object.defineProperty(t2, X, { value: e2 }), e2;
+    return Object.defineProperty(t3, X, { value: e2 }), e2;
   }
-  function dn(t2, e2, n2, r2, i2) {
-    const s2 = fn(t2), o2 = pn(s2, t2, e2, n2, i2);
-    return o2 !== r2 && (o2 && (e2 = Qe(t2, e2, o2, void 0, i2)), s2.set(n2, r2)), e2;
+  function dn(t3, e2, n2, r2, i2) {
+    const s2 = fn(t3), o2 = pn(s2, t3, e2, n2, i2);
+    return o2 !== r2 && (o2 && (e2 = Qe(t3, e2, o2, void 0, i2)), s2.set(n2, r2)), e2;
   }
-  function pn(t2, e2, n2, r2, i2) {
-    let s2 = t2.get(r2);
+  function pn(t3, e2, n2, r2, i2) {
+    let s2 = t3.get(r2);
     if (null != s2) return s2;
     s2 = 0;
-    for (let t3 = 0; t3 < r2.length; t3++) {
-      const o2 = r2[t3];
+    for (let t4 = 0; t4 < r2.length; t4++) {
+      const o2 = r2[t4];
       null != Je(e2, o2, i2) && (0 !== s2 && (n2 = Qe(e2, n2, s2, void 0, i2)), s2 = o2);
     }
-    return t2.set(r2, s2), s2;
+    return t3.set(r2, s2), s2;
   }
-  function gn(t2, e2, n2) {
-    let r2 = 0 | t2[Q];
-    const i2 = pt(r2), s2 = Je(t2, n2, i2);
+  function gn(t3, e2, n2) {
+    let r2 = 0 | t3[Q];
+    const i2 = pt(r2), s2 = Je(t3, n2, i2);
     let o2;
     if (null != s2 && s2[q] === ot) {
       if (!at(s2)) return He(s2), s2.v;
       o2 = s2.v;
     } else Array.isArray(s2) && (o2 = s2);
     if (o2) {
-      const t3 = 0 | o2[Q];
-      2 & t3 && (o2 = Ve(o2, t3));
+      const t4 = 0 | o2[Q];
+      2 & t4 && (o2 = Ve(o2, t4));
     }
-    return o2 = Ne(o2, e2), o2 !== s2 && Qe(t2, r2, n2, o2, i2), o2;
+    return o2 = Ne(o2, e2), o2 !== s2 && Qe(t3, r2, n2, o2, i2), o2;
   }
-  function mn(t2, e2, n2, r2, i2) {
+  function mn(t3, e2, n2, r2, i2) {
     let s2 = false;
-    if (null != (r2 = Je(t2, r2, i2, ((t3) => {
-      const r3 = fe(t3, n2, false, e2);
-      return s2 = r3 !== t3 && null != r3, r3;
-    })))) return s2 && !at(r2) && ze(t2, e2), r2;
+    if (null != (r2 = Je(t3, r2, i2, ((t4) => {
+      const r3 = fe(t4, n2, false, e2);
+      return s2 = r3 !== t4 && null != r3, r3;
+    })))) return s2 && !at(r2) && ze(t3, e2), r2;
   }
-  function yn(t2, e2, n2, r2) {
-    let i2 = t2.v, s2 = 0 | i2[Q];
+  function yn(t3, e2, n2, r2) {
+    let i2 = t3.v, s2 = 0 | i2[Q];
     if (null == (e2 = mn(i2, s2, e2, n2, r2))) return e2;
-    if (s2 = 0 | i2[Q], !at(t2, s2)) {
+    if (s2 = 0 | i2[Q], !at(t3, s2)) {
       const o2 = Xe(e2);
-      o2 !== e2 && (He(t2) && (i2 = t2.v, s2 = 0 | i2[Q]), s2 = Qe(i2, s2, n2, e2 = o2, r2), ze(i2, s2));
+      o2 !== e2 && (He(t3) && (i2 = t3.v, s2 = 0 | i2[Q]), s2 = Qe(i2, s2, n2, e2 = o2, r2), ze(i2, s2));
     }
     return e2;
   }
-  function _n(t2, e2, n2, r2, i2, s2, o2, a2) {
-    var c2 = at(t2, n2);
-    s2 = c2 ? 1 : s2, o2 = !!o2 || 3 === s2, c2 = a2 && !c2, (2 === s2 || c2) && He(t2) && (n2 = 0 | (e2 = t2.v)[Q]);
-    var h2 = (t2 = rn(e2, i2)) === tt ? 7 : 0 | t2[Q], u2 = sn(h2, n2);
+  function _n(t3, e2, n2, r2, i2, s2, o2, a2) {
+    var c2 = at(t3, n2);
+    s2 = c2 ? 1 : s2, o2 = !!o2 || 3 === s2, c2 = a2 && !c2, (2 === s2 || c2) && He(t3) && (n2 = 0 | (e2 = t3.v)[Q]);
+    var h2 = (t3 = rn(e2, i2)) === tt ? 7 : 0 | t3[Q], u2 = sn(h2, n2);
     if (a2 = !(4 & u2)) {
-      var l2 = t2, f2 = n2;
+      var l2 = t3, f2 = n2;
       const e3 = !!(2 & u2);
       e3 && (f2 |= 2);
       let i3 = !e3, s3 = true, o3 = 0, a3 = 0;
       for (; o3 < l2.length; o3++) {
-        const t3 = fe(l2[o3], r2, false, f2);
-        if (t3 instanceof r2) {
+        const t4 = fe(l2[o3], r2, false, f2);
+        if (t4 instanceof r2) {
           if (!e3) {
-            const e4 = at(t3);
+            const e4 = at(t4);
             i3 && (i3 = !e4), s3 && (s3 = e4);
           }
-          l2[a3++] = t3;
+          l2[a3++] = t4;
         }
       }
       a3 < o3 && (l2.length = a3), u2 |= 4, u2 = s3 ? -4097 & u2 : 4096 | u2, u2 = i3 ? 8 | u2 : -9 & u2;
     }
-    if (u2 !== h2 && (rt(t2, u2), 2 & u2 && Object.freeze(t2)), c2 && !(8 & u2 || !t2.length && (1 === s2 || 4 === s2 && (2 & u2 || !(16 & u2) && 32 & n2)))) {
-      for (on(u2) && (t2 = Vt(t2), u2 = An(u2, n2), n2 = Qe(e2, n2, i2, t2)), r2 = t2, c2 = u2, h2 = 0; h2 < r2.length; h2++) (l2 = r2[h2]) !== (u2 = Xe(l2)) && (r2[h2] = u2);
-      c2 |= 8, rt(t2, u2 = c2 = r2.length ? 4096 | c2 : -4097 & c2);
+    if (u2 !== h2 && (rt(t3, u2), 2 & u2 && Object.freeze(t3)), c2 && !(8 & u2 || !t3.length && (1 === s2 || 4 === s2 && (2 & u2 || !(16 & u2) && 32 & n2)))) {
+      for (on(u2) && (t3 = Vt(t3), u2 = An(u2, n2), n2 = Qe(e2, n2, i2, t3)), r2 = t3, c2 = u2, h2 = 0; h2 < r2.length; h2++) (l2 = r2[h2]) !== (u2 = Xe(l2)) && (r2[h2] = u2);
+      c2 |= 8, rt(t3, u2 = c2 = r2.length ? 4096 | c2 : -4097 & c2);
     }
-    return nn(t2, u2, e2, n2, i2, s2, a2, o2);
+    return nn(t3, u2, e2, n2, i2, s2, a2, o2);
   }
-  function vn(t2, e2, n2) {
-    const r2 = t2.v;
-    return _n(t2, r2, 0 | r2[Q], e2, n2, tn(), false, true);
+  function vn(t3, e2, n2) {
+    const r2 = t3.v;
+    return _n(t3, r2, 0 | r2[Q], e2, n2, tn(), false, true);
   }
-  function En(t2) {
-    return null == t2 && (t2 = void 0), t2;
+  function En(t3) {
+    return null == t3 && (t3 = void 0), t3;
   }
-  function wn(t2, e2, n2, r2, i2) {
-    return Ze(t2, n2, r2 = En(r2), i2), r2 && !at(r2) && ze(t2.v), t2;
+  function wn(t3, e2, n2, r2, i2) {
+    return Ze(t3, n2, r2 = En(r2), i2), r2 && !at(r2) && ze(t3.v), t3;
   }
-  function Tn(t2, e2, n2, r2) {
+  function Tn(t3, e2, n2, r2) {
     t: {
       var i2 = r2 = En(r2);
-      We(t2);
-      const s2 = t2.v;
+      We(t3);
+      const s2 = t3.v;
       let o2 = 0 | s2[Q];
       if (null == i2) {
-        const t3 = fn(s2);
-        if (pn(t3, s2, o2, n2) !== e2) break t;
-        t3.set(n2, 0);
+        const t4 = fn(s2);
+        if (pn(t4, s2, o2, n2) !== e2) break t;
+        t4.set(n2, 0);
       } else o2 = dn(s2, o2, n2, e2);
       Qe(s2, o2, e2, i2);
     }
-    r2 && !at(r2) && ze(t2.v);
+    r2 && !at(r2) && ze(t3.v);
   }
-  function An(t2, e2) {
-    return -273 & (2 & e2 ? 2 | t2 : -3 & t2);
+  function An(t3, e2) {
+    return -273 & (2 & e2 ? 2 | t3 : -3 & t3);
   }
-  function bn(t2, e2, n2, r2) {
+  function bn(t3, e2, n2, r2) {
     var i2 = r2;
-    We(t2), t2 = _n(t2, r2 = t2.v, 0 | r2[Q], n2, e2, 2, true), i2 = null != i2 ? i2 : new n2(), t2.push(i2), e2 = n2 = t2 === tt ? 7 : 0 | t2[Q], (i2 = at(i2)) ? (n2 &= -9, 1 === t2.length && (n2 &= -4097)) : n2 |= 4096, n2 !== e2 && rt(t2, n2), i2 || ze(r2);
+    We(t3), t3 = _n(t3, r2 = t3.v, 0 | r2[Q], n2, e2, 2, true), i2 = null != i2 ? i2 : new n2(), t3.push(i2), e2 = n2 = t3 === tt ? 7 : 0 | t3[Q], (i2 = at(i2)) ? (n2 &= -9, 1 === t3.length && (n2 &= -4097)) : n2 |= 4096, n2 !== e2 && rt(t3, n2), i2 || ze(r2);
   }
-  function kn(t2, e2, n2) {
-    return ee($e(t2, e2, void 0, n2));
+  function kn(t3, e2, n2) {
+    return ee($e(t3, e2, void 0, n2));
   }
-  function Sn(t2, e2) {
-    return $e(t2, e2, void 0, void 0, $t) ?? 0;
+  function Sn(t3, e2) {
+    return $e(t3, e2, void 0, void 0, $t) ?? 0;
   }
-  function xn(t2, e2, n2) {
+  function xn(t3, e2, n2) {
     if (null != n2) {
       if ("number" != typeof n2) throw N("int32");
       if (!zt(n2)) throw N("int32");
       n2 |= 0;
     }
-    Ze(t2, e2, n2);
+    Ze(t3, e2, n2);
   }
-  function Ln(t2, e2, n2) {
-    Ze(t2, e2, qt(n2));
+  function Ln(t3, e2, n2) {
+    Ze(t3, e2, qt(n2));
   }
-  function Rn(t2, e2, n2) {
-    hn(t2, e2, ue(n2), "");
+  function Rn(t3, e2, n2) {
+    hn(t3, e2, ue(n2), "");
   }
-  function In(t2, e2, n2) {
+  function In(t3, e2, n2) {
     {
-      We(t2);
-      const o2 = t2.v;
+      We(t3);
+      const o2 = t3.v;
       let a2 = 0 | o2[Q];
       if (null == n2) Qe(o2, a2, e2);
       else {
-        var r2 = t2 = n2 === tt ? 7 : 0 | n2[Q], i2 = on(t2), s2 = i2 || Object.isFrozen(n2);
-        for (i2 || (t2 = 0), s2 || (n2 = Vt(n2), r2 = 0, t2 = An(t2, a2), s2 = false), t2 |= 5, t2 |= (4 & t2 ? 512 & t2 ? 512 : 1024 & t2 ? 1024 : 0 : void 0) ?? 1024, i2 = 0; i2 < n2.length; i2++) {
+        var r2 = t3 = n2 === tt ? 7 : 0 | n2[Q], i2 = on(t3), s2 = i2 || Object.isFrozen(n2);
+        for (i2 || (t3 = 0), s2 || (n2 = Vt(n2), r2 = 0, t3 = An(t3, a2), s2 = false), t3 |= 5, t3 |= (4 & t3 ? 512 & t3 ? 512 : 1024 & t3 ? 1024 : 0 : void 0) ?? 1024, i2 = 0; i2 < n2.length; i2++) {
           const e3 = n2[i2], o3 = he(e3);
-          Object.is(e3, o3) || (s2 && (n2 = Vt(n2), r2 = 0, t2 = An(t2, a2), s2 = false), n2[i2] = o3);
+          Object.is(e3, o3) || (s2 && (n2 = Vt(n2), r2 = 0, t3 = An(t3, a2), s2 = false), n2[i2] = o3);
         }
-        t2 !== r2 && (s2 && (n2 = Vt(n2), t2 = An(t2, a2)), rt(n2, t2)), Qe(o2, a2, e2, n2);
+        t3 !== r2 && (s2 && (n2 = Vt(n2), t3 = An(t3, a2)), rt(n2, t3)), Qe(o2, a2, e2, n2);
       }
     }
   }
-  function Fn(t2, e2, n2) {
-    We(t2), en(t2, e2, le, 2, true).push(he(n2));
+  function Fn(t3, e2, n2) {
+    We(t3), en(t3, e2, le, 2, true).push(he(n2));
   }
   var Mn = class {
-    constructor(t2, e2, n2) {
-      if (this.buffer = t2, n2 && !e2) throw Error();
+    constructor(t3, e2, n2) {
+      if (this.buffer = t3, n2 && !e2) throw Error();
       this.g = e2;
     }
   };
-  function Pn(t2, e2) {
-    if ("string" == typeof t2) return new Mn(S(t2), e2);
-    if (Array.isArray(t2)) return new Mn(new Uint8Array(t2), e2);
-    if (t2.constructor === Uint8Array) return new Mn(t2, false);
-    if (t2.constructor === ArrayBuffer) return t2 = new Uint8Array(t2), new Mn(t2, false);
-    if (t2.constructor === F) return e2 = I(t2) || new Uint8Array(0), new Mn(e2, true, t2);
-    if (t2 instanceof Uint8Array) return t2 = t2.constructor === Uint8Array ? t2 : new Uint8Array(t2.buffer, t2.byteOffset, t2.byteLength), new Mn(t2, false);
+  function Pn(t3, e2) {
+    if ("string" == typeof t3) return new Mn(S(t3), e2);
+    if (Array.isArray(t3)) return new Mn(new Uint8Array(t3), e2);
+    if (t3.constructor === Uint8Array) return new Mn(t3, false);
+    if (t3.constructor === ArrayBuffer) return t3 = new Uint8Array(t3), new Mn(t3, false);
+    if (t3.constructor === F) return e2 = I(t3) || new Uint8Array(0), new Mn(e2, true, t3);
+    if (t3 instanceof Uint8Array) return t3 = t3.constructor === Uint8Array ? t3 : new Uint8Array(t3.buffer, t3.byteOffset, t3.byteLength), new Mn(t3, false);
     throw Error();
   }
-  function Cn(t2, e2) {
+  function Cn(t3, e2) {
     let n2, r2 = 0, i2 = 0, s2 = 0;
-    const o2 = t2.h;
-    let a2 = t2.g;
+    const o2 = t3.h;
+    let a2 = t3.g;
     do {
       n2 = o2[a2++], r2 |= (127 & n2) << s2, s2 += 7;
     } while (s2 < 32 && 128 & n2);
     if (s2 > 32) for (i2 |= (127 & n2) >> 4, s2 = 3; s2 < 32 && 128 & n2; s2 += 7) n2 = o2[a2++], i2 |= (127 & n2) << s2;
-    if (Gn(t2, a2), !(128 & n2)) return e2(r2 >>> 0, i2 >>> 0);
+    if (Gn(t3, a2), !(128 & n2)) return e2(r2 >>> 0, i2 >>> 0);
     throw Error();
   }
-  function On(t2) {
-    let e2 = 0, n2 = t2.g;
-    const r2 = n2 + 10, i2 = t2.h;
+  function On(t3) {
+    let e2 = 0, n2 = t3.g;
+    const r2 = n2 + 10, i2 = t3.h;
     for (; n2 < r2; ) {
       const r3 = i2[n2++];
-      if (e2 |= r3, 0 == (128 & r3)) return Gn(t2, n2), !!(127 & e2);
+      if (e2 |= r3, 0 == (128 & r3)) return Gn(t3, n2), !!(127 & e2);
     }
     throw Error();
   }
-  function Nn(t2) {
-    const e2 = t2.h;
-    let n2 = t2.g, r2 = e2[n2++], i2 = 127 & r2;
+  function Nn(t3) {
+    const e2 = t3.h;
+    let n2 = t3.g, r2 = e2[n2++], i2 = 127 & r2;
     if (128 & r2 && (r2 = e2[n2++], i2 |= (127 & r2) << 7, 128 & r2 && (r2 = e2[n2++], i2 |= (127 & r2) << 14, 128 & r2 && (r2 = e2[n2++], i2 |= (127 & r2) << 21, 128 & r2 && (r2 = e2[n2++], i2 |= r2 << 28, 128 & r2 && 128 & e2[n2++] && 128 & e2[n2++] && 128 & e2[n2++] && 128 & e2[n2++] && 128 & e2[n2++]))))) throw Error();
-    return Gn(t2, n2), i2;
+    return Gn(t3, n2), i2;
   }
-  function Un(t2) {
-    return Nn(t2) >>> 0;
+  function Un(t3) {
+    return Nn(t3) >>> 0;
   }
-  function Dn(t2) {
-    var e2 = t2.h;
-    const n2 = t2.g;
+  function Dn(t3) {
+    var e2 = t3.h;
+    const n2 = t3.g;
     var r2 = e2[n2], i2 = e2[n2 + 1];
     const s2 = e2[n2 + 2];
-    return e2 = e2[n2 + 3], Gn(t2, t2.g + 4), t2 = 2 * ((i2 = (r2 << 0 | i2 << 8 | s2 << 16 | e2 << 24) >>> 0) >> 31) + 1, r2 = i2 >>> 23 & 255, i2 &= 8388607, 255 == r2 ? i2 ? NaN : t2 * (1 / 0) : 0 == r2 ? 1401298464324817e-60 * t2 * i2 : t2 * Math.pow(2, r2 - 150) * (i2 + 8388608);
+    return e2 = e2[n2 + 3], Gn(t3, t3.g + 4), t3 = 2 * ((i2 = (r2 << 0 | i2 << 8 | s2 << 16 | e2 << 24) >>> 0) >> 31) + 1, r2 = i2 >>> 23 & 255, i2 &= 8388607, 255 == r2 ? i2 ? NaN : t3 * (1 / 0) : 0 == r2 ? 1401298464324817e-60 * t3 * i2 : t3 * Math.pow(2, r2 - 150) * (i2 + 8388608);
   }
-  function Bn(t2) {
-    return Nn(t2);
+  function Bn(t3) {
+    return Nn(t3);
   }
-  function Gn(t2, e2) {
-    if (t2.g = e2, e2 > t2.l) throw Error();
+  function Gn(t3, e2) {
+    if (t3.g = e2, e2 > t3.l) throw Error();
   }
-  function jn(t2, e2) {
+  function jn(t3, e2) {
     if (e2 < 0) throw Error();
-    const n2 = t2.g;
-    if ((e2 = n2 + e2) > t2.l) throw Error();
-    return t2.g = e2, n2;
+    const n2 = t3.g;
+    if ((e2 = n2 + e2) > t3.l) throw Error();
+    return t3.g = e2, n2;
   }
-  function Vn(t2, e2) {
+  function Vn(t3, e2) {
     if (0 == e2) return R();
-    var n2 = jn(t2, e2);
-    return t2.Y && t2.j ? n2 = t2.h.subarray(n2, n2 + e2) : (t2 = t2.h, n2 = n2 === (e2 = n2 + e2) ? new Uint8Array(0) : xt ? t2.slice(n2, e2) : new Uint8Array(t2.subarray(n2, e2))), 0 == n2.length ? R() : new F(n2, L);
+    var n2 = jn(t3, e2);
+    return t3.Y && t3.j ? n2 = t3.h.subarray(n2, n2 + e2) : (t3 = t3.h, n2 = n2 === (e2 = n2 + e2) ? new Uint8Array(0) : xt ? t3.slice(n2, e2) : new Uint8Array(t3.subarray(n2, e2))), 0 == n2.length ? R() : new F(n2, L);
   }
   var Xn = [];
-  function Hn(t2, e2, n2, r2) {
+  function Hn(t3, e2, n2, r2) {
     if (Qn.length) {
       const i2 = Qn.pop();
-      return i2.o(r2), i2.g.init(t2, e2, n2, r2), i2;
+      return i2.o(r2), i2.g.init(t3, e2, n2, r2), i2;
     }
-    return new Zn(t2, e2, n2, r2);
+    return new Zn(t3, e2, n2, r2);
   }
-  function Wn(t2) {
-    t2.g.clear(), t2.l = -1, t2.h = -1, Qn.length < 100 && Qn.push(t2);
+  function Wn(t3) {
+    t3.g.clear(), t3.l = -1, t3.h = -1, Qn.length < 100 && Qn.push(t3);
   }
-  function zn(t2) {
-    var e2 = t2.g;
+  function zn(t3) {
+    var e2 = t3.g;
     if (e2.g == e2.l) return false;
-    t2.m = t2.g.g;
-    var n2 = Un(t2.g);
+    t3.m = t3.g.g;
+    var n2 = Un(t3.g);
     if (e2 = n2 >>> 3, !((n2 &= 7) >= 0 && n2 <= 5)) throw Error();
     if (e2 < 1) throw Error();
-    return t2.l = e2, t2.h = n2, true;
+    return t3.l = e2, t3.h = n2, true;
   }
-  function Kn(t2) {
-    switch (t2.h) {
+  function Kn(t3) {
+    switch (t3.h) {
       case 0:
-        0 != t2.h ? Kn(t2) : On(t2.g);
+        0 != t3.h ? Kn(t3) : On(t3.g);
         break;
       case 1:
-        Gn(t2 = t2.g, t2.g + 8);
+        Gn(t3 = t3.g, t3.g + 8);
         break;
       case 2:
-        if (2 != t2.h) Kn(t2);
+        if (2 != t3.h) Kn(t3);
         else {
-          var e2 = Un(t2.g);
-          Gn(t2 = t2.g, t2.g + e2);
+          var e2 = Un(t3.g);
+          Gn(t3 = t3.g, t3.g + e2);
         }
         break;
       case 5:
-        Gn(t2 = t2.g, t2.g + 4);
+        Gn(t3 = t3.g, t3.g + 4);
         break;
       case 3:
-        for (e2 = t2.l; ; ) {
-          if (!zn(t2)) throw Error();
-          if (4 == t2.h) {
-            if (t2.l != e2) throw Error();
+        for (e2 = t3.l; ; ) {
+          if (!zn(t3)) throw Error();
+          if (4 == t3.h) {
+            if (t3.l != e2) throw Error();
             break;
           }
-          Kn(t2);
+          Kn(t3);
         }
         break;
       default:
         throw Error();
     }
   }
-  function Yn(t2, e2, n2) {
-    const r2 = t2.g.l;
-    var i2 = Un(t2.g);
-    let s2 = (i2 = t2.g.g + i2) - r2;
-    if (s2 <= 0 && (t2.g.l = i2, n2(e2, t2, void 0, void 0, void 0), s2 = i2 - t2.g.g), s2) throw Error();
-    return t2.g.g = i2, t2.g.l = r2, e2;
+  function Yn(t3, e2, n2) {
+    const r2 = t3.g.l;
+    var i2 = Un(t3.g);
+    let s2 = (i2 = t3.g.g + i2) - r2;
+    if (s2 <= 0 && (t3.g.l = i2, n2(e2, t3, void 0, void 0, void 0), s2 = i2 - t3.g.g), s2) throw Error();
+    return t3.g.g = i2, t3.g.l = r2, e2;
   }
-  function qn(t2) {
-    var e2 = Un(t2.g), a2 = jn(t2 = t2.g, e2);
-    if (t2 = t2.h, o) {
-      var c2, h2 = t2;
+  function qn(t3) {
+    var e2 = Un(t3.g), a2 = jn(t3 = t3.g, e2);
+    if (t3 = t3.h, o) {
+      var c2, h2 = t3;
       (c2 = s) || (c2 = s = new TextDecoder("utf-8", { fatal: true })), e2 = a2 + e2, h2 = 0 === a2 && e2 === h2.length ? h2 : h2.subarray(a2, e2);
       try {
         var u2 = c2.decode(h2);
-      } catch (t3) {
+      } catch (t4) {
         if (void 0 === i) {
           try {
             c2.decode(new Uint8Array([128]));
-          } catch (t4) {
+          } catch (t5) {
           }
           try {
             c2.decode(new Uint8Array([97])), i = true;
-          } catch (t4) {
+          } catch (t5) {
             i = false;
           }
         }
-        throw !i && (s = void 0), t3;
+        throw !i && (s = void 0), t4;
       }
     } else {
       e2 = (u2 = a2) + e2, a2 = [];
       let i2, s2 = null;
       for (; u2 < e2; ) {
-        var l2 = t2[u2++];
-        l2 < 128 ? a2.push(l2) : l2 < 224 ? u2 >= e2 ? n() : (i2 = t2[u2++], l2 < 194 || 128 != (192 & i2) ? (u2--, n()) : a2.push((31 & l2) << 6 | 63 & i2)) : l2 < 240 ? u2 >= e2 - 1 ? n() : (i2 = t2[u2++], 128 != (192 & i2) || 224 === l2 && i2 < 160 || 237 === l2 && i2 >= 160 || 128 != (192 & (c2 = t2[u2++])) ? (u2--, n()) : a2.push((15 & l2) << 12 | (63 & i2) << 6 | 63 & c2)) : l2 <= 244 ? u2 >= e2 - 2 ? n() : (i2 = t2[u2++], 128 != (192 & i2) || i2 - 144 + (l2 << 28) >> 30 != 0 || 128 != (192 & (c2 = t2[u2++])) || 128 != (192 & (h2 = t2[u2++])) ? (u2--, n()) : (l2 = (7 & l2) << 18 | (63 & i2) << 12 | (63 & c2) << 6 | 63 & h2, l2 -= 65536, a2.push(55296 + (l2 >> 10 & 1023), 56320 + (1023 & l2)))) : n(), a2.length >= 8192 && (s2 = r(s2, a2), a2.length = 0);
+        var l2 = t3[u2++];
+        l2 < 128 ? a2.push(l2) : l2 < 224 ? u2 >= e2 ? n() : (i2 = t3[u2++], l2 < 194 || 128 != (192 & i2) ? (u2--, n()) : a2.push((31 & l2) << 6 | 63 & i2)) : l2 < 240 ? u2 >= e2 - 1 ? n() : (i2 = t3[u2++], 128 != (192 & i2) || 224 === l2 && i2 < 160 || 237 === l2 && i2 >= 160 || 128 != (192 & (c2 = t3[u2++])) ? (u2--, n()) : a2.push((15 & l2) << 12 | (63 & i2) << 6 | 63 & c2)) : l2 <= 244 ? u2 >= e2 - 2 ? n() : (i2 = t3[u2++], 128 != (192 & i2) || i2 - 144 + (l2 << 28) >> 30 != 0 || 128 != (192 & (c2 = t3[u2++])) || 128 != (192 & (h2 = t3[u2++])) ? (u2--, n()) : (l2 = (7 & l2) << 18 | (63 & i2) << 12 | (63 & c2) << 6 | 63 & h2, l2 -= 65536, a2.push(55296 + (l2 >> 10 & 1023), 56320 + (1023 & l2)))) : n(), a2.length >= 8192 && (s2 = r(s2, a2), a2.length = 0);
       }
       u2 = r(s2, a2);
     }
     return u2;
   }
-  function $n(t2) {
-    const e2 = Un(t2.g);
-    return Vn(t2.g, e2);
+  function $n(t3) {
+    const e2 = Un(t3.g);
+    return Vn(t3.g, e2);
   }
-  function Jn(t2, e2, n2) {
-    var r2 = Un(t2.g);
-    for (r2 = t2.g.g + r2; t2.g.g < r2; ) n2.push(e2(t2.g));
+  function Jn(t3, e2, n2) {
+    var r2 = Un(t3.g);
+    for (r2 = t3.g.g + r2; t3.g.g < r2; ) n2.push(e2(t3.g));
   }
   var Zn = class {
-    constructor(t2, e2, n2, r2) {
+    constructor(t3, e2, n2, r2) {
       if (Xn.length) {
         const i2 = Xn.pop();
-        i2.init(t2, e2, n2, r2), t2 = i2;
-      } else t2 = new class {
-        constructor(t3, e3, n3, r3) {
-          this.h = null, this.j = false, this.g = this.l = this.m = 0, this.init(t3, e3, n3, r3);
+        i2.init(t3, e2, n2, r2), t3 = i2;
+      } else t3 = new class {
+        constructor(t4, e3, n3, r3) {
+          this.h = null, this.j = false, this.g = this.l = this.m = 0, this.init(t4, e3, n3, r3);
         }
-        init(t3, e3, n3, { Y: r3 = false, ea: i2 = false } = {}) {
-          this.Y = r3, this.ea = i2, t3 && (t3 = Pn(t3, this.ea), this.h = t3.buffer, this.j = t3.g, this.m = e3 || 0, this.l = void 0 !== n3 ? this.m + n3 : this.h.length, this.g = this.m);
+        init(t4, e3, n3, { Y: r3 = false, ea: i2 = false } = {}) {
+          this.Y = r3, this.ea = i2, t4 && (t4 = Pn(t4, this.ea), this.h = t4.buffer, this.j = t4.g, this.m = e3 || 0, this.l = void 0 !== n3 ? this.m + n3 : this.h.length, this.g = this.m);
         }
         clear() {
           this.h = null, this.j = false, this.g = this.l = this.m = 0, this.Y = false;
         }
-      }(t2, e2, n2, r2);
-      this.g = t2, this.m = this.g.g, this.h = this.l = -1, this.o(r2);
+      }(t3, e2, n2, r2);
+      this.g = t3, this.m = this.g.g, this.h = this.l = -1, this.o(r2);
     }
-    o({ ha: t2 = false } = {}) {
-      this.ha = t2;
+    o({ ha: t3 = false } = {}) {
+      this.ha = t3;
     }
   };
   var Qn = [];
-  function tr(t2) {
-    return t2 ? /^\d+$/.test(t2) ? (Gt(t2), new er(Rt, It)) : null : nr || (nr = new er(0, 0));
+  function tr(t3) {
+    return t3 ? /^\d+$/.test(t3) ? (Gt(t3), new er(Rt, It)) : null : nr || (nr = new er(0, 0));
   }
   var er = class {
-    constructor(t2, e2) {
-      this.h = t2 >>> 0, this.g = e2 >>> 0;
+    constructor(t3, e2) {
+      this.h = t3 >>> 0, this.g = e2 >>> 0;
     }
   };
   var nr;
-  function rr(t2) {
-    return t2 ? /^-?\d+$/.test(t2) ? (Gt(t2), new ir(Rt, It)) : null : sr || (sr = new ir(0, 0));
+  function rr(t3) {
+    return t3 ? /^-?\d+$/.test(t3) ? (Gt(t3), new ir(Rt, It)) : null : sr || (sr = new ir(0, 0));
   }
   var ir = class {
-    constructor(t2, e2) {
-      this.h = t2 >>> 0, this.g = e2 >>> 0;
+    constructor(t3, e2) {
+      this.h = t3 >>> 0, this.g = e2 >>> 0;
     }
   };
   var sr;
-  function or(t2, e2, n2) {
-    for (; n2 > 0 || e2 > 127; ) t2.g.push(127 & e2 | 128), e2 = (e2 >>> 7 | n2 << 25) >>> 0, n2 >>>= 7;
-    t2.g.push(e2);
+  function or(t3, e2, n2) {
+    for (; n2 > 0 || e2 > 127; ) t3.g.push(127 & e2 | 128), e2 = (e2 >>> 7 | n2 << 25) >>> 0, n2 >>>= 7;
+    t3.g.push(e2);
   }
-  function ar(t2, e2) {
-    for (; e2 > 127; ) t2.g.push(127 & e2 | 128), e2 >>>= 7;
-    t2.g.push(e2);
+  function ar(t3, e2) {
+    for (; e2 > 127; ) t3.g.push(127 & e2 | 128), e2 >>>= 7;
+    t3.g.push(e2);
   }
-  function cr(t2, e2) {
-    if (e2 >= 0) ar(t2, e2);
+  function cr(t3, e2) {
+    if (e2 >= 0) ar(t3, e2);
     else {
-      for (let n2 = 0; n2 < 9; n2++) t2.g.push(127 & e2 | 128), e2 >>= 7;
-      t2.g.push(1);
+      for (let n2 = 0; n2 < 9; n2++) t3.g.push(127 & e2 | 128), e2 >>= 7;
+      t3.g.push(1);
     }
   }
-  function hr(t2) {
+  function hr(t3) {
     var e2 = Rt;
-    t2.g.push(e2 >>> 0 & 255), t2.g.push(e2 >>> 8 & 255), t2.g.push(e2 >>> 16 & 255), t2.g.push(e2 >>> 24 & 255);
+    t3.g.push(e2 >>> 0 & 255), t3.g.push(e2 >>> 8 & 255), t3.g.push(e2 >>> 16 & 255), t3.g.push(e2 >>> 24 & 255);
   }
-  function ur(t2, e2) {
-    0 !== e2.length && (t2.l.push(e2), t2.h += e2.length);
+  function ur(t3, e2) {
+    0 !== e2.length && (t3.l.push(e2), t3.h += e2.length);
   }
-  function lr(t2, e2, n2) {
-    ar(t2.g, 8 * e2 + n2);
+  function lr(t3, e2, n2) {
+    ar(t3.g, 8 * e2 + n2);
   }
-  function fr(t2, e2) {
-    return lr(t2, e2, 2), e2 = t2.g.end(), ur(t2, e2), e2.push(t2.h), e2;
+  function fr(t3, e2) {
+    return lr(t3, e2, 2), e2 = t3.g.end(), ur(t3, e2), e2.push(t3.h), e2;
   }
-  function dr(t2, e2) {
+  function dr(t3, e2) {
     var n2 = e2.pop();
-    for (n2 = t2.h + t2.g.length() - n2; n2 > 127; ) e2.push(127 & n2 | 128), n2 >>>= 7, t2.h++;
-    e2.push(n2), t2.h++;
+    for (n2 = t3.h + t3.g.length() - n2; n2 > 127; ) e2.push(127 & n2 | 128), n2 >>>= 7, t3.h++;
+    e2.push(n2), t3.h++;
   }
-  function pr(t2, e2, n2) {
-    lr(t2, e2, 2), ar(t2.g, n2.length), ur(t2, t2.g.end()), ur(t2, n2);
+  function pr(t3, e2, n2) {
+    lr(t3, e2, 2), ar(t3.g, n2.length), ur(t3, t3.g.end()), ur(t3, n2);
   }
-  function gr(t2, e2, n2, r2) {
-    null != n2 && (e2 = fr(t2, e2), r2(n2, t2), dr(t2, e2));
+  function gr(t3, e2, n2, r2) {
+    null != n2 && (e2 = fr(t3, e2), r2(n2, t3), dr(t3, e2));
   }
   function mr() {
-    const t2 = class {
+    const t3 = class {
       constructor() {
         throw Error();
       }
     };
-    return Object.setPrototypeOf(t2, t2.prototype), t2;
+    return Object.setPrototypeOf(t3, t3.prototype), t3;
   }
   var yr = mr();
   var _r = mr();
@@ -31916,50 +31916,50 @@
   var br = mr();
   var kr = mr();
   var Sr = mr();
-  function xr(t2, e2, n2) {
-    var r2 = t2.v;
-    H && H in r2 && (r2 = r2[H]) && delete r2[e2.g], e2.h ? e2.j(t2, e2.h, e2.g, n2, e2.l) : e2.j(t2, e2.g, n2, e2.l);
+  function xr(t3, e2, n2) {
+    var r2 = t3.v;
+    H && H in r2 && (r2 = r2[H]) && delete r2[e2.g], e2.h ? e2.j(t3, e2.h, e2.g, n2, e2.l) : e2.j(t3, e2.g, n2, e2.l);
   }
   var Lr = class {
-    constructor(t2, e2) {
-      this.v = Ue(t2, e2, void 0, 2048);
+    constructor(t3, e2) {
+      this.v = Ue(t3, e2, void 0, 2048);
     }
     toJSON() {
       return Oe(this);
     }
     j() {
-      var t2 = xo, e2 = this.v, n2 = t2.g, r2 = H;
-      if (B && r2 && null != e2[r2]?.[n2] && U(W, 3), e2 = t2.g, $ && H && void 0 === $ && (r2 = (n2 = this.v)[H]) && (r2 = r2.da)) try {
+      var t3 = xo, e2 = this.v, n2 = t3.g, r2 = H;
+      if (B && r2 && null != e2[r2]?.[n2] && U(W, 3), e2 = t3.g, $ && H && void 0 === $ && (r2 = (n2 = this.v)[H]) && (r2 = r2.da)) try {
         r2(n2, e2, Le);
-      } catch (t3) {
-        u(t3);
+      } catch (t4) {
+        u(t4);
       }
-      return t2.h ? t2.m(this, t2.h, t2.g, t2.l) : t2.m(this, t2.g, t2.defaultValue, t2.l);
+      return t3.h ? t3.m(this, t3.h, t3.g, t3.l) : t3.m(this, t3.g, t3.defaultValue, t3.l);
     }
     clone() {
-      const t2 = this.v, e2 = 0 | t2[Q];
-      return Ke(this, t2, e2) ? Ge(this, t2, true) : new this.constructor(Ve(t2, e2, false));
+      const t3 = this.v, e2 = 0 | t3[Q];
+      return Ke(this, t3, e2) ? Ge(this, t3, true) : new this.constructor(Ve(t3, e2, false));
     }
   };
   Lr.prototype[q] = ot, Lr.prototype.toString = function() {
     return this.v.toString();
   };
   var Rr = class {
-    constructor(t2, e2, n2) {
-      this.g = t2, this.h = e2, t2 = yr, this.l = !!t2 && n2 === t2 || false;
+    constructor(t3, e2, n2) {
+      this.g = t3, this.h = e2, t3 = yr, this.l = !!t3 && n2 === t3 || false;
     }
   };
-  function Ir(t2, e2) {
-    return new Rr(t2, e2, yr);
+  function Ir(t3, e2) {
+    return new Rr(t3, e2, yr);
   }
-  function Fr(t2, e2, n2, r2, i2) {
-    gr(t2, n2, Xr(e2, r2), i2);
+  function Fr(t3, e2, n2, r2, i2) {
+    gr(t3, n2, Xr(e2, r2), i2);
   }
-  var Mr = Ir((function(t2, e2, n2, r2, i2) {
-    return 2 === t2.h && (Yn(t2, gn(e2, r2, n2), i2), true);
+  var Mr = Ir((function(t3, e2, n2, r2, i2) {
+    return 2 === t3.h && (Yn(t3, gn(e2, r2, n2), i2), true);
   }), Fr);
-  var Pr = Ir((function(t2, e2, n2, r2, i2) {
-    return 2 === t2.h && (Yn(t2, gn(e2, r2, n2), i2), true);
+  var Pr = Ir((function(t3, e2, n2, r2, i2) {
+    return 2 === t3.h && (Yn(t3, gn(e2, r2, n2), i2), true);
   }), Fr);
   var Cr = /* @__PURE__ */ Symbol();
   var Or = /* @__PURE__ */ Symbol();
@@ -31968,19 +31968,19 @@
   var Dr = /* @__PURE__ */ Symbol();
   var Br;
   var Gr;
-  function jr(t2, e2, n2, r2) {
-    var i2 = r2[t2];
+  function jr(t3, e2, n2, r2) {
+    var i2 = r2[t3];
     if (i2) return i2;
-    (i2 = {}).qa = r2, i2.T = (function(t3) {
-      switch (typeof t3) {
+    (i2 = {}).qa = r2, i2.T = (function(t4) {
+      switch (typeof t4) {
         case "boolean":
           return Pe || (Pe = [0, void 0, true]);
         case "number":
-          return t3 > 0 ? void 0 : 0 === t3 ? Ce || (Ce = [0, void 0]) : [-t3, void 0];
+          return t4 > 0 ? void 0 : 0 === t4 ? Ce || (Ce = [0, void 0]) : [-t4, void 0];
         case "string":
-          return [0, t3];
+          return [0, t4];
         case "object":
-          return t3;
+          return t4;
       }
     })(r2[0]);
     var s2 = r2[1];
@@ -31992,366 +31992,366 @@
       s2 = r2[++o2];
     }
     for (c2 = 1; void 0 !== s2; ) {
-      let t3;
+      let t4;
       "number" == typeof s2 && (c2 += s2, s2 = r2[++o2]);
       var h2 = void 0;
-      if (s2 instanceof Rr ? t3 = s2 : (t3 = Mr, o2--), t3?.l) {
+      if (s2 instanceof Rr ? t4 = s2 : (t4 = Mr, o2--), t4?.l) {
         s2 = r2[++o2], h2 = r2;
         var u2 = o2;
         "function" == typeof s2 && (s2 = s2(), h2[u2] = s2), h2 = s2;
       }
       for (u2 = c2 + 1, "number" == typeof (s2 = r2[++o2]) && s2 < 0 && (u2 -= s2, s2 = r2[++o2]); c2 < u2; c2++) {
         const r3 = a2[c2];
-        h2 ? n2(i2, c2, t3, h2, r3) : e2(i2, c2, t3, r3);
+        h2 ? n2(i2, c2, t4, h2, r3) : e2(i2, c2, t4, r3);
       }
     }
-    return r2[t2] = i2;
+    return r2[t3] = i2;
   }
-  function Vr(t2) {
-    return Array.isArray(t2) ? t2[0] instanceof Rr ? t2 : [Pr, t2] : [t2, void 0];
+  function Vr(t3) {
+    return Array.isArray(t3) ? t3[0] instanceof Rr ? t3 : [Pr, t3] : [t3, void 0];
   }
-  function Xr(t2, e2) {
-    return t2 instanceof Lr ? t2.v : Array.isArray(t2) ? Ne(t2, e2) : void 0;
+  function Xr(t3, e2) {
+    return t3 instanceof Lr ? t3.v : Array.isArray(t3) ? Ne(t3, e2) : void 0;
   }
-  function Hr(t2, e2, n2, r2) {
+  function Hr(t3, e2, n2, r2) {
     const i2 = n2.g;
-    t2[e2] = r2 ? (t3, e3, n3) => i2(t3, e3, n3, r2) : i2;
+    t3[e2] = r2 ? (t4, e3, n3) => i2(t4, e3, n3, r2) : i2;
   }
-  function Wr(t2, e2, n2, r2, i2) {
+  function Wr(t3, e2, n2, r2, i2) {
     const s2 = n2.g;
     let o2, a2;
-    t2[e2] = (t3, e3, n3) => s2(t3, e3, n3, a2 || (a2 = jr(Or, Hr, Wr, r2).T), o2 || (o2 = zr(r2)), i2);
+    t3[e2] = (t4, e3, n3) => s2(t4, e3, n3, a2 || (a2 = jr(Or, Hr, Wr, r2).T), o2 || (o2 = zr(r2)), i2);
   }
-  function zr(t2) {
-    let e2 = t2[Nr];
+  function zr(t3) {
+    let e2 = t3[Nr];
     if (null != e2) return e2;
-    const n2 = jr(Or, Hr, Wr, t2);
-    return e2 = n2.ma ? (t3, e3) => Br(t3, e3, n2) : (t3, e3) => {
+    const n2 = jr(Or, Hr, Wr, t3);
+    return e2 = n2.ma ? (t4, e3) => Br(t4, e3, n2) : (t4, e3) => {
       for (; zn(e3) && 4 != e3.h; ) {
         var r2 = e3.l, i2 = n2[r2];
         if (null == i2) {
           var s2 = n2.ba;
           s2 && (s2 = s2[r2]) && (null != (s2 = Yr(s2)) && (i2 = n2[r2] = s2));
         }
-        if (null == i2 || !i2(e3, t3, r2)) {
+        if (null == i2 || !i2(e3, t4, r2)) {
           if (i2 = (s2 = e3).m, Kn(s2), s2.ha) var o2 = void 0;
           else o2 = s2.g.g - i2, s2.g.g = i2, o2 = Vn(s2.g, o2);
-          i2 = void 0, s2 = t3, o2 && ((i2 = s2[H] ?? (s2[H] = new xe()))[r2] ?? (i2[r2] = [])).push(o2);
+          i2 = void 0, s2 = t4, o2 && ((i2 = s2[H] ?? (s2[H] = new xe()))[r2] ?? (i2[r2] = [])).push(o2);
         }
       }
-      return (t3 = ke(t3)) && (t3.da = n2.qa[Dr]), true;
-    }, t2[Nr] = e2, t2[Dr] = Kr.bind(t2), e2;
+      return (t4 = ke(t4)) && (t4.da = n2.qa[Dr]), true;
+    }, t3[Nr] = e2, t3[Dr] = Kr.bind(t3), e2;
   }
-  function Kr(t2, e2, n2, r2) {
+  function Kr(t3, e2, n2, r2) {
     var i2 = this[Or];
-    const s2 = this[Nr], o2 = Ne(void 0, i2.T), a2 = ke(t2);
+    const s2 = this[Nr], o2 = Ne(void 0, i2.T), a2 = ke(t3);
     if (a2) {
       var c2 = false, h2 = i2.ba;
       if (h2) {
         if (i2 = (e3, n3, i3) => {
-          if (0 !== i3.length) if (h2[n3]) for (const t3 of i3) {
-            e3 = Hn(t3);
+          if (0 !== i3.length) if (h2[n3]) for (const t4 of i3) {
+            e3 = Hn(t4);
             try {
               c2 = true, s2(o2, e3);
             } finally {
               Wn(e3);
             }
           }
-          else r2?.(t2, n3, i3);
+          else r2?.(t3, n3, i3);
         }, null == e2) Se(a2, i2);
         else if (null != a2) {
-          const t3 = a2[e2];
-          t3 && i2(a2, e2, t3);
+          const t4 = a2[e2];
+          t4 && i2(a2, e2, t4);
         }
         if (c2) {
-          let r3 = 0 | t2[Q];
+          let r3 = 0 | t3[Q];
           if (2 & r3 && 2048 & r3 && !n2?.Ka) throw Error();
           const i3 = pt(r3), s3 = (e3, s4) => {
-            if (null != Je(t2, e3, i3)) {
+            if (null != Je(t3, e3, i3)) {
               if (1 === n2?.Qa) return;
               throw Error();
             }
-            null != s4 && (r3 = Qe(t2, r3, e3, s4, i3)), delete a2[e3];
+            null != s4 && (r3 = Qe(t3, r3, e3, s4, i3)), delete a2[e3];
           };
-          null == e2 ? ft(o2, 0 | o2[Q], ((t3, e3) => {
-            s3(t3, e3);
+          null == e2 ? ft(o2, 0 | o2[Q], ((t4, e3) => {
+            s3(t4, e3);
           })) : s3(e2, Je(o2, e2, i3));
         }
       }
     }
   }
-  function Yr(t2) {
-    const e2 = (t2 = Vr(t2))[0].g;
-    if (t2 = t2[1]) {
-      const n2 = zr(t2), r2 = jr(Or, Hr, Wr, t2).T;
-      return (t3, i2, s2) => e2(t3, i2, s2, r2, n2);
+  function Yr(t3) {
+    const e2 = (t3 = Vr(t3))[0].g;
+    if (t3 = t3[1]) {
+      const n2 = zr(t3), r2 = jr(Or, Hr, Wr, t3).T;
+      return (t4, i2, s2) => e2(t4, i2, s2, r2, n2);
     }
     return e2;
   }
-  function qr(t2, e2, n2) {
-    t2[e2] = n2.h;
+  function qr(t3, e2, n2) {
+    t3[e2] = n2.h;
   }
-  function $r(t2, e2, n2, r2) {
+  function $r(t3, e2, n2, r2) {
     let i2, s2;
     const o2 = n2.h;
-    t2[e2] = (t3, e3, n3) => o2(t3, e3, n3, s2 || (s2 = jr(Cr, qr, $r, r2).T), i2 || (i2 = Jr(r2)));
+    t3[e2] = (t4, e3, n3) => o2(t4, e3, n3, s2 || (s2 = jr(Cr, qr, $r, r2).T), i2 || (i2 = Jr(r2)));
   }
-  function Jr(t2) {
-    let e2 = t2[Ur];
+  function Jr(t3) {
+    let e2 = t3[Ur];
     if (!e2) {
-      const n2 = jr(Cr, qr, $r, t2);
-      e2 = (t3, e3) => Zr(t3, e3, n2), t2[Ur] = e2;
+      const n2 = jr(Cr, qr, $r, t3);
+      e2 = (t4, e3) => Zr(t4, e3, n2), t3[Ur] = e2;
     }
     return e2;
   }
-  function Zr(t2, e2, n2) {
-    ft(t2, 0 | t2[Q], ((t3, r2) => {
+  function Zr(t3, e2, n2) {
+    ft(t3, 0 | t3[Q], ((t4, r2) => {
       if (null != r2) {
-        var i2 = (function(t4, e3) {
-          var n3 = t4[e3];
+        var i2 = (function(t5, e3) {
+          var n3 = t5[e3];
           if (n3) return n3;
-          if ((n3 = t4.ba) && (n3 = n3[e3])) {
+          if ((n3 = t5.ba) && (n3 = n3[e3])) {
             var r3 = (n3 = Vr(n3))[0].h;
             if (n3 = n3[1]) {
               const e4 = Jr(n3), i3 = jr(Cr, qr, $r, n3).T;
-              n3 = t4.ma ? Gr(i3, e4) : (t5, n4, s2) => r3(t5, n4, s2, i3, e4);
+              n3 = t5.ma ? Gr(i3, e4) : (t6, n4, s2) => r3(t6, n4, s2, i3, e4);
             } else n3 = r3;
-            return t4[e3] = n3;
+            return t5[e3] = n3;
           }
-        })(n2, t3);
-        i2 ? i2(e2, r2, t3) : t3 < 500 || U(K, 3);
+        })(n2, t4);
+        i2 ? i2(e2, r2, t4) : t4 < 500 || U(K, 3);
       }
-    })), (t2 = ke(t2)) && Se(t2, ((t3, n3, r2) => {
-      for (ur(e2, e2.g.end()), t3 = 0; t3 < r2.length; t3++) ur(e2, I(r2[t3]) || new Uint8Array(0));
+    })), (t3 = ke(t3)) && Se(t3, ((t4, n3, r2) => {
+      for (ur(e2, e2.g.end()), t4 = 0; t4 < r2.length; t4++) ur(e2, I(r2[t4]) || new Uint8Array(0));
     }));
   }
   var Qr = Et(0);
-  function ti(t2, e2) {
+  function ti(t3, e2) {
     if (Array.isArray(e2)) {
       var n2 = 0 | e2[Q];
       if (4 & n2) return e2;
       for (var r2 = 0, i2 = 0; r2 < e2.length; r2++) {
-        const n3 = t2(e2[r2]);
+        const n3 = t3(e2[r2]);
         null != n3 && (e2[i2++] = n3);
       }
-      return i2 < r2 && (e2.length = i2), (t2 = -1537 & (5 | n2)) !== n2 && rt(e2, t2), 2 & t2 && Object.freeze(e2), e2;
+      return i2 < r2 && (e2.length = i2), (t3 = -1537 & (5 | n2)) !== n2 && rt(e2, t3), 2 & t3 && Object.freeze(e2), e2;
     }
   }
-  function ei(t2, e2, n2) {
-    return new Rr(t2, e2, n2);
+  function ei(t3, e2, n2) {
+    return new Rr(t3, e2, n2);
   }
-  function ni(t2, e2, n2) {
-    return new Rr(t2, e2, n2);
+  function ni(t3, e2, n2) {
+    return new Rr(t3, e2, n2);
   }
-  function ri(t2, e2, n2) {
-    Qe(t2, 0 | t2[Q], e2, n2, pt(0 | t2[Q]));
+  function ri(t3, e2, n2) {
+    Qe(t3, 0 | t3[Q], e2, n2, pt(0 | t3[Q]));
   }
-  var ii = Ir((function(t2, e2, n2, r2, i2) {
-    if (2 !== t2.h) return false;
-    if (t2 = Vt(t2 = Yn(t2, Ne([void 0, void 0], r2), i2)), i2 = pt(r2 = 0 | e2[Q]), 2 & r2) throw Error();
+  var ii = Ir((function(t3, e2, n2, r2, i2) {
+    if (2 !== t3.h) return false;
+    if (t3 = Vt(t3 = Yn(t3, Ne([void 0, void 0], r2), i2)), i2 = pt(r2 = 0 | e2[Q]), 2 & r2) throw Error();
     let s2 = Je(e2, n2, i2);
-    if (s2 instanceof Ee) 0 != (2 & s2.J) ? (s2 = s2.V(), s2.push(t2), Qe(e2, r2, n2, s2, i2)) : s2.Ma(t2);
+    if (s2 instanceof Ee) 0 != (2 & s2.J) ? (s2 = s2.V(), s2.push(t3), Qe(e2, r2, n2, s2, i2)) : s2.Ma(t3);
     else if (Array.isArray(s2)) {
       var o2 = 0 | s2[Q];
-      8192 & o2 || rt(s2, o2 |= 8192), 2 & o2 && (s2 = cn(s2), Qe(e2, r2, n2, s2, i2)), s2.push(t2);
-    } else Qe(e2, r2, n2, st([t2]), i2);
+      8192 & o2 || rt(s2, o2 |= 8192), 2 & o2 && (s2 = cn(s2), Qe(e2, r2, n2, s2, i2)), s2.push(t3);
+    } else Qe(e2, r2, n2, st([t3]), i2);
     return true;
-  }), (function(t2, e2, n2, r2, i2) {
+  }), (function(t3, e2, n2, r2, i2) {
     if (e2 instanceof Ee) e2.forEach(((e3, s2) => {
-      gr(t2, n2, Ne([s2, e3], r2), i2);
+      gr(t3, n2, Ne([s2, e3], r2), i2);
     }));
     else if (Array.isArray(e2)) {
       for (let s2 = 0; s2 < e2.length; s2++) {
         const o2 = e2[s2];
-        Array.isArray(o2) && gr(t2, n2, Ne(o2, r2), i2);
+        Array.isArray(o2) && gr(t3, n2, Ne(o2, r2), i2);
       }
       st(e2);
     }
   }));
-  function si(t2, e2, n2) {
-    null != (e2 = $t(e2)) && (lr(t2, n2, 5), t2 = t2.g, Pt(e2), hr(t2));
+  function si(t3, e2, n2) {
+    null != (e2 = $t(e2)) && (lr(t3, n2, 5), t3 = t3.g, Pt(e2), hr(t3));
   }
-  function oi(t2, e2, n2) {
-    if (e2 = (function(t3) {
-      if (null == t3) return t3;
-      const e3 = typeof t3;
-      if ("bigint" === e3) return String(Xt(64, t3));
-      if (te(t3)) {
-        if ("string" === e3) return se(t3);
-        if ("number" === e3) return ie(t3);
+  function oi(t3, e2, n2) {
+    if (e2 = (function(t4) {
+      if (null == t4) return t4;
+      const e3 = typeof t4;
+      if ("bigint" === e3) return String(Xt(64, t4));
+      if (te(t4)) {
+        if ("string" === e3) return se(t4);
+        if ("number" === e3) return ie(t4);
       }
     })(e2), null != e2) {
       if ("string" == typeof e2) rr(e2);
-      if (null != e2) switch (lr(t2, n2, 0), typeof e2) {
+      if (null != e2) switch (lr(t3, n2, 0), typeof e2) {
         case "number":
-          t2 = t2.g, Mt(e2), or(t2, Rt, It);
+          t3 = t3.g, Mt(e2), or(t3, Rt, It);
           break;
         case "bigint":
-          n2 = BigInt.asUintN(64, e2), n2 = new ir(Number(n2 & BigInt(4294967295)), Number(n2 >> BigInt(32))), or(t2.g, n2.h, n2.g);
+          n2 = BigInt.asUintN(64, e2), n2 = new ir(Number(n2 & BigInt(4294967295)), Number(n2 >> BigInt(32))), or(t3.g, n2.h, n2.g);
           break;
         default:
-          n2 = rr(e2), or(t2.g, n2.h, n2.g);
+          n2 = rr(e2), or(t3.g, n2.h, n2.g);
       }
     }
   }
-  function ai(t2, e2, n2) {
-    null != (e2 = ee(e2)) && null != e2 && (lr(t2, n2, 0), cr(t2.g, e2));
+  function ai(t3, e2, n2) {
+    null != (e2 = ee(e2)) && null != e2 && (lr(t3, n2, 0), cr(t3.g, e2));
   }
-  function ci(t2, e2, n2) {
-    null != (e2 = Zt(e2)) && (lr(t2, n2, 0), t2.g.g.push(e2 ? 1 : 0));
+  function ci(t3, e2, n2) {
+    null != (e2 = Zt(e2)) && (lr(t3, n2, 0), t3.g.g.push(e2 ? 1 : 0));
   }
-  function hi(t2, e2, n2) {
-    null != (e2 = le(e2)) && pr(t2, n2, h(e2));
+  function hi(t3, e2, n2) {
+    null != (e2 = le(e2)) && pr(t3, n2, h(e2));
   }
-  function ui(t2, e2, n2, r2, i2) {
-    gr(t2, n2, Xr(e2, r2), i2);
+  function ui(t3, e2, n2, r2, i2) {
+    gr(t3, n2, Xr(e2, r2), i2);
   }
-  function li(t2, e2, n2) {
-    null != (e2 = null == e2 || "string" == typeof e2 || e2 instanceof F ? e2 : void 0) && pr(t2, n2, Pn(e2, true).buffer);
+  function li(t3, e2, n2) {
+    null != (e2 = null == e2 || "string" == typeof e2 || e2 instanceof F ? e2 : void 0) && pr(t3, n2, Pn(e2, true).buffer);
   }
-  function fi(t2, e2, n2) {
-    null != (e2 = ne(e2)) && null != e2 && (lr(t2, n2, 0), ar(t2.g, e2));
+  function fi(t3, e2, n2) {
+    null != (e2 = ne(e2)) && null != e2 && (lr(t3, n2, 0), ar(t3.g, e2));
   }
-  function di(t2, e2, n2) {
-    return (5 === t2.h || 2 === t2.h) && (e2 = un(e2, 0 | e2[Q], n2), 2 == t2.h ? Jn(t2, Dn, e2) : e2.push(Dn(t2.g)), true);
+  function di(t3, e2, n2) {
+    return (5 === t3.h || 2 === t3.h) && (e2 = un(e2, 0 | e2[Q], n2), 2 == t3.h ? Jn(t3, Dn, e2) : e2.push(Dn(t3.g)), true);
   }
-  var pi = ei((function(t2, e2, n2) {
-    return 5 === t2.h && (ri(e2, n2, Dn(t2.g)), true);
+  var pi = ei((function(t3, e2, n2) {
+    return 5 === t3.h && (ri(e2, n2, Dn(t3.g)), true);
   }), si, br);
-  var gi = ni(di, (function(t2, e2, n2) {
+  var gi = ni(di, (function(t3, e2, n2) {
     if (null != (e2 = ti($t, e2))) for (let o2 = 0; o2 < e2.length; o2++) {
-      var r2 = t2, i2 = n2, s2 = e2[o2];
+      var r2 = t3, i2 = n2, s2 = e2[o2];
       null != s2 && (lr(r2, i2, 5), r2 = r2.g, Pt(s2), hr(r2));
     }
   }), br);
-  var mi = ni(di, (function(t2, e2, n2) {
+  var mi = ni(di, (function(t3, e2, n2) {
     if (null != (e2 = ti($t, e2)) && e2.length) {
-      lr(t2, n2, 2), ar(t2.g, 4 * e2.length);
-      for (let r2 = 0; r2 < e2.length; r2++) n2 = t2.g, Pt(e2[r2]), hr(n2);
+      lr(t3, n2, 2), ar(t3.g, 4 * e2.length);
+      for (let r2 = 0; r2 < e2.length; r2++) n2 = t3.g, Pt(e2[r2]), hr(n2);
     }
   }), br);
-  var yi = ei((function(t2, e2, n2) {
-    return 5 === t2.h && (ri(e2, n2, 0 === (t2 = Dn(t2.g)) ? void 0 : t2), true);
+  var yi = ei((function(t3, e2, n2) {
+    return 5 === t3.h && (ri(e2, n2, 0 === (t3 = Dn(t3.g)) ? void 0 : t3), true);
   }), si, br);
-  var _i = ei((function(t2, e2, n2) {
-    return 0 !== t2.h ? t2 = false : (ri(e2, n2, Cn(t2.g, Nt)), t2 = true), t2;
+  var _i = ei((function(t3, e2, n2) {
+    return 0 !== t3.h ? t3 = false : (ri(e2, n2, Cn(t3.g, Nt)), t3 = true), t3;
   }), oi, Tr);
-  var vi = ei((function(t2, e2, n2) {
-    return 0 !== t2.h ? e2 = false : (ri(e2, n2, (t2 = Cn(t2.g, Nt)) === Qr ? void 0 : t2), e2 = true), e2;
+  var vi = ei((function(t3, e2, n2) {
+    return 0 !== t3.h ? e2 = false : (ri(e2, n2, (t3 = Cn(t3.g, Nt)) === Qr ? void 0 : t3), e2 = true), e2;
   }), oi, Tr);
-  var Ei = ei((function(t2, e2, n2) {
-    return 0 !== t2.h ? t2 = false : (ri(e2, n2, Cn(t2.g, Ot)), t2 = true), t2;
-  }), (function(t2, e2, n2) {
-    if (e2 = (function(t3) {
-      if (null == t3) return t3;
-      var e3 = typeof t3;
-      if ("bigint" === e3) return String(Ht(64, t3));
-      if (te(t3)) {
-        if ("string" === e3) return e3 = Kt(Number(t3)), Wt(e3) && e3 >= 0 ? t3 = String(e3) : (-1 !== (e3 = t3.indexOf(".")) && (t3 = t3.substring(0, e3)), (e3 = "-" !== t3[0] && ((e3 = t3.length) < 20 || 20 === e3 && t3 <= "18446744073709551615")) || (Gt(t3), t3 = Ut(Rt, It))), t3;
-        if ("number" === e3) return (t3 = Kt(t3)) >= 0 && Wt(t3) || (Mt(t3), t3 = Ct(Rt, It)), t3;
+  var Ei = ei((function(t3, e2, n2) {
+    return 0 !== t3.h ? t3 = false : (ri(e2, n2, Cn(t3.g, Ot)), t3 = true), t3;
+  }), (function(t3, e2, n2) {
+    if (e2 = (function(t4) {
+      if (null == t4) return t4;
+      var e3 = typeof t4;
+      if ("bigint" === e3) return String(Ht(64, t4));
+      if (te(t4)) {
+        if ("string" === e3) return e3 = Kt(Number(t4)), Wt(e3) && e3 >= 0 ? t4 = String(e3) : (-1 !== (e3 = t4.indexOf(".")) && (t4 = t4.substring(0, e3)), (e3 = "-" !== t4[0] && ((e3 = t4.length) < 20 || 20 === e3 && t4 <= "18446744073709551615")) || (Gt(t4), t4 = Ut(Rt, It))), t4;
+        if ("number" === e3) return (t4 = Kt(t4)) >= 0 && Wt(t4) || (Mt(t4), t4 = Ct(Rt, It)), t4;
       }
     })(e2), null != e2) {
       if ("string" == typeof e2) tr(e2);
-      if (null != e2) switch (lr(t2, n2, 0), typeof e2) {
+      if (null != e2) switch (lr(t3, n2, 0), typeof e2) {
         case "number":
-          t2 = t2.g, Mt(e2), or(t2, Rt, It);
+          t3 = t3.g, Mt(e2), or(t3, Rt, It);
           break;
         case "bigint":
-          n2 = BigInt.asUintN(64, e2), n2 = new er(Number(n2 & BigInt(4294967295)), Number(n2 >> BigInt(32))), or(t2.g, n2.h, n2.g);
+          n2 = BigInt.asUintN(64, e2), n2 = new er(Number(n2 & BigInt(4294967295)), Number(n2 >> BigInt(32))), or(t3.g, n2.h, n2.g);
           break;
         default:
-          n2 = tr(e2), or(t2.g, n2.h, n2.g);
+          n2 = tr(e2), or(t3.g, n2.h, n2.g);
       }
     }
   }), Ar);
-  var wi = ei((function(t2, e2, n2) {
-    return 0 === t2.h && (ri(e2, n2, Nn(t2.g)), true);
+  var wi = ei((function(t3, e2, n2) {
+    return 0 === t3.h && (ri(e2, n2, Nn(t3.g)), true);
   }), ai, Er);
-  var Ti = ni((function(t2, e2, n2) {
-    return (0 === t2.h || 2 === t2.h) && (e2 = un(e2, 0 | e2[Q], n2), 2 == t2.h ? Jn(t2, Nn, e2) : e2.push(Nn(t2.g)), true);
-  }), (function(t2, e2, n2) {
+  var Ti = ni((function(t3, e2, n2) {
+    return (0 === t3.h || 2 === t3.h) && (e2 = un(e2, 0 | e2[Q], n2), 2 == t3.h ? Jn(t3, Nn, e2) : e2.push(Nn(t3.g)), true);
+  }), (function(t3, e2, n2) {
     if (null != (e2 = ti(ee, e2)) && e2.length) {
-      n2 = fr(t2, n2);
-      for (let n3 = 0; n3 < e2.length; n3++) cr(t2.g, e2[n3]);
-      dr(t2, n2);
+      n2 = fr(t3, n2);
+      for (let n3 = 0; n3 < e2.length; n3++) cr(t3.g, e2[n3]);
+      dr(t3, n2);
     }
   }), Er);
-  var Ai = ei((function(t2, e2, n2) {
-    return 0 === t2.h && (ri(e2, n2, 0 === (t2 = Nn(t2.g)) ? void 0 : t2), true);
+  var Ai = ei((function(t3, e2, n2) {
+    return 0 === t3.h && (ri(e2, n2, 0 === (t3 = Nn(t3.g)) ? void 0 : t3), true);
   }), ai, Er);
-  var bi = ei((function(t2, e2, n2) {
-    return 0 === t2.h && (ri(e2, n2, On(t2.g)), true);
+  var bi = ei((function(t3, e2, n2) {
+    return 0 === t3.h && (ri(e2, n2, On(t3.g)), true);
   }), ci, _r);
-  var ki = ei((function(t2, e2, n2) {
-    return 0 === t2.h && (ri(e2, n2, false === (t2 = On(t2.g)) ? void 0 : t2), true);
+  var ki = ei((function(t3, e2, n2) {
+    return 0 === t3.h && (ri(e2, n2, false === (t3 = On(t3.g)) ? void 0 : t3), true);
   }), ci, _r);
-  var Si = ni((function(t2, e2, n2) {
-    return 2 === t2.h && (t2 = qn(t2), un(e2, 0 | e2[Q], n2).push(t2), true);
-  }), (function(t2, e2, n2) {
+  var Si = ni((function(t3, e2, n2) {
+    return 2 === t3.h && (t3 = qn(t3), un(e2, 0 | e2[Q], n2).push(t3), true);
+  }), (function(t3, e2, n2) {
     if (null != (e2 = ti(le, e2))) for (let o2 = 0; o2 < e2.length; o2++) {
-      var r2 = t2, i2 = n2, s2 = e2[o2];
+      var r2 = t3, i2 = n2, s2 = e2[o2];
       null != s2 && pr(r2, i2, h(s2));
     }
   }), vr);
-  var xi = ei((function(t2, e2, n2) {
-    return 2 === t2.h && (ri(e2, n2, "" === (t2 = qn(t2)) ? void 0 : t2), true);
+  var xi = ei((function(t3, e2, n2) {
+    return 2 === t3.h && (ri(e2, n2, "" === (t3 = qn(t3)) ? void 0 : t3), true);
   }), hi, vr);
-  var Li = ei((function(t2, e2, n2) {
-    return 2 === t2.h && (ri(e2, n2, qn(t2)), true);
+  var Li = ei((function(t3, e2, n2) {
+    return 2 === t3.h && (ri(e2, n2, qn(t3)), true);
   }), hi, vr);
-  var Ri = (function(t2, e2, n2 = yr) {
-    return new Rr(t2, e2, n2);
-  })((function(t2, e2, n2, r2, i2) {
-    return 2 === t2.h && (r2 = Ne(void 0, r2), un(e2, 0 | e2[Q], n2).push(r2), Yn(t2, r2, i2), true);
-  }), (function(t2, e2, n2, r2, i2) {
+  var Ri = (function(t3, e2, n2 = yr) {
+    return new Rr(t3, e2, n2);
+  })((function(t3, e2, n2, r2, i2) {
+    return 2 === t3.h && (r2 = Ne(void 0, r2), un(e2, 0 | e2[Q], n2).push(r2), Yn(t3, r2, i2), true);
+  }), (function(t3, e2, n2, r2, i2) {
     if (Array.isArray(e2)) {
-      for (let s2 = 0; s2 < e2.length; s2++) ui(t2, e2[s2], n2, r2, i2);
-      1 & (t2 = 0 | e2[Q]) || rt(e2, 1 | t2);
+      for (let s2 = 0; s2 < e2.length; s2++) ui(t3, e2[s2], n2, r2, i2);
+      1 & (t3 = 0 | e2[Q]) || rt(e2, 1 | t3);
     }
   }));
-  var Ii = Ir((function(t2, e2, n2, r2, i2, s2) {
-    if (2 !== t2.h) return false;
+  var Ii = Ir((function(t3, e2, n2, r2, i2, s2) {
+    if (2 !== t3.h) return false;
     let o2 = 0 | e2[Q];
-    return dn(e2, o2, s2, n2, pt(o2)), Yn(t2, e2 = gn(e2, r2, n2), i2), true;
+    return dn(e2, o2, s2, n2, pt(o2)), Yn(t3, e2 = gn(e2, r2, n2), i2), true;
   }), ui);
-  var Fi = ei((function(t2, e2, n2) {
-    return 2 === t2.h && (ri(e2, n2, $n(t2)), true);
+  var Fi = ei((function(t3, e2, n2) {
+    return 2 === t3.h && (ri(e2, n2, $n(t3)), true);
   }), li, kr);
-  var Mi = ni((function(t2, e2, n2) {
-    return (0 === t2.h || 2 === t2.h) && (e2 = un(e2, 0 | e2[Q], n2), 2 == t2.h ? Jn(t2, Un, e2) : e2.push(Un(t2.g)), true);
-  }), (function(t2, e2, n2) {
+  var Mi = ni((function(t3, e2, n2) {
+    return (0 === t3.h || 2 === t3.h) && (e2 = un(e2, 0 | e2[Q], n2), 2 == t3.h ? Jn(t3, Un, e2) : e2.push(Un(t3.g)), true);
+  }), (function(t3, e2, n2) {
     if (null != (e2 = ti(ne, e2))) for (let o2 = 0; o2 < e2.length; o2++) {
-      var r2 = t2, i2 = n2, s2 = e2[o2];
+      var r2 = t3, i2 = n2, s2 = e2[o2];
       null != s2 && (lr(r2, i2, 0), ar(r2.g, s2));
     }
   }), wr);
-  var Pi = ei((function(t2, e2, n2) {
-    return 0 === t2.h && (ri(e2, n2, 0 === (t2 = Un(t2.g)) ? void 0 : t2), true);
+  var Pi = ei((function(t3, e2, n2) {
+    return 0 === t3.h && (ri(e2, n2, 0 === (t3 = Un(t3.g)) ? void 0 : t3), true);
   }), fi, wr);
-  var Ci = ei((function(t2, e2, n2) {
-    return 0 === t2.h && (ri(e2, n2, Nn(t2.g)), true);
-  }), (function(t2, e2, n2) {
-    null != (e2 = ee(e2)) && (e2 = parseInt(e2, 10), lr(t2, n2, 0), cr(t2.g, e2));
+  var Ci = ei((function(t3, e2, n2) {
+    return 0 === t3.h && (ri(e2, n2, Nn(t3.g)), true);
+  }), (function(t3, e2, n2) {
+    null != (e2 = ee(e2)) && (e2 = parseInt(e2, 10), lr(t3, n2, 0), cr(t3.g, e2));
   }), Sr);
   var Oi = class {
-    constructor(t2, e2) {
+    constructor(t3, e2) {
       var n2 = Qi;
-      this.g = t2, this.h = e2, this.m = yn, this.j = wn, this.defaultValue = void 0, this.l = null != n2.Oa ? dt : void 0;
+      this.g = t3, this.h = e2, this.m = yn, this.j = wn, this.defaultValue = void 0, this.l = null != n2.Oa ? dt : void 0;
     }
     register() {
       m(this);
     }
   };
-  function Ni(t2, e2) {
-    return new Oi(t2, e2);
+  function Ni(t3, e2) {
+    return new Oi(t3, e2);
   }
-  function Ui(t2, e2) {
+  function Ui(t3, e2) {
     return (n2, r2) => {
       {
         const s2 = { ea: true };
         r2 && Object.assign(s2, r2), n2 = Hn(n2, void 0, void 0, s2);
         try {
-          const r3 = new t2(), s3 = r3.v;
+          const r3 = new t3(), s3 = r3.v;
           zr(e2)(s3, n2);
           var i2 = r3;
         } finally {
@@ -32361,7 +32361,7 @@
       return i2;
     };
   }
-  function Di(t2) {
+  function Di(t3) {
     return function() {
       const e2 = new class {
         constructor() {
@@ -32373,146 +32373,146 @@
               return this.g.length;
             }
             end() {
-              const t3 = this.g;
-              return this.g = [], t3;
+              const t4 = this.g;
+              return this.g = [], t4;
             }
           }();
         }
       }();
-      Zr(this.v, e2, jr(Cr, qr, $r, t2)), ur(e2, e2.g.end());
+      Zr(this.v, e2, jr(Cr, qr, $r, t3)), ur(e2, e2.g.end());
       const n2 = new Uint8Array(e2.h), r2 = e2.l, i2 = r2.length;
       let s2 = 0;
-      for (let t3 = 0; t3 < i2; t3++) {
-        const e3 = r2[t3];
+      for (let t4 = 0; t4 < i2; t4++) {
+        const e3 = r2[t4];
         n2.set(e3, s2), s2 += e3.length;
       }
       return e2.l = [n2], n2;
     };
   }
   var Bi = class extends Lr {
-    constructor(t2) {
-      super(t2);
+    constructor(t3) {
+      super(t3);
     }
   };
-  var Gi = [0, xi, ei((function(t2, e2, n2) {
-    return 2 === t2.h && (ri(e2, n2, (t2 = $n(t2)) === R() ? void 0 : t2), true);
-  }), (function(t2, e2, n2) {
+  var Gi = [0, xi, ei((function(t3, e2, n2) {
+    return 2 === t3.h && (ri(e2, n2, (t3 = $n(t3)) === R() ? void 0 : t3), true);
+  }), (function(t3, e2, n2) {
     if (null != e2) {
       if (e2 instanceof Lr) {
         const r2 = e2.Ra;
-        return void (r2 ? (e2 = r2(e2), null != e2 && pr(t2, n2, Pn(e2, true).buffer)) : U(K, 3));
+        return void (r2 ? (e2 = r2(e2), null != e2 && pr(t3, n2, Pn(e2, true).buffer)) : U(K, 3));
       }
       if (Array.isArray(e2)) return void U(K, 3);
     }
-    li(t2, e2, n2);
+    li(t3, e2, n2);
   }), kr)];
   var ji;
   var Vi = globalThis.trustedTypes;
-  function Xi(t2) {
+  function Xi(t3) {
     var e2;
     return void 0 === ji && (ji = (function() {
-      let t3 = null;
-      if (!Vi) return t3;
+      let t4 = null;
+      if (!Vi) return t4;
       try {
-        const e3 = (t4) => t4;
-        t3 = Vi.createPolicy("goog#html", { createHTML: e3, createScript: e3, createScriptURL: e3 });
-      } catch (t4) {
+        const e3 = (t5) => t5;
+        t4 = Vi.createPolicy("goog#html", { createHTML: e3, createScript: e3, createScriptURL: e3 });
+      } catch (t5) {
       }
-      return t3;
-    })()), t2 = (e2 = ji) ? e2.createScriptURL(t2) : t2, new class {
-      constructor(t3) {
-        this.g = t3;
+      return t4;
+    })()), t3 = (e2 = ji) ? e2.createScriptURL(t3) : t3, new class {
+      constructor(t4) {
+        this.g = t4;
       }
       toString() {
         return this.g + "";
       }
-    }(t2);
+    }(t3);
   }
-  function Hi(t2, ...e2) {
-    if (0 === e2.length) return Xi(t2[0]);
-    let n2 = t2[0];
-    for (let r2 = 0; r2 < e2.length; r2++) n2 += encodeURIComponent(e2[r2]) + t2[r2 + 1];
+  function Hi(t3, ...e2) {
+    if (0 === e2.length) return Xi(t3[0]);
+    let n2 = t3[0];
+    for (let r2 = 0; r2 < e2.length; r2++) n2 += encodeURIComponent(e2[r2]) + t3[r2 + 1];
     return Xi(n2);
   }
   var Wi = [0, wi, Ci, bi, -1, Ti, Ci, -1, bi];
   var zi = class extends Lr {
-    constructor(t2) {
-      super(t2);
+    constructor(t3) {
+      super(t3);
     }
   };
-  var Ki = [0, bi, Li, bi, Ci, -1, ni((function(t2, e2, n2) {
-    return (0 === t2.h || 2 === t2.h) && (e2 = un(e2, 0 | e2[Q], n2), 2 == t2.h ? Jn(t2, Bn, e2) : e2.push(Nn(t2.g)), true);
-  }), (function(t2, e2, n2) {
+  var Ki = [0, bi, Li, bi, Ci, -1, ni((function(t3, e2, n2) {
+    return (0 === t3.h || 2 === t3.h) && (e2 = un(e2, 0 | e2[Q], n2), 2 == t3.h ? Jn(t3, Bn, e2) : e2.push(Nn(t3.g)), true);
+  }), (function(t3, e2, n2) {
     if (null != (e2 = ti(ee, e2)) && e2.length) {
-      n2 = fr(t2, n2);
-      for (let n3 = 0; n3 < e2.length; n3++) cr(t2.g, e2[n3]);
-      dr(t2, n2);
+      n2 = fr(t3, n2);
+      for (let n3 = 0; n3 < e2.length; n3++) cr(t3.g, e2[n3]);
+      dr(t3, n2);
     }
   }), Sr), Li, -1, [0, bi, -1], Ci, bi, -1];
-  var Yi = [0, 3, bi, -1, 2, [0, [2], wi, Ii, [0, ei((function(t2, e2, n2) {
-    return 0 === t2.h && (ri(e2, n2, Un(t2.g)), true);
+  var Yi = [0, 3, bi, -1, 2, [0, [2], wi, Ii, [0, ei((function(t3, e2, n2) {
+    return 0 === t3.h && (ri(e2, n2, Un(t3.g)), true);
   }), fi, wr)]], [0, Ci, bi, Ci, bi, Ci, bi, Li, -1], [0, [3, 4], Li, -1, Ii, [0, wi], Ii, [0, Ci]], [0]];
   var qi = [0, Li, -2];
   var $i = class extends Lr {
-    constructor(t2) {
-      super(t2);
+    constructor(t3) {
+      super(t3);
     }
   };
   var Ji = [0];
   var Zi = [0, wi, bi, 1, bi, -4];
   var Qi = class extends Lr {
-    constructor(t2) {
-      super(t2, 2);
+    constructor(t3) {
+      super(t3, 2);
     }
   };
   var ts = {};
   ts[336783863] = [0, Li, bi, -1, wi, [0, [1, 2, 3, 4, 5, 6, 7, 8, 9], Ii, Ji, Ii, Ki, Ii, qi, Ii, Zi, Ii, Wi, Ii, [0, Li, -2], Ii, [0, Li, Ci], Ii, Yi, Ii, [0, Ci, -1, bi]], [0, Li], bi, [0, [1, 3], [2, 4], Ii, [0, Ti], -1, Ii, [0, Si], -1, Ri, [0, Li, -1]], Li];
   var es = [0, vi, -1, ki, -3, vi, Ti, xi, Ai, vi, -1, ki, Ai, ki, -2, xi];
-  function ns(t2, e2) {
-    Fn(t2, 3, e2);
+  function ns(t3, e2) {
+    Fn(t3, 3, e2);
   }
-  function rs(t2, e2) {
-    Fn(t2, 4, e2);
+  function rs(t3, e2) {
+    Fn(t3, 4, e2);
   }
   var is = class extends Lr {
-    constructor(t2) {
-      super(t2, 500);
+    constructor(t3) {
+      super(t3, 500);
     }
-    o(t2) {
-      return wn(this, 0, 7, t2);
+    o(t3) {
+      return wn(this, 0, 7, t3);
     }
   };
   var ss = [-1, {}];
   var os = [0, Li, 1, ss];
   var as = [0, Li, Si, ss];
-  function cs(t2, e2) {
-    bn(t2, 1, is, e2);
+  function cs(t3, e2) {
+    bn(t3, 1, is, e2);
   }
-  function hs(t2, e2) {
-    Fn(t2, 10, e2);
+  function hs(t3, e2) {
+    Fn(t3, 10, e2);
   }
-  function us(t2, e2) {
-    Fn(t2, 15, e2);
+  function us(t3, e2) {
+    Fn(t3, 15, e2);
   }
   var ls = class extends Lr {
-    constructor(t2) {
-      super(t2, 500);
+    constructor(t3) {
+      super(t3, 500);
     }
-    o(t2) {
-      return wn(this, 0, 1001, t2);
+    o(t3) {
+      return wn(this, 0, 1001, t3);
     }
   };
   var fs = [-500, Ri, [-500, xi, -1, Si, -3, [-2, ts, bi], Ri, Gi, Ai, -1, os, as, Ri, [0, xi, ki], xi, es, Ai, Si, 987, Si], 4, Ri, [-500, Li, -1, [-1, {}], 998, Li], Ri, [-500, Li, Si, -1, [-2, {}, bi], 997, Si, -1], Ai, Ri, [-500, Li, Si, ss, 998, Si], Si, Ai, os, as, Ri, [0, xi, -1, ss], Si, -2, es, xi, -1, ki, [0, ki, Pi], 978, ss, Ri, Gi];
   ls.prototype.g = Di(fs);
   var ds = Ui(ls, fs);
   var ps = class extends Lr {
-    constructor(t2) {
-      super(t2);
+    constructor(t3) {
+      super(t3);
     }
   };
   var gs = class extends Lr {
-    constructor(t2) {
-      super(t2);
+    constructor(t3) {
+      super(t3);
     }
     g() {
       return vn(this, ps, 1);
@@ -32521,18 +32521,18 @@
   var ms = [0, Ri, [0, wi, pi, Li, -1]];
   var ys = Ui(gs, ms);
   var _s = class extends Lr {
-    constructor(t2) {
-      super(t2);
+    constructor(t3) {
+      super(t3);
     }
   };
   var vs = class extends Lr {
-    constructor(t2) {
-      super(t2);
+    constructor(t3) {
+      super(t3);
     }
   };
   var Es = class extends Lr {
-    constructor(t2) {
-      super(t2);
+    constructor(t3) {
+      super(t3);
     }
     l() {
       return yn(this, _s, 2);
@@ -32542,98 +32542,98 @@
     }
   };
   var ws = Ui(class extends Lr {
-    constructor(t2) {
-      super(t2);
+    constructor(t3) {
+      super(t3);
     }
   }, [0, Si, Ti, mi, [0, Ci, [0, wi, -3], [0, pi, -3], [0, wi, -1, [0, Ri, [0, wi, -2]]], Ri, [0, pi, -1, Li, pi]], Li, -1, _i, Ri, [0, wi, pi], Si, _i]);
   var Ts = class extends Lr {
-    constructor(t2) {
-      super(t2);
+    constructor(t3) {
+      super(t3);
     }
   };
   var As = Ui(class extends Lr {
-    constructor(t2) {
-      super(t2);
+    constructor(t3) {
+      super(t3);
     }
   }, [0, Ri, [0, pi, -4]]);
   var bs = class extends Lr {
-    constructor(t2) {
-      super(t2);
+    constructor(t3) {
+      super(t3);
     }
   };
   var ks = Ui(class extends Lr {
-    constructor(t2) {
-      super(t2);
+    constructor(t3) {
+      super(t3);
     }
   }, [0, Ri, [0, pi, -4]]);
   var Ss = class extends Lr {
-    constructor(t2) {
-      super(t2);
+    constructor(t3) {
+      super(t3);
     }
   };
   var xs = [0, wi, -1, mi, Ci];
   var Ls = class extends Lr {
-    constructor(t2) {
-      super(t2);
+    constructor(t3) {
+      super(t3);
     }
   };
   Ls.prototype.g = Di([0, pi, -4, _i]);
   var Rs = class extends Lr {
-    constructor(t2) {
-      super(t2);
+    constructor(t3) {
+      super(t3);
     }
   };
   var Is = Ui(class extends Lr {
-    constructor(t2) {
-      super(t2);
+    constructor(t3) {
+      super(t3);
     }
   }, [0, Ri, [0, 1, wi, Li, ms], _i]);
   var Fs = class extends Lr {
-    constructor(t2) {
-      super(t2);
+    constructor(t3) {
+      super(t3);
     }
   };
   var Ms = class extends Lr {
-    constructor(t2) {
-      super(t2);
+    constructor(t3) {
+      super(t3);
     }
     na() {
-      const t2 = $e(this, 1, void 0, void 0, an);
-      return null == t2 ? R() : t2;
+      const t3 = $e(this, 1, void 0, void 0, an);
+      return null == t3 ? R() : t3;
     }
   };
   var Ps = class extends Lr {
-    constructor(t2) {
-      super(t2);
+    constructor(t3) {
+      super(t3);
     }
   };
   var Cs = [1, 2];
   var Os = Ui(class extends Lr {
-    constructor(t2) {
-      super(t2);
+    constructor(t3) {
+      super(t3);
     }
   }, [0, Ri, [0, Cs, Ii, [0, mi], Ii, [0, Fi], wi, Li], _i]);
   var Ns = class extends Lr {
-    constructor(t2) {
-      super(t2);
+    constructor(t3) {
+      super(t3);
     }
   };
   var Us = [0, Li, wi, pi, Si, -1];
   var Ds = class extends Lr {
-    constructor(t2) {
-      super(t2);
+    constructor(t3) {
+      super(t3);
     }
   };
   var Bs = [0, bi, -1];
   var Gs = class extends Lr {
-    constructor(t2) {
-      super(t2);
+    constructor(t3) {
+      super(t3);
     }
   };
   var js = [1, 2, 3, 4, 5, 6];
   var Vs = class extends Lr {
-    constructor(t2) {
-      super(t2);
+    constructor(t3) {
+      super(t3);
     }
     g() {
       return null != $e(this, 1, void 0, void 0, an);
@@ -32643,8 +32643,8 @@
     }
   };
   var Xs = class extends Lr {
-    constructor(t2) {
-      super(t2);
+    constructor(t3) {
+      super(t3);
     }
     g() {
       return Zt($e(this, 2)) ?? false;
@@ -32653,34 +32653,34 @@
   var Hs = [0, Fi, Li, [0, wi, _i, -1], [0, Ei, _i]];
   var Ws = [0, Hs, bi, [0, js, Ii, Zi, Ii, Ki, Ii, Wi, Ii, Ji, Ii, qi, Ii, Yi], Ci];
   var zs = class extends Lr {
-    constructor(t2) {
-      super(t2);
+    constructor(t3) {
+      super(t3);
     }
   };
   var Ks = [0, Ws, pi, -1, wi];
   var Ys = Ni(502141897, zs);
   ts[502141897] = Ks;
   var qs = Ui(class extends Lr {
-    constructor(t2) {
-      super(t2);
+    constructor(t3) {
+      super(t3);
     }
   }, [0, [0, Ci, -1, gi, Mi], xs]);
   var $s = class extends Lr {
-    constructor(t2) {
-      super(t2);
+    constructor(t3) {
+      super(t3);
     }
   };
   var Js = class extends Lr {
-    constructor(t2) {
-      super(t2);
+    constructor(t3) {
+      super(t3);
     }
   };
   var Zs = [0, Ws, pi, [0, Ws], bi];
   var Qs = Ni(508968150, Js);
   ts[508968150] = [0, Ws, Ks, Zs, pi, [0, [0, Hs]]], ts[508968149] = Zs;
   var to = class extends Lr {
-    constructor(t2) {
-      super(t2);
+    constructor(t3) {
+      super(t3);
     }
     l() {
       return yn(this, Ns, 2);
@@ -32692,28 +32692,28 @@
   var eo = [0, Ws, Us];
   ts[478825465] = eo;
   var no = class extends Lr {
-    constructor(t2) {
-      super(t2);
+    constructor(t3) {
+      super(t3);
     }
   };
   var ro = class extends Lr {
-    constructor(t2) {
-      super(t2);
+    constructor(t3) {
+      super(t3);
     }
   };
   var io = class extends Lr {
-    constructor(t2) {
-      super(t2);
+    constructor(t3) {
+      super(t3);
     }
   };
   var so = class extends Lr {
-    constructor(t2) {
-      super(t2);
+    constructor(t3) {
+      super(t3);
     }
   };
   var oo = class extends Lr {
-    constructor(t2) {
-      super(t2);
+    constructor(t3) {
+      super(t3);
     }
   };
   var ao = [0, Ws, [0, Ws], eo, -1];
@@ -32725,167 +32725,167 @@
   var fo = Ni(462713202, so);
   ts[462713202] = uo, ts[474472470] = ho;
   var po = class extends Lr {
-    constructor(t2) {
-      super(t2);
+    constructor(t3) {
+      super(t3);
     }
   };
   var go = class extends Lr {
-    constructor(t2) {
-      super(t2);
+    constructor(t3) {
+      super(t3);
     }
   };
   var mo = class extends Lr {
-    constructor(t2) {
-      super(t2);
+    constructor(t3) {
+      super(t3);
     }
   };
   var yo = class extends Lr {
-    constructor(t2) {
-      super(t2);
+    constructor(t3) {
+      super(t3);
     }
   };
   var _o = [0, Ws, pi, -1, wi];
   var vo = [0, Ws, pi, bi];
   yo.prototype.g = Di([0, Ws, ho, [0, Ws], Ks, Zs, _o, vo]);
   var Eo = class extends Lr {
-    constructor(t2) {
-      super(t2);
+    constructor(t3) {
+      super(t3);
     }
   };
   var wo = Ni(456383383, Eo);
   ts[456383383] = [0, Ws, Us];
   var To = class extends Lr {
-    constructor(t2) {
-      super(t2);
+    constructor(t3) {
+      super(t3);
     }
   };
   var Ao = Ni(476348187, To);
   ts[476348187] = [0, Ws, Bs];
   var bo = class extends Lr {
-    constructor(t2) {
-      super(t2);
+    constructor(t3) {
+      super(t3);
     }
   };
   var ko = class extends Lr {
-    constructor(t2) {
-      super(t2);
+    constructor(t3) {
+      super(t3);
     }
   };
   var So = [0, Ci, -1];
   var xo = Ni(458105876, class extends Lr {
-    constructor(t2) {
-      super(t2);
+    constructor(t3) {
+      super(t3);
     }
     g() {
-      let t2;
+      let t3;
       var e2 = this.v;
       const n2 = 0 | e2[Q];
-      return t2 = at(this, n2), e2 = (function(t3, e3, n3, r2) {
+      return t3 = at(this, n2), e2 = (function(t4, e3, n3, r2) {
         var i2 = ko;
-        !r2 && He(t3) && (n3 = 0 | (e3 = t3.v)[Q]);
+        !r2 && He(t4) && (n3 = 0 | (e3 = t4.v)[Q]);
         var s2 = Je(e3, 2);
-        if (t3 = false, null == s2) {
+        if (t4 = false, null == s2) {
           if (r2) return be();
           s2 = [];
         } else if (s2.constructor === Ee) {
           if (!(2 & s2.J) || r2) return s2;
           s2 = s2.V();
-        } else Array.isArray(s2) ? t3 = !!(2 & (0 | s2[Q])) : s2 = [];
+        } else Array.isArray(s2) ? t4 = !!(2 & (0 | s2[Q])) : s2 = [];
         if (r2) {
           if (!s2.length) return be();
-          t3 || (t3 = true, it(s2));
-        } else t3 && (t3 = false, st(s2), s2 = cn(s2));
-        return !t3 && 32 & n3 && nt(s2, 32), n3 = Qe(e3, n3, 2, r2 = new Ee(s2, i2, de, void 0)), t3 || ze(e3, n3), r2;
-      })(this, e2, n2, t2), !t2 && ko && (e2.ra = true), e2;
+          t4 || (t4 = true, it(s2));
+        } else t4 && (t4 = false, st(s2), s2 = cn(s2));
+        return !t4 && 32 & n3 && nt(s2, 32), n3 = Qe(e3, n3, 2, r2 = new Ee(s2, i2, de, void 0)), t4 || ze(e3, n3), r2;
+      })(this, e2, n2, t3), !t3 && ko && (e2.ra = true), e2;
     }
   });
   ts[458105876] = [0, So, ii, [true, _i, [0, Li, -1, Si]], [0, Ti, bi, Ci]];
   var Lo = class extends Lr {
-    constructor(t2) {
-      super(t2);
+    constructor(t3) {
+      super(t3);
     }
   };
   var Ro = Ni(458105758, Lo);
   ts[458105758] = [0, Ws, Li, So];
   var Io = class extends Lr {
-    constructor(t2) {
-      super(t2);
+    constructor(t3) {
+      super(t3);
     }
   };
   var Fo = [0, yi, -1, ki];
   var Mo = class extends Lr {
-    constructor(t2) {
-      super(t2);
+    constructor(t3) {
+      super(t3);
     }
   };
   var Po = class extends Lr {
-    constructor(t2) {
-      super(t2);
+    constructor(t3) {
+      super(t3);
     }
   };
   var Co = [1, 2];
   Po.prototype.g = Di([0, Co, Ii, Fo, Ii, [0, Ri, Fo]]);
   var Oo = class extends Lr {
-    constructor(t2) {
-      super(t2);
+    constructor(t3) {
+      super(t3);
     }
   };
   var No = Ni(443442058, Oo);
   ts[443442058] = [0, Ws, Li, wi, pi, Si, -1, bi, pi], ts[514774813] = _o;
   var Uo = class extends Lr {
-    constructor(t2) {
-      super(t2);
+    constructor(t3) {
+      super(t3);
     }
   };
   var Do = Ni(516587230, Uo);
-  function Bo(t2, e2) {
-    return e2 = e2 ? e2.clone() : new Ns(), void 0 !== t2.displayNamesLocale ? Ze(e2, 1, ue(t2.displayNamesLocale)) : void 0 === t2.displayNamesLocale && Ze(e2, 1), void 0 !== t2.maxResults ? xn(e2, 2, t2.maxResults) : "maxResults" in t2 && Ze(e2, 2), void 0 !== t2.scoreThreshold ? Ln(e2, 3, t2.scoreThreshold) : "scoreThreshold" in t2 && Ze(e2, 3), void 0 !== t2.categoryAllowlist ? In(e2, 4, t2.categoryAllowlist) : "categoryAllowlist" in t2 && Ze(e2, 4), void 0 !== t2.categoryDenylist ? In(e2, 5, t2.categoryDenylist) : "categoryDenylist" in t2 && Ze(e2, 5), e2;
+  function Bo(t3, e2) {
+    return e2 = e2 ? e2.clone() : new Ns(), void 0 !== t3.displayNamesLocale ? Ze(e2, 1, ue(t3.displayNamesLocale)) : void 0 === t3.displayNamesLocale && Ze(e2, 1), void 0 !== t3.maxResults ? xn(e2, 2, t3.maxResults) : "maxResults" in t3 && Ze(e2, 2), void 0 !== t3.scoreThreshold ? Ln(e2, 3, t3.scoreThreshold) : "scoreThreshold" in t3 && Ze(e2, 3), void 0 !== t3.categoryAllowlist ? In(e2, 4, t3.categoryAllowlist) : "categoryAllowlist" in t3 && Ze(e2, 4), void 0 !== t3.categoryDenylist ? In(e2, 5, t3.categoryDenylist) : "categoryDenylist" in t3 && Ze(e2, 5), e2;
   }
-  function Go(t2) {
-    const e2 = Number(t2);
-    return Number.isSafeInteger(e2) ? e2 : String(t2);
+  function Go(t3) {
+    const e2 = Number(t3);
+    return Number.isSafeInteger(e2) ? e2 : String(t3);
   }
-  function jo(t2, e2 = -1, n2 = "") {
-    return { categories: t2.map(((t3) => ({ index: kn(t3, 1) ?? 0 ?? -1, score: Sn(t3, 2) ?? 0, categoryName: le($e(t3, 3)) ?? "" ?? "", displayName: le($e(t3, 4)) ?? "" ?? "" }))), headIndex: e2, headName: n2 };
+  function jo(t3, e2 = -1, n2 = "") {
+    return { categories: t3.map(((t4) => ({ index: kn(t4, 1) ?? 0 ?? -1, score: Sn(t4, 2) ?? 0, categoryName: le($e(t4, 3)) ?? "" ?? "", displayName: le($e(t4, 4)) ?? "" ?? "" }))), headIndex: e2, headName: n2 };
   }
-  function Vo(t2) {
-    const e2 = { classifications: vn(t2, Rs, 1).map(((t3) => jo(yn(t3, gs, 4)?.g() ?? [], kn(t3, 2) ?? 0, le($e(t3, 3)) ?? ""))) };
-    return null != (function(t3) {
-      return null == t3 ? t3 : "bigint" == typeof t3 ? (wt(t3) ? t3 = Number(t3) : (t3 = Xt(64, t3), t3 = wt(t3) ? Number(t3) : String(t3)), t3) : te(t3) ? "number" == typeof t3 ? ie(t3) : se(t3) : void 0;
-    })($e(t2, 2, void 0, void 0, ce)) && (e2.timestampMs = Go($e(t2, 2, void 0, void 0, ce) ?? Ye)), e2;
+  function Vo(t3) {
+    const e2 = { classifications: vn(t3, Rs, 1).map(((t4) => jo(yn(t4, gs, 4)?.g() ?? [], kn(t4, 2) ?? 0, le($e(t4, 3)) ?? ""))) };
+    return null != (function(t4) {
+      return null == t4 ? t4 : "bigint" == typeof t4 ? (wt(t4) ? t4 = Number(t4) : (t4 = Xt(64, t4), t4 = wt(t4) ? Number(t4) : String(t4)), t4) : te(t4) ? "number" == typeof t4 ? ie(t4) : se(t4) : void 0;
+    })($e(t3, 2, void 0, void 0, ce)) && (e2.timestampMs = Go($e(t3, 2, void 0, void 0, ce) ?? Ye)), e2;
   }
-  function Xo(t2) {
-    var e2 = en(t2, 3, $t, tn()), n2 = en(t2, 2, ee, tn()), r2 = en(t2, 1, le, tn()), i2 = en(t2, 9, le, tn());
+  function Xo(t3) {
+    var e2 = en(t3, 3, $t, tn()), n2 = en(t3, 2, ee, tn()), r2 = en(t3, 1, le, tn()), i2 = en(t3, 9, le, tn());
     const s2 = { categories: [], keypoints: [] };
-    for (let t3 = 0; t3 < e2.length; t3++) s2.categories.push({ score: e2[t3], index: n2[t3] ?? -1, categoryName: r2[t3] ?? "", displayName: i2[t3] ?? "" });
-    if ((e2 = yn(t2, Es, 4)?.l()) && (s2.boundingBox = { originX: kn(e2, 1, qe) ?? 0, originY: kn(e2, 2, qe) ?? 0, width: kn(e2, 3, qe) ?? 0, height: kn(e2, 4, qe) ?? 0, angle: 0 }), yn(t2, Es, 4)?.g().length) for (const e3 of yn(t2, Es, 4).g()) s2.keypoints.push({ x: $e(e3, 1, void 0, qe, $t) ?? 0, y: $e(e3, 2, void 0, qe, $t) ?? 0, score: $e(e3, 4, void 0, qe, $t) ?? 0, label: le($e(e3, 3, void 0, qe)) ?? "" });
+    for (let t4 = 0; t4 < e2.length; t4++) s2.categories.push({ score: e2[t4], index: n2[t4] ?? -1, categoryName: r2[t4] ?? "", displayName: i2[t4] ?? "" });
+    if ((e2 = yn(t3, Es, 4)?.l()) && (s2.boundingBox = { originX: kn(e2, 1, qe) ?? 0, originY: kn(e2, 2, qe) ?? 0, width: kn(e2, 3, qe) ?? 0, height: kn(e2, 4, qe) ?? 0, angle: 0 }), yn(t3, Es, 4)?.g().length) for (const e3 of yn(t3, Es, 4).g()) s2.keypoints.push({ x: $e(e3, 1, void 0, qe, $t) ?? 0, y: $e(e3, 2, void 0, qe, $t) ?? 0, score: $e(e3, 4, void 0, qe, $t) ?? 0, label: le($e(e3, 3, void 0, qe)) ?? "" });
     return s2;
   }
-  function Ho(t2) {
+  function Ho(t3) {
     const e2 = [];
-    for (const n2 of vn(t2, bs, 1)) e2.push({ x: Sn(n2, 1) ?? 0, y: Sn(n2, 2) ?? 0, z: Sn(n2, 3) ?? 0, visibility: Sn(n2, 4) ?? 0 });
+    for (const n2 of vn(t3, bs, 1)) e2.push({ x: Sn(n2, 1) ?? 0, y: Sn(n2, 2) ?? 0, z: Sn(n2, 3) ?? 0, visibility: Sn(n2, 4) ?? 0 });
     return e2;
   }
-  function Wo(t2) {
+  function Wo(t3) {
     const e2 = [];
-    for (const n2 of vn(t2, Ts, 1)) e2.push({ x: Sn(n2, 1) ?? 0, y: Sn(n2, 2) ?? 0, z: Sn(n2, 3) ?? 0, visibility: Sn(n2, 4) ?? 0 });
+    for (const n2 of vn(t3, Ts, 1)) e2.push({ x: Sn(n2, 1) ?? 0, y: Sn(n2, 2) ?? 0, z: Sn(n2, 3) ?? 0, visibility: Sn(n2, 4) ?? 0 });
     return e2;
   }
-  function zo(t2) {
-    return Array.from(t2, ((t3) => t3 > 127 ? t3 - 256 : t3));
+  function zo(t3) {
+    return Array.from(t3, ((t4) => t4 > 127 ? t4 - 256 : t4));
   }
-  function Ko(t2, e2) {
-    if (t2.length !== e2.length) throw Error(`Cannot compute cosine similarity between embeddings of different sizes (${t2.length} vs. ${e2.length}).`);
+  function Ko(t3, e2) {
+    if (t3.length !== e2.length) throw Error(`Cannot compute cosine similarity between embeddings of different sizes (${t3.length} vs. ${e2.length}).`);
     let n2 = 0, r2 = 0, i2 = 0;
-    for (let s2 = 0; s2 < t2.length; s2++) n2 += t2[s2] * e2[s2], r2 += t2[s2] * t2[s2], i2 += e2[s2] * e2[s2];
+    for (let s2 = 0; s2 < t3.length; s2++) n2 += t3[s2] * e2[s2], r2 += t3[s2] * t3[s2], i2 += e2[s2] * e2[s2];
     if (r2 <= 0 || i2 <= 0) throw Error("Cannot compute cosine similarity on embedding with 0 norm.");
     return n2 / Math.sqrt(r2 * i2);
   }
   var Yo;
   ts[516587230] = [0, Ws, _o, vo, pi], ts[518928384] = vo;
   var qo = new Uint8Array([0, 97, 115, 109, 1, 0, 0, 0, 1, 5, 1, 96, 0, 1, 123, 3, 2, 1, 0, 10, 10, 1, 8, 0, 65, 0, 253, 15, 253, 98, 11]);
-  async function $o(t2) {
-    if (t2) return true;
+  async function $o(t3) {
+    if (t3) return true;
     if (void 0 === Yo) try {
       await WebAssembly.instantiate(qo), Yo = true;
     } catch {
@@ -32893,152 +32893,152 @@
     }
     return Yo;
   }
-  async function Jo(t2, e2, n2) {
-    return { wasmLoaderPath: `${e2}/${t2}_${n2 = `wasm${n2 ? "_module" : ""}${await $o(n2) ? "" : "_nosimd"}_internal`}.js`, wasmBinaryPath: `${e2}/${t2}_${n2}.wasm` };
+  async function Jo(t3, e2, n2) {
+    return { wasmLoaderPath: `${e2}/${t3}_${n2 = `wasm${n2 ? "_module" : ""}${await $o(n2) ? "" : "_nosimd"}_internal`}.js`, wasmBinaryPath: `${e2}/${t3}_${n2}.wasm` };
   }
   var Zo = class {
   };
   function Qo() {
-    var t2 = navigator;
-    return "undefined" != typeof OffscreenCanvas && (!(function(t3 = navigator) {
-      return (t3 = t3.userAgent).includes("Safari") && !t3.includes("Chrome");
-    })(t2) || !!((t2 = t2.userAgent.match(/Version\/([\d]+).*Safari/)) && t2.length >= 1 && Number(t2[1]) >= 17));
+    var t3 = navigator;
+    return "undefined" != typeof OffscreenCanvas && (!(function(t4 = navigator) {
+      return (t4 = t4.userAgent).includes("Safari") && !t4.includes("Chrome");
+    })(t3) || !!((t3 = t3.userAgent.match(/Version\/([\d]+).*Safari/)) && t3.length >= 1 && Number(t3[1]) >= 17));
   }
-  async function ta(t2) {
+  async function ta(t3) {
     if ("function" != typeof importScripts) {
       const e2 = document.createElement("script");
-      return e2.src = t2.toString(), e2.crossOrigin = "anonymous", new Promise(((t3, n2) => {
+      return e2.src = t3.toString(), e2.crossOrigin = "anonymous", new Promise(((t4, n2) => {
         e2.addEventListener("load", (() => {
-          t3();
-        }), false), e2.addEventListener("error", ((t4) => {
-          n2(t4);
+          t4();
+        }), false), e2.addEventListener("error", ((t5) => {
+          n2(t5);
         }), false), document.body.appendChild(e2);
       }));
     }
     try {
-      importScripts(t2.toString());
+      importScripts(t3.toString());
     } catch (e2) {
       if (!(e2 instanceof TypeError)) throw e2;
       {
         const e3 = self.import;
-        e3 ? await e3(t2.toString()) : await import(t2.toString());
+        e3 ? await e3(t3.toString()) : await import(t3.toString());
       }
     }
   }
-  function ea(t2) {
-    return void 0 !== t2.videoWidth ? [t2.videoWidth, t2.videoHeight] : void 0 !== t2.naturalWidth ? [t2.naturalWidth, t2.naturalHeight] : void 0 !== t2.displayWidth ? [t2.displayWidth, t2.displayHeight] : [t2.width, t2.height];
+  function ea(t3) {
+    return void 0 !== t3.videoWidth ? [t3.videoWidth, t3.videoHeight] : void 0 !== t3.naturalWidth ? [t3.naturalWidth, t3.naturalHeight] : void 0 !== t3.displayWidth ? [t3.displayWidth, t3.displayHeight] : [t3.width, t3.height];
   }
-  function na(t2, e2, n2) {
-    t2.m || console.error("No wasm multistream support detected: ensure dependency inclusion of :gl_graph_runner_internal_multi_input target"), n2(e2 = t2.i.stringToNewUTF8(e2)), t2.i._free(e2);
+  function na(t3, e2, n2) {
+    t3.m || console.error("No wasm multistream support detected: ensure dependency inclusion of :gl_graph_runner_internal_multi_input target"), n2(e2 = t3.i.stringToNewUTF8(e2)), t3.i._free(e2);
   }
-  function ra(t2, e2, n2) {
-    if (!t2.i.canvas) throw Error("No OpenGL canvas configured.");
-    if (n2 ? t2.i._bindTextureToStream(n2) : t2.i._bindTextureToCanvas(), !(n2 = t2.i.canvas.getContext("webgl2") || t2.i.canvas.getContext("webgl"))) throw Error("Failed to obtain WebGL context from the provided canvas. `getContext()` should only be invoked with `webgl` or `webgl2`.");
-    t2.i.gpuOriginForWebTexturesIsBottomLeft && n2.pixelStorei(n2.UNPACK_FLIP_Y_WEBGL, true), n2.texImage2D(n2.TEXTURE_2D, 0, n2.RGBA, n2.RGBA, n2.UNSIGNED_BYTE, e2), t2.i.gpuOriginForWebTexturesIsBottomLeft && n2.pixelStorei(n2.UNPACK_FLIP_Y_WEBGL, false);
+  function ra(t3, e2, n2) {
+    if (!t3.i.canvas) throw Error("No OpenGL canvas configured.");
+    if (n2 ? t3.i._bindTextureToStream(n2) : t3.i._bindTextureToCanvas(), !(n2 = t3.i.canvas.getContext("webgl2") || t3.i.canvas.getContext("webgl"))) throw Error("Failed to obtain WebGL context from the provided canvas. `getContext()` should only be invoked with `webgl` or `webgl2`.");
+    t3.i.gpuOriginForWebTexturesIsBottomLeft && n2.pixelStorei(n2.UNPACK_FLIP_Y_WEBGL, true), n2.texImage2D(n2.TEXTURE_2D, 0, n2.RGBA, n2.RGBA, n2.UNSIGNED_BYTE, e2), t3.i.gpuOriginForWebTexturesIsBottomLeft && n2.pixelStorei(n2.UNPACK_FLIP_Y_WEBGL, false);
     const [r2, i2] = ea(e2);
-    return !t2.l || r2 === t2.i.canvas.width && i2 === t2.i.canvas.height || (t2.i.canvas.width = r2, t2.i.canvas.height = i2), [r2, i2];
+    return !t3.l || r2 === t3.i.canvas.width && i2 === t3.i.canvas.height || (t3.i.canvas.width = r2, t3.i.canvas.height = i2), [r2, i2];
   }
-  function ia(t2, e2, n2) {
-    t2.m || console.error("No wasm multistream support detected: ensure dependency inclusion of :gl_graph_runner_internal_multi_input target");
+  function ia(t3, e2, n2) {
+    t3.m || console.error("No wasm multistream support detected: ensure dependency inclusion of :gl_graph_runner_internal_multi_input target");
     const r2 = new Uint32Array(e2.length);
-    for (let n3 = 0; n3 < e2.length; n3++) r2[n3] = t2.i.stringToNewUTF8(e2[n3]);
-    e2 = t2.i._malloc(4 * r2.length), t2.i.HEAPU32.set(r2, e2 >> 2), n2(e2);
-    for (const e3 of r2) t2.i._free(e3);
-    t2.i._free(e2);
+    for (let n3 = 0; n3 < e2.length; n3++) r2[n3] = t3.i.stringToNewUTF8(e2[n3]);
+    e2 = t3.i._malloc(4 * r2.length), t3.i.HEAPU32.set(r2, e2 >> 2), n2(e2);
+    for (const e3 of r2) t3.i._free(e3);
+    t3.i._free(e2);
   }
-  function sa(t2, e2, n2) {
-    t2.i.simpleListeners = t2.i.simpleListeners || {}, t2.i.simpleListeners[e2] = n2;
+  function sa(t3, e2, n2) {
+    t3.i.simpleListeners = t3.i.simpleListeners || {}, t3.i.simpleListeners[e2] = n2;
   }
-  function oa(t2, e2, n2) {
+  function oa(t3, e2, n2) {
     let r2 = [];
-    t2.i.simpleListeners = t2.i.simpleListeners || {}, t2.i.simpleListeners[e2] = (t3, e3, i2) => {
-      e3 ? (n2(r2, i2), r2 = []) : r2.push(t3);
+    t3.i.simpleListeners = t3.i.simpleListeners || {}, t3.i.simpleListeners[e2] = (t4, e3, i2) => {
+      e3 ? (n2(r2, i2), r2 = []) : r2.push(t4);
     };
   }
-  Zo.forVisionTasks = function(t2, e2 = false) {
-    return Jo("vision", t2 ?? Hi``, e2);
-  }, Zo.forTextTasks = function(t2, e2 = false) {
-    return Jo("text", t2 ?? Hi``, e2);
-  }, Zo.forGenAiTasks = function(t2, e2 = false) {
-    return Jo("genai", t2 ?? Hi``, e2);
-  }, Zo.forAudioTasks = function(t2, e2 = false) {
-    return Jo("audio", t2 ?? Hi``, e2);
-  }, Zo.isSimdSupported = function(t2 = false) {
-    return $o(t2);
+  Zo.forVisionTasks = function(t3, e2 = false) {
+    return Jo("vision", t3 ?? Hi``, e2);
+  }, Zo.forTextTasks = function(t3, e2 = false) {
+    return Jo("text", t3 ?? Hi``, e2);
+  }, Zo.forGenAiTasks = function(t3, e2 = false) {
+    return Jo("genai", t3 ?? Hi``, e2);
+  }, Zo.forAudioTasks = function(t3, e2 = false) {
+    return Jo("audio", t3 ?? Hi``, e2);
+  }, Zo.isSimdSupported = function(t3 = false) {
+    return $o(t3);
   };
-  async function aa(t2, e2, n2, r2) {
-    return t2 = await (async (t3, e3, n3, r3, i2) => {
+  async function aa(t3, e2, n2, r2) {
+    return t3 = await (async (t4, e3, n3, r3, i2) => {
       if (e3 && await ta(e3), !self.ModuleFactory) throw Error("ModuleFactory not set.");
       if (n3 && (await ta(n3), !self.ModuleFactory)) throw Error("ModuleFactory not set.");
-      return self.Module && i2 && ((e3 = self.Module).locateFile = i2.locateFile, i2.mainScriptUrlOrBlob && (e3.mainScriptUrlOrBlob = i2.mainScriptUrlOrBlob)), i2 = await self.ModuleFactory(self.Module || i2), self.ModuleFactory = self.Module = void 0, new t3(i2, r3);
-    })(t2, n2.wasmLoaderPath, n2.assetLoaderPath, e2, { locateFile: (t3) => t3.endsWith(".wasm") ? n2.wasmBinaryPath.toString() : n2.assetBinaryPath && t3.endsWith(".data") ? n2.assetBinaryPath.toString() : t3 }), await t2.o(r2), t2;
+      return self.Module && i2 && ((e3 = self.Module).locateFile = i2.locateFile, i2.mainScriptUrlOrBlob && (e3.mainScriptUrlOrBlob = i2.mainScriptUrlOrBlob)), i2 = await self.ModuleFactory(self.Module || i2), self.ModuleFactory = self.Module = void 0, new t4(i2, r3);
+    })(t3, n2.wasmLoaderPath, n2.assetLoaderPath, e2, { locateFile: (t4) => t4.endsWith(".wasm") ? n2.wasmBinaryPath.toString() : n2.assetBinaryPath && t4.endsWith(".data") ? n2.assetBinaryPath.toString() : t4 }), await t3.o(r2), t3;
   }
-  function ca(t2, e2) {
-    const n2 = yn(t2.baseOptions, Vs, 1) || new Vs();
-    "string" == typeof e2 ? (Ze(n2, 2, ue(e2)), Ze(n2, 1)) : e2 instanceof Uint8Array && (Ze(n2, 1, ht(e2, false)), Ze(n2, 2)), wn(t2.baseOptions, 0, 1, n2);
+  function ca(t3, e2) {
+    const n2 = yn(t3.baseOptions, Vs, 1) || new Vs();
+    "string" == typeof e2 ? (Ze(n2, 2, ue(e2)), Ze(n2, 1)) : e2 instanceof Uint8Array && (Ze(n2, 1, ht(e2, false)), Ze(n2, 2)), wn(t3.baseOptions, 0, 1, n2);
   }
-  function ha(t2) {
+  function ha(t3) {
     try {
-      const e2 = t2.H.length;
-      if (1 === e2) throw Error(t2.H[0].message);
-      if (e2 > 1) throw Error("Encountered multiple errors: " + t2.H.map(((t3) => t3.message)).join(", "));
+      const e2 = t3.H.length;
+      if (1 === e2) throw Error(t3.H[0].message);
+      if (e2 > 1) throw Error("Encountered multiple errors: " + t3.H.map(((t4) => t4.message)).join(", "));
     } finally {
-      t2.H = [];
+      t3.H = [];
     }
   }
-  function ua(t2, e2) {
-    t2.C = Math.max(t2.C, e2);
+  function ua(t3, e2) {
+    t3.C = Math.max(t3.C, e2);
   }
-  function la(t2, e2) {
-    t2.B = new is(), Rn(t2.B, 2, "PassThroughCalculator"), ns(t2.B, "free_memory"), rs(t2.B, "free_memory_unused_out"), hs(e2, "free_memory"), cs(e2, t2.B);
+  function la(t3, e2) {
+    t3.B = new is(), Rn(t3.B, 2, "PassThroughCalculator"), ns(t3.B, "free_memory"), rs(t3.B, "free_memory_unused_out"), hs(e2, "free_memory"), cs(e2, t3.B);
   }
-  function fa(t2, e2) {
-    ns(t2.B, e2), rs(t2.B, e2 + "_unused_out");
+  function fa(t3, e2) {
+    ns(t3.B, e2), rs(t3.B, e2 + "_unused_out");
   }
-  function da(t2) {
-    t2.g.addBoolToStream(true, "free_memory", t2.C);
+  function da(t3) {
+    t3.g.addBoolToStream(true, "free_memory", t3.C);
   }
   var pa = class {
-    constructor(t2) {
-      this.g = t2, this.H = [], this.C = 0, this.g.setAutoRenderToScreen(false);
+    constructor(t3) {
+      this.g = t3, this.H = [], this.C = 0, this.g.setAutoRenderToScreen(false);
     }
-    l(t2, e2 = true) {
+    l(t3, e2 = true) {
       if (e2) {
-        const e3 = t2.baseOptions || {};
-        if (t2.baseOptions?.modelAssetBuffer && t2.baseOptions?.modelAssetPath) throw Error("Cannot set both baseOptions.modelAssetPath and baseOptions.modelAssetBuffer");
-        if (!(yn(this.baseOptions, Vs, 1)?.g() || yn(this.baseOptions, Vs, 1)?.l() || t2.baseOptions?.modelAssetBuffer || t2.baseOptions?.modelAssetPath)) throw Error("Either baseOptions.modelAssetPath or baseOptions.modelAssetBuffer must be set");
-        if ((function(t3, e4) {
-          let n2 = yn(t3.baseOptions, Gs, 3);
+        const e3 = t3.baseOptions || {};
+        if (t3.baseOptions?.modelAssetBuffer && t3.baseOptions?.modelAssetPath) throw Error("Cannot set both baseOptions.modelAssetPath and baseOptions.modelAssetBuffer");
+        if (!(yn(this.baseOptions, Vs, 1)?.g() || yn(this.baseOptions, Vs, 1)?.l() || t3.baseOptions?.modelAssetBuffer || t3.baseOptions?.modelAssetPath)) throw Error("Either baseOptions.modelAssetPath or baseOptions.modelAssetBuffer must be set");
+        if ((function(t4, e4) {
+          let n2 = yn(t4.baseOptions, Gs, 3);
           if (!n2) {
             var r2 = n2 = new Gs(), i2 = new $i();
             Tn(r2, 4, js, i2);
           }
-          "delegate" in e4 && ("GPU" === e4.delegate ? (e4 = n2, r2 = new zi(), Tn(e4, 2, js, r2)) : (e4 = n2, r2 = new $i(), Tn(e4, 4, js, r2))), wn(t3.baseOptions, 0, 3, n2);
-        })(this, e3), e3.modelAssetPath) return fetch(e3.modelAssetPath.toString()).then(((t3) => {
-          if (t3.ok) return t3.arrayBuffer();
-          throw Error(`Failed to fetch model: ${e3.modelAssetPath} (${t3.status})`);
-        })).then(((t3) => {
+          "delegate" in e4 && ("GPU" === e4.delegate ? (e4 = n2, r2 = new zi(), Tn(e4, 2, js, r2)) : (e4 = n2, r2 = new $i(), Tn(e4, 4, js, r2))), wn(t4.baseOptions, 0, 3, n2);
+        })(this, e3), e3.modelAssetPath) return fetch(e3.modelAssetPath.toString()).then(((t4) => {
+          if (t4.ok) return t4.arrayBuffer();
+          throw Error(`Failed to fetch model: ${e3.modelAssetPath} (${t4.status})`);
+        })).then(((t4) => {
           try {
             this.g.i.FS_unlink("/model.dat");
           } catch {
           }
-          this.g.i.FS_createDataFile("/", "model.dat", new Uint8Array(t3), true, false, false), ca(this, "/model.dat"), this.m(), this.L();
+          this.g.i.FS_createDataFile("/", "model.dat", new Uint8Array(t4), true, false, false), ca(this, "/model.dat"), this.m(), this.L();
         }));
         if (e3.modelAssetBuffer instanceof Uint8Array) ca(this, e3.modelAssetBuffer);
-        else if (e3.modelAssetBuffer) return (async function(t3) {
+        else if (e3.modelAssetBuffer) return (async function(t4) {
           const e4 = [];
           for (var n2 = 0; ; ) {
-            const { done: r2, value: i2 } = await t3.read();
+            const { done: r2, value: i2 } = await t4.read();
             if (r2) break;
             e4.push(i2), n2 += i2.length;
           }
           if (0 === e4.length) return new Uint8Array(0);
           if (1 === e4.length) return e4[0];
-          t3 = new Uint8Array(n2), n2 = 0;
-          for (const r2 of e4) t3.set(r2, n2), n2 += r2.length;
-          return t3;
-        })(e3.modelAssetBuffer).then(((t3) => {
-          ca(this, t3), this.m(), this.L();
+          t4 = new Uint8Array(n2), n2 = 0;
+          for (const r2 of e4) t4.set(r2, n2), n2 += r2.length;
+          return t4;
+        })(e3.modelAssetBuffer).then(((t4) => {
+          ca(this, t4), this.m(), this.L();
         }));
       }
       return this.m(), this.L(), Promise.resolve();
@@ -33046,16 +33046,16 @@
     L() {
     }
     ca() {
-      let t2;
+      let t3;
       if (this.g.ca(((e2) => {
-        t2 = ds(e2);
-      })), !t2) throw Error("Failed to retrieve CalculatorGraphConfig");
-      return t2;
+        t3 = ds(e2);
+      })), !t3) throw Error("Failed to retrieve CalculatorGraphConfig");
+      return t3;
     }
-    setGraph(t2, e2) {
-      this.g.attachErrorListener(((t3, e3) => {
+    setGraph(t3, e2) {
+      this.g.attachErrorListener(((t4, e3) => {
         this.H.push(Error(e3));
-      })), this.g.Ja(), this.g.setGraph(t2, e2), this.B = void 0, ha(this);
+      })), this.g.Ja(), this.g.setGraph(t3, e2), this.B = void 0, ha(this);
     }
     finishProcessing() {
       this.g.finishProcessing(), ha(this);
@@ -33064,14 +33064,14 @@
       this.B = void 0, this.g.closeGraph();
     }
   };
-  function ga(t2, e2) {
-    if (!t2) throw Error(`Unable to obtain required WebGL resource: ${e2}`);
-    return t2;
+  function ga(t3, e2) {
+    if (!t3) throw Error(`Unable to obtain required WebGL resource: ${e2}`);
+    return t3;
   }
   pa.prototype.close = pa.prototype.close;
   var ma = class {
-    constructor(t2, e2, n2, r2) {
-      this.g = t2, this.h = e2, this.m = n2, this.l = r2;
+    constructor(t3, e2, n2, r2) {
+      this.g = t3, this.h = e2, this.m = n2, this.l = r2;
     }
     bind() {
       this.g.bindVertexArray(this.h);
@@ -33080,44 +33080,44 @@
       this.g.deleteVertexArray(this.h), this.g.deleteBuffer(this.m), this.g.deleteBuffer(this.l);
     }
   };
-  function ya(t2, e2, n2) {
-    const r2 = t2.g;
+  function ya(t3, e2, n2) {
+    const r2 = t3.g;
     if (n2 = ga(r2.createShader(n2), "Failed to create WebGL shader"), r2.shaderSource(n2, e2), r2.compileShader(n2), !r2.getShaderParameter(n2, r2.COMPILE_STATUS)) throw Error(`Could not compile WebGL shader: ${r2.getShaderInfoLog(n2)}`);
-    return r2.attachShader(t2.h, n2), n2;
+    return r2.attachShader(t3.h, n2), n2;
   }
-  function _a(t2, e2) {
-    const n2 = t2.g, r2 = ga(n2.createVertexArray(), "Failed to create vertex array");
+  function _a(t3, e2) {
+    const n2 = t3.g, r2 = ga(n2.createVertexArray(), "Failed to create vertex array");
     n2.bindVertexArray(r2);
     const i2 = ga(n2.createBuffer(), "Failed to create buffer");
-    n2.bindBuffer(n2.ARRAY_BUFFER, i2), n2.enableVertexAttribArray(t2.O), n2.vertexAttribPointer(t2.O, 2, n2.FLOAT, false, 0, 0), n2.bufferData(n2.ARRAY_BUFFER, new Float32Array([-1, -1, -1, 1, 1, 1, 1, -1]), n2.STATIC_DRAW);
+    n2.bindBuffer(n2.ARRAY_BUFFER, i2), n2.enableVertexAttribArray(t3.O), n2.vertexAttribPointer(t3.O, 2, n2.FLOAT, false, 0, 0), n2.bufferData(n2.ARRAY_BUFFER, new Float32Array([-1, -1, -1, 1, 1, 1, 1, -1]), n2.STATIC_DRAW);
     const s2 = ga(n2.createBuffer(), "Failed to create buffer");
-    return n2.bindBuffer(n2.ARRAY_BUFFER, s2), n2.enableVertexAttribArray(t2.L), n2.vertexAttribPointer(t2.L, 2, n2.FLOAT, false, 0, 0), n2.bufferData(n2.ARRAY_BUFFER, new Float32Array(e2 ? [0, 1, 0, 0, 1, 0, 1, 1] : [0, 0, 0, 1, 1, 1, 1, 0]), n2.STATIC_DRAW), n2.bindBuffer(n2.ARRAY_BUFFER, null), n2.bindVertexArray(null), new ma(n2, r2, i2, s2);
+    return n2.bindBuffer(n2.ARRAY_BUFFER, s2), n2.enableVertexAttribArray(t3.L), n2.vertexAttribPointer(t3.L, 2, n2.FLOAT, false, 0, 0), n2.bufferData(n2.ARRAY_BUFFER, new Float32Array(e2 ? [0, 1, 0, 0, 1, 0, 1, 1] : [0, 0, 0, 1, 1, 1, 1, 0]), n2.STATIC_DRAW), n2.bindBuffer(n2.ARRAY_BUFFER, null), n2.bindVertexArray(null), new ma(n2, r2, i2, s2);
   }
-  function va(t2, e2) {
-    if (t2.g) {
-      if (e2 !== t2.g) throw Error("Cannot change GL context once initialized");
-    } else t2.g = e2;
+  function va(t3, e2) {
+    if (t3.g) {
+      if (e2 !== t3.g) throw Error("Cannot change GL context once initialized");
+    } else t3.g = e2;
   }
-  function Ea(t2, e2, n2, r2) {
-    return va(t2, e2), t2.h || (t2.m(), t2.D()), n2 ? (t2.u || (t2.u = _a(t2, true)), n2 = t2.u) : (t2.A || (t2.A = _a(t2, false)), n2 = t2.A), e2.useProgram(t2.h), n2.bind(), t2.l(), t2 = r2(), n2.g.bindVertexArray(null), t2;
+  function Ea(t3, e2, n2, r2) {
+    return va(t3, e2), t3.h || (t3.m(), t3.D()), n2 ? (t3.u || (t3.u = _a(t3, true)), n2 = t3.u) : (t3.A || (t3.A = _a(t3, false)), n2 = t3.A), e2.useProgram(t3.h), n2.bind(), t3.l(), t3 = r2(), n2.g.bindVertexArray(null), t3;
   }
-  function wa(t2, e2, n2) {
-    return va(t2, e2), t2 = ga(e2.createTexture(), "Failed to create texture"), e2.bindTexture(e2.TEXTURE_2D, t2), e2.texParameteri(e2.TEXTURE_2D, e2.TEXTURE_WRAP_S, e2.CLAMP_TO_EDGE), e2.texParameteri(e2.TEXTURE_2D, e2.TEXTURE_WRAP_T, e2.CLAMP_TO_EDGE), e2.texParameteri(e2.TEXTURE_2D, e2.TEXTURE_MIN_FILTER, n2 ?? e2.LINEAR), e2.texParameteri(e2.TEXTURE_2D, e2.TEXTURE_MAG_FILTER, n2 ?? e2.LINEAR), e2.bindTexture(e2.TEXTURE_2D, null), t2;
+  function wa(t3, e2, n2) {
+    return va(t3, e2), t3 = ga(e2.createTexture(), "Failed to create texture"), e2.bindTexture(e2.TEXTURE_2D, t3), e2.texParameteri(e2.TEXTURE_2D, e2.TEXTURE_WRAP_S, e2.CLAMP_TO_EDGE), e2.texParameteri(e2.TEXTURE_2D, e2.TEXTURE_WRAP_T, e2.CLAMP_TO_EDGE), e2.texParameteri(e2.TEXTURE_2D, e2.TEXTURE_MIN_FILTER, n2 ?? e2.LINEAR), e2.texParameteri(e2.TEXTURE_2D, e2.TEXTURE_MAG_FILTER, n2 ?? e2.LINEAR), e2.bindTexture(e2.TEXTURE_2D, null), t3;
   }
-  function Ta(t2, e2, n2) {
-    va(t2, e2), t2.B || (t2.B = ga(e2.createFramebuffer(), "Failed to create framebuffe.")), e2.bindFramebuffer(e2.FRAMEBUFFER, t2.B), e2.framebufferTexture2D(e2.FRAMEBUFFER, e2.COLOR_ATTACHMENT0, e2.TEXTURE_2D, n2, 0);
+  function Ta(t3, e2, n2) {
+    va(t3, e2), t3.B || (t3.B = ga(e2.createFramebuffer(), "Failed to create framebuffe.")), e2.bindFramebuffer(e2.FRAMEBUFFER, t3.B), e2.framebufferTexture2D(e2.FRAMEBUFFER, e2.COLOR_ATTACHMENT0, e2.TEXTURE_2D, n2, 0);
   }
-  function Aa(t2) {
-    t2.g?.bindFramebuffer(t2.g.FRAMEBUFFER, null);
+  function Aa(t3) {
+    t3.g?.bindFramebuffer(t3.g.FRAMEBUFFER, null);
   }
   var ba = class {
     H() {
       return "\n  precision mediump float;\n  varying vec2 vTex;\n  uniform sampler2D inputTexture;\n  void main() {\n    gl_FragColor = texture2D(inputTexture, vTex);\n  }\n ";
     }
     m() {
-      const t2 = this.g;
-      if (this.h = ga(t2.createProgram(), "Failed to create WebGL program"), this.X = ya(this, "\n  attribute vec2 aVertex;\n  attribute vec2 aTex;\n  varying vec2 vTex;\n  void main(void) {\n    gl_Position = vec4(aVertex, 0.0, 1.0);\n    vTex = aTex;\n  }", t2.VERTEX_SHADER), this.W = ya(this, this.H(), t2.FRAGMENT_SHADER), t2.linkProgram(this.h), !t2.getProgramParameter(this.h, t2.LINK_STATUS)) throw Error(`Error during program linking: ${t2.getProgramInfoLog(this.h)}`);
-      this.O = t2.getAttribLocation(this.h, "aVertex"), this.L = t2.getAttribLocation(this.h, "aTex");
+      const t3 = this.g;
+      if (this.h = ga(t3.createProgram(), "Failed to create WebGL program"), this.X = ya(this, "\n  attribute vec2 aVertex;\n  attribute vec2 aTex;\n  varying vec2 vTex;\n  void main(void) {\n    gl_Position = vec4(aVertex, 0.0, 1.0);\n    vTex = aTex;\n  }", t3.VERTEX_SHADER), this.W = ya(this, this.H(), t3.FRAGMENT_SHADER), t3.linkProgram(this.h), !t3.getProgramParameter(this.h, t3.LINK_STATUS)) throw Error(`Error during program linking: ${t3.getProgramInfoLog(this.h)}`);
+      this.O = t3.getAttribLocation(this.h, "aVertex"), this.L = t3.getAttribLocation(this.h, "aTex");
     }
     D() {
     }
@@ -33125,8 +33125,8 @@
     }
     close() {
       if (this.h) {
-        const t2 = this.g;
-        t2.deleteProgram(this.h), t2.deleteShader(this.X), t2.deleteShader(this.W);
+        const t3 = this.g;
+        t3.deleteProgram(this.h), t3.deleteShader(this.X), t3.deleteShader(this.W);
       }
       this.B && this.g.deleteFramebuffer(this.B), this.A && this.A.close(), this.u && this.u.close();
     }
@@ -33136,18 +33136,18 @@
       return "\n  precision mediump float;\n  uniform sampler2D backgroundTexture;\n  uniform sampler2D maskTexture;\n  uniform sampler2D colorMappingTexture;\n  varying vec2 vTex;\n  void main() {\n    vec4 backgroundColor = texture2D(backgroundTexture, vTex);\n    float category = texture2D(maskTexture, vTex).r;\n    vec4 categoryColor = texture2D(colorMappingTexture, vec2(category, 0.0));\n    gl_FragColor = mix(backgroundColor, categoryColor, categoryColor.a);\n  }\n ";
     }
     D() {
-      const t2 = this.g;
-      t2.activeTexture(t2.TEXTURE1), this.C = wa(this, t2, t2.LINEAR), t2.activeTexture(t2.TEXTURE2), this.j = wa(this, t2, t2.NEAREST);
+      const t3 = this.g;
+      t3.activeTexture(t3.TEXTURE1), this.C = wa(this, t3, t3.LINEAR), t3.activeTexture(t3.TEXTURE2), this.j = wa(this, t3, t3.NEAREST);
     }
     m() {
       super.m();
-      const t2 = this.g;
-      this.P = ga(t2.getUniformLocation(this.h, "backgroundTexture"), "Uniform location"), this.U = ga(t2.getUniformLocation(this.h, "colorMappingTexture"), "Uniform location"), this.M = ga(t2.getUniformLocation(this.h, "maskTexture"), "Uniform location");
+      const t3 = this.g;
+      this.P = ga(t3.getUniformLocation(this.h, "backgroundTexture"), "Uniform location"), this.U = ga(t3.getUniformLocation(this.h, "colorMappingTexture"), "Uniform location"), this.M = ga(t3.getUniformLocation(this.h, "maskTexture"), "Uniform location");
     }
     l() {
       super.l();
-      const t2 = this.g;
-      t2.uniform1i(this.M, 0), t2.uniform1i(this.P, 1), t2.uniform1i(this.U, 2);
+      const t3 = this.g;
+      t3.uniform1i(this.M, 0), t3.uniform1i(this.P, 1), t3.uniform1i(this.U, 2);
     }
     close() {
       this.C && this.g.deleteTexture(this.C), this.j && this.g.deleteTexture(this.j), super.close();
@@ -33158,90 +33158,90 @@
       return "\n  precision mediump float;\n  uniform sampler2D maskTexture;\n  uniform sampler2D defaultTexture;\n  uniform sampler2D overlayTexture;\n  varying vec2 vTex;\n  void main() {\n    float confidence = texture2D(maskTexture, vTex).r;\n    vec4 defaultColor = texture2D(defaultTexture, vTex);\n    vec4 overlayColor = texture2D(overlayTexture, vTex);\n    // Apply the alpha from the overlay and merge in the default color\n    overlayColor = mix(defaultColor, overlayColor, overlayColor.a);\n    gl_FragColor = mix(defaultColor, overlayColor, confidence);\n  }\n ";
     }
     D() {
-      const t2 = this.g;
-      t2.activeTexture(t2.TEXTURE1), this.j = wa(this, t2), t2.activeTexture(t2.TEXTURE2), this.C = wa(this, t2);
+      const t3 = this.g;
+      t3.activeTexture(t3.TEXTURE1), this.j = wa(this, t3), t3.activeTexture(t3.TEXTURE2), this.C = wa(this, t3);
     }
     m() {
       super.m();
-      const t2 = this.g;
-      this.M = ga(t2.getUniformLocation(this.h, "defaultTexture"), "Uniform location"), this.P = ga(t2.getUniformLocation(this.h, "overlayTexture"), "Uniform location"), this.I = ga(t2.getUniformLocation(this.h, "maskTexture"), "Uniform location");
+      const t3 = this.g;
+      this.M = ga(t3.getUniformLocation(this.h, "defaultTexture"), "Uniform location"), this.P = ga(t3.getUniformLocation(this.h, "overlayTexture"), "Uniform location"), this.I = ga(t3.getUniformLocation(this.h, "maskTexture"), "Uniform location");
     }
     l() {
       super.l();
-      const t2 = this.g;
-      t2.uniform1i(this.I, 0), t2.uniform1i(this.M, 1), t2.uniform1i(this.P, 2);
+      const t3 = this.g;
+      t3.uniform1i(this.I, 0), t3.uniform1i(this.M, 1), t3.uniform1i(this.P, 2);
     }
     close() {
       this.j && this.g.deleteTexture(this.j), this.C && this.g.deleteTexture(this.C), super.close();
     }
   };
-  function xa(t2, e2) {
+  function xa(t3, e2) {
     switch (e2) {
       case 0:
-        return t2.g.find(((t3) => t3 instanceof Uint8Array));
+        return t3.g.find(((t4) => t4 instanceof Uint8Array));
       case 1:
-        return t2.g.find(((t3) => t3 instanceof Float32Array));
+        return t3.g.find(((t4) => t4 instanceof Float32Array));
       case 2:
-        return t2.g.find(((t3) => "undefined" != typeof WebGLTexture && t3 instanceof WebGLTexture));
+        return t3.g.find(((t4) => "undefined" != typeof WebGLTexture && t4 instanceof WebGLTexture));
       default:
         throw Error(`Type is not supported: ${e2}`);
     }
   }
-  function La(t2) {
-    var e2 = xa(t2, 1);
+  function La(t3) {
+    var e2 = xa(t3, 1);
     if (!e2) {
-      if (e2 = xa(t2, 0)) e2 = new Float32Array(e2).map(((t3) => t3 / 255));
+      if (e2 = xa(t3, 0)) e2 = new Float32Array(e2).map(((t4) => t4 / 255));
       else {
-        e2 = new Float32Array(t2.width * t2.height);
-        const r2 = Ia(t2);
-        var n2 = Ma(t2);
-        if (Ta(n2, r2, Ra(t2)), "iPad Simulator;iPhone Simulator;iPod Simulator;iPad;iPhone;iPod".split(";").includes(navigator.platform) || navigator.userAgent.includes("Mac") && "document" in self && "ontouchend" in self.document) {
-          n2 = new Float32Array(t2.width * t2.height * 4), r2.readPixels(0, 0, t2.width, t2.height, r2.RGBA, r2.FLOAT, n2);
-          for (let t3 = 0, r3 = 0; t3 < e2.length; ++t3, r3 += 4) e2[t3] = n2[r3];
-        } else r2.readPixels(0, 0, t2.width, t2.height, r2.RED, r2.FLOAT, e2);
+        e2 = new Float32Array(t3.width * t3.height);
+        const r2 = Ia(t3);
+        var n2 = Ma(t3);
+        if (Ta(n2, r2, Ra(t3)), "iPad Simulator;iPhone Simulator;iPod Simulator;iPad;iPhone;iPod".split(";").includes(navigator.platform) || navigator.userAgent.includes("Mac") && "document" in self && "ontouchend" in self.document) {
+          n2 = new Float32Array(t3.width * t3.height * 4), r2.readPixels(0, 0, t3.width, t3.height, r2.RGBA, r2.FLOAT, n2);
+          for (let t4 = 0, r3 = 0; t4 < e2.length; ++t4, r3 += 4) e2[t4] = n2[r3];
+        } else r2.readPixels(0, 0, t3.width, t3.height, r2.RED, r2.FLOAT, e2);
       }
-      t2.g.push(e2);
+      t3.g.push(e2);
     }
     return e2;
   }
-  function Ra(t2) {
-    let e2 = xa(t2, 2);
+  function Ra(t3) {
+    let e2 = xa(t3, 2);
     if (!e2) {
-      const n2 = Ia(t2);
-      e2 = Pa(t2);
-      const r2 = La(t2), i2 = Fa(t2);
-      n2.texImage2D(n2.TEXTURE_2D, 0, i2, t2.width, t2.height, 0, n2.RED, n2.FLOAT, r2), Ca(t2);
+      const n2 = Ia(t3);
+      e2 = Pa(t3);
+      const r2 = La(t3), i2 = Fa(t3);
+      n2.texImage2D(n2.TEXTURE_2D, 0, i2, t3.width, t3.height, 0, n2.RED, n2.FLOAT, r2), Ca(t3);
     }
     return e2;
   }
-  function Ia(t2) {
-    if (!t2.canvas) throw Error("Conversion to different image formats require that a canvas is passed when initializing the image.");
-    return t2.h || (t2.h = ga(t2.canvas.getContext("webgl2"), "You cannot use a canvas that is already bound to a different type of rendering context.")), t2.h;
+  function Ia(t3) {
+    if (!t3.canvas) throw Error("Conversion to different image formats require that a canvas is passed when initializing the image.");
+    return t3.h || (t3.h = ga(t3.canvas.getContext("webgl2"), "You cannot use a canvas that is already bound to a different type of rendering context.")), t3.h;
   }
-  function Fa(t2) {
-    if (t2 = Ia(t2), !Oa) if (t2.getExtension("EXT_color_buffer_float") && t2.getExtension("OES_texture_float_linear") && t2.getExtension("EXT_float_blend")) Oa = t2.R32F;
+  function Fa(t3) {
+    if (t3 = Ia(t3), !Oa) if (t3.getExtension("EXT_color_buffer_float") && t3.getExtension("OES_texture_float_linear") && t3.getExtension("EXT_float_blend")) Oa = t3.R32F;
     else {
-      if (!t2.getExtension("EXT_color_buffer_half_float")) throw Error("GPU does not fully support 4-channel float32 or float16 formats");
-      Oa = t2.R16F;
+      if (!t3.getExtension("EXT_color_buffer_half_float")) throw Error("GPU does not fully support 4-channel float32 or float16 formats");
+      Oa = t3.R16F;
     }
     return Oa;
   }
-  function Ma(t2) {
-    return t2.l || (t2.l = new ba()), t2.l;
+  function Ma(t3) {
+    return t3.l || (t3.l = new ba()), t3.l;
   }
-  function Pa(t2) {
-    const e2 = Ia(t2);
-    e2.viewport(0, 0, t2.width, t2.height), e2.activeTexture(e2.TEXTURE0);
-    let n2 = xa(t2, 2);
-    return n2 || (n2 = wa(Ma(t2), e2, t2.m ? e2.LINEAR : e2.NEAREST), t2.g.push(n2), t2.j = true), e2.bindTexture(e2.TEXTURE_2D, n2), n2;
+  function Pa(t3) {
+    const e2 = Ia(t3);
+    e2.viewport(0, 0, t3.width, t3.height), e2.activeTexture(e2.TEXTURE0);
+    let n2 = xa(t3, 2);
+    return n2 || (n2 = wa(Ma(t3), e2, t3.m ? e2.LINEAR : e2.NEAREST), t3.g.push(n2), t3.j = true), e2.bindTexture(e2.TEXTURE_2D, n2), n2;
   }
-  function Ca(t2) {
-    t2.h.bindTexture(t2.h.TEXTURE_2D, null);
+  function Ca(t3) {
+    t3.h.bindTexture(t3.h.TEXTURE_2D, null);
   }
   var Oa;
   var Na = class {
-    constructor(t2, e2, n2, r2, i2, s2, o2) {
-      this.g = t2, this.m = e2, this.j = n2, this.canvas = r2, this.l = i2, this.width = s2, this.height = o2, this.j && (0 === --Ua && console.error("You seem to be creating MPMask instances without invoking .close(). This leaks resources."));
+    constructor(t3, e2, n2, r2, i2, s2, o2) {
+      this.g = t3, this.m = e2, this.j = n2, this.canvas = r2, this.l = i2, this.width = s2, this.height = o2, this.j && (0 === --Ua && console.error("You seem to be creating MPMask instances without invoking .close(). This leaks resources."));
     }
     Fa() {
       return !!xa(this, 0);
@@ -33253,8 +33253,8 @@
       return !!xa(this, 2);
     }
     ja() {
-      return (e2 = xa(t2 = this, 0)) || (e2 = La(t2), e2 = new Uint8Array(e2.map(((t3) => Math.round(255 * t3)))), t2.g.push(e2)), e2;
-      var t2, e2;
+      return (e2 = xa(t3 = this, 0)) || (e2 = La(t3), e2 = new Uint8Array(e2.map(((t4) => Math.round(255 * t4)))), t3.g.push(e2)), e2;
+      var t3, e2;
     }
     ia() {
       return La(this);
@@ -33263,7 +33263,7 @@
       return Ra(this);
     }
     clone() {
-      const t2 = [];
+      const t3 = [];
       for (const e2 of this.g) {
         let n2;
         if (e2 instanceof Uint8Array) n2 = new Uint8Array(e2);
@@ -33271,17 +33271,17 @@
         else {
           if (!(e2 instanceof WebGLTexture)) throw Error(`Type is not supported: ${e2}`);
           {
-            const t3 = Ia(this), e3 = Ma(this);
-            t3.activeTexture(t3.TEXTURE1), n2 = wa(e3, t3, this.m ? t3.LINEAR : t3.NEAREST), t3.bindTexture(t3.TEXTURE_2D, n2);
+            const t4 = Ia(this), e3 = Ma(this);
+            t4.activeTexture(t4.TEXTURE1), n2 = wa(e3, t4, this.m ? t4.LINEAR : t4.NEAREST), t4.bindTexture(t4.TEXTURE_2D, n2);
             const r2 = Fa(this);
-            t3.texImage2D(t3.TEXTURE_2D, 0, r2, this.width, this.height, 0, t3.RED, t3.FLOAT, null), t3.bindTexture(t3.TEXTURE_2D, null), Ta(e3, t3, n2), Ea(e3, t3, false, (() => {
-              Pa(this), t3.clearColor(0, 0, 0, 0), t3.clear(t3.COLOR_BUFFER_BIT), t3.drawArrays(t3.TRIANGLE_FAN, 0, 4), Ca(this);
+            t4.texImage2D(t4.TEXTURE_2D, 0, r2, this.width, this.height, 0, t4.RED, t4.FLOAT, null), t4.bindTexture(t4.TEXTURE_2D, null), Ta(e3, t4, n2), Ea(e3, t4, false, (() => {
+              Pa(this), t4.clearColor(0, 0, 0, 0), t4.clear(t4.COLOR_BUFFER_BIT), t4.drawArrays(t4.TRIANGLE_FAN, 0, 4), Ca(this);
             })), Aa(e3), Ca(this);
           }
         }
-        t2.push(n2);
+        t3.push(n2);
       }
-      return new Na(t2, this.m, this.R(), this.canvas, this.l, this.width, this.height);
+      return new Na(t3, this.m, this.R(), this.canvas, this.l, this.width, this.height);
     }
     close() {
       this.j && Ia(this).deleteTexture(xa(this, 2)), Ua = -1;
@@ -33290,188 +33290,188 @@
   Na.prototype.close = Na.prototype.close, Na.prototype.clone = Na.prototype.clone, Na.prototype.getAsWebGLTexture = Na.prototype.N, Na.prototype.getAsFloat32Array = Na.prototype.ia, Na.prototype.getAsUint8Array = Na.prototype.ja, Na.prototype.hasWebGLTexture = Na.prototype.R, Na.prototype.hasFloat32Array = Na.prototype.ka, Na.prototype.hasUint8Array = Na.prototype.Fa;
   var Ua = 250;
   var Da = { color: "white", lineWidth: 4, radius: 6 };
-  function Ba(t2) {
-    return { ...Da, fillColor: (t2 = t2 || {}).color, ...t2 };
+  function Ba(t3) {
+    return { ...Da, fillColor: (t3 = t3 || {}).color, ...t3 };
   }
-  function Ga(t2, e2) {
-    return t2 instanceof Function ? t2(e2) : t2;
+  function Ga(t3, e2) {
+    return t3 instanceof Function ? t3(e2) : t3;
   }
-  function ja(t2, e2, n2) {
-    return Math.max(Math.min(e2, n2), Math.min(Math.max(e2, n2), t2));
+  function ja(t3, e2, n2) {
+    return Math.max(Math.min(e2, n2), Math.min(Math.max(e2, n2), t3));
   }
-  function Va(t2) {
-    if (!t2.l) throw Error("CPU rendering requested but CanvasRenderingContext2D not provided.");
-    return t2.l;
+  function Va(t3) {
+    if (!t3.l) throw Error("CPU rendering requested but CanvasRenderingContext2D not provided.");
+    return t3.l;
   }
-  function Xa(t2) {
-    if (!t2.j) throw Error("GPU rendering requested but WebGL2RenderingContext not provided.");
-    return t2.j;
+  function Xa(t3) {
+    if (!t3.j) throw Error("GPU rendering requested but WebGL2RenderingContext not provided.");
+    return t3.j;
   }
-  function Ha(t2, e2, n2) {
+  function Ha(t3, e2, n2) {
     if (e2.R()) n2(e2.N());
     else {
       const r2 = e2.ka() ? e2.ia() : e2.ja();
-      t2.m = t2.m ?? new ba();
-      const i2 = Xa(t2);
-      n2((t2 = new Na([r2], e2.m, false, i2.canvas, t2.m, e2.width, e2.height)).N()), t2.close();
+      t3.m = t3.m ?? new ba();
+      const i2 = Xa(t3);
+      n2((t3 = new Na([r2], e2.m, false, i2.canvas, t3.m, e2.width, e2.height)).N()), t3.close();
     }
   }
-  function Wa(t2, e2, n2, r2) {
-    const i2 = (function(t3) {
-      return t3.g || (t3.g = new ka()), t3.g;
-    })(t2), s2 = Xa(t2), o2 = Array.isArray(n2) ? new ImageData(new Uint8ClampedArray(n2), 1, 1) : n2;
+  function Wa(t3, e2, n2, r2) {
+    const i2 = (function(t4) {
+      return t4.g || (t4.g = new ka()), t4.g;
+    })(t3), s2 = Xa(t3), o2 = Array.isArray(n2) ? new ImageData(new Uint8ClampedArray(n2), 1, 1) : n2;
     Ea(i2, s2, true, (() => {
-      !(function(t4, e3, n3, r3) {
-        const i3 = t4.g;
-        if (i3.activeTexture(i3.TEXTURE0), i3.bindTexture(i3.TEXTURE_2D, e3), i3.activeTexture(i3.TEXTURE1), i3.bindTexture(i3.TEXTURE_2D, t4.C), i3.texImage2D(i3.TEXTURE_2D, 0, i3.RGBA, i3.RGBA, i3.UNSIGNED_BYTE, n3), t4.I && (function(t5, e4) {
-          if (t5 !== e4) return false;
-          t5 = t5.entries(), e4 = e4.entries();
-          for (const [n4, r4] of t5) {
-            t5 = n4;
+      !(function(t5, e3, n3, r3) {
+        const i3 = t5.g;
+        if (i3.activeTexture(i3.TEXTURE0), i3.bindTexture(i3.TEXTURE_2D, e3), i3.activeTexture(i3.TEXTURE1), i3.bindTexture(i3.TEXTURE_2D, t5.C), i3.texImage2D(i3.TEXTURE_2D, 0, i3.RGBA, i3.RGBA, i3.UNSIGNED_BYTE, n3), t5.I && (function(t6, e4) {
+          if (t6 !== e4) return false;
+          t6 = t6.entries(), e4 = e4.entries();
+          for (const [n4, r4] of t6) {
+            t6 = n4;
             const i4 = r4, s3 = e4.next();
             if (s3.done) return false;
             const [o3, a2] = s3.value;
-            if (t5 !== o3 || i4[0] !== a2[0] || i4[1] !== a2[1] || i4[2] !== a2[2] || i4[3] !== a2[3]) return false;
+            if (t6 !== o3 || i4[0] !== a2[0] || i4[1] !== a2[1] || i4[2] !== a2[2] || i4[3] !== a2[3]) return false;
           }
           return !!e4.next().done;
-        })(t4.I, r3)) i3.activeTexture(i3.TEXTURE2), i3.bindTexture(i3.TEXTURE_2D, t4.j);
+        })(t5.I, r3)) i3.activeTexture(i3.TEXTURE2), i3.bindTexture(i3.TEXTURE_2D, t5.j);
         else {
-          t4.I = r3;
+          t5.I = r3;
           const e4 = Array(1024).fill(0);
-          r3.forEach(((t5, n4) => {
-            if (4 !== t5.length) throw Error(`Color at index ${n4} is not a four-channel value.`);
-            e4[4 * n4] = t5[0], e4[4 * n4 + 1] = t5[1], e4[4 * n4 + 2] = t5[2], e4[4 * n4 + 3] = t5[3];
-          })), i3.activeTexture(i3.TEXTURE2), i3.bindTexture(i3.TEXTURE_2D, t4.j), i3.texImage2D(i3.TEXTURE_2D, 0, i3.RGBA, 256, 1, 0, i3.RGBA, i3.UNSIGNED_BYTE, new Uint8Array(e4));
+          r3.forEach(((t6, n4) => {
+            if (4 !== t6.length) throw Error(`Color at index ${n4} is not a four-channel value.`);
+            e4[4 * n4] = t6[0], e4[4 * n4 + 1] = t6[1], e4[4 * n4 + 2] = t6[2], e4[4 * n4 + 3] = t6[3];
+          })), i3.activeTexture(i3.TEXTURE2), i3.bindTexture(i3.TEXTURE_2D, t5.j), i3.texImage2D(i3.TEXTURE_2D, 0, i3.RGBA, 256, 1, 0, i3.RGBA, i3.UNSIGNED_BYTE, new Uint8Array(e4));
         }
       })(i2, e2, o2, r2), s2.clearColor(0, 0, 0, 0), s2.clear(s2.COLOR_BUFFER_BIT), s2.drawArrays(s2.TRIANGLE_FAN, 0, 4);
-      const t3 = i2.g;
-      t3.activeTexture(t3.TEXTURE0), t3.bindTexture(t3.TEXTURE_2D, null), t3.activeTexture(t3.TEXTURE1), t3.bindTexture(t3.TEXTURE_2D, null), t3.activeTexture(t3.TEXTURE2), t3.bindTexture(t3.TEXTURE_2D, null);
+      const t4 = i2.g;
+      t4.activeTexture(t4.TEXTURE0), t4.bindTexture(t4.TEXTURE_2D, null), t4.activeTexture(t4.TEXTURE1), t4.bindTexture(t4.TEXTURE_2D, null), t4.activeTexture(t4.TEXTURE2), t4.bindTexture(t4.TEXTURE_2D, null);
     }));
   }
-  function za(t2, e2, n2, r2) {
-    const i2 = Xa(t2), s2 = (function(t3) {
-      return t3.h || (t3.h = new Sa()), t3.h;
-    })(t2), o2 = Array.isArray(n2) ? new ImageData(new Uint8ClampedArray(n2), 1, 1) : n2, a2 = Array.isArray(r2) ? new ImageData(new Uint8ClampedArray(r2), 1, 1) : r2;
+  function za(t3, e2, n2, r2) {
+    const i2 = Xa(t3), s2 = (function(t4) {
+      return t4.h || (t4.h = new Sa()), t4.h;
+    })(t3), o2 = Array.isArray(n2) ? new ImageData(new Uint8ClampedArray(n2), 1, 1) : n2, a2 = Array.isArray(r2) ? new ImageData(new Uint8ClampedArray(r2), 1, 1) : r2;
     Ea(s2, i2, true, (() => {
-      var t3 = s2.g;
-      t3.activeTexture(t3.TEXTURE0), t3.bindTexture(t3.TEXTURE_2D, e2), t3.activeTexture(t3.TEXTURE1), t3.bindTexture(t3.TEXTURE_2D, s2.j), t3.texImage2D(t3.TEXTURE_2D, 0, t3.RGBA, t3.RGBA, t3.UNSIGNED_BYTE, o2), t3.activeTexture(t3.TEXTURE2), t3.bindTexture(t3.TEXTURE_2D, s2.C), t3.texImage2D(t3.TEXTURE_2D, 0, t3.RGBA, t3.RGBA, t3.UNSIGNED_BYTE, a2), i2.clearColor(0, 0, 0, 0), i2.clear(i2.COLOR_BUFFER_BIT), i2.drawArrays(i2.TRIANGLE_FAN, 0, 4), i2.bindTexture(i2.TEXTURE_2D, null), (t3 = s2.g).activeTexture(t3.TEXTURE0), t3.bindTexture(t3.TEXTURE_2D, null), t3.activeTexture(t3.TEXTURE1), t3.bindTexture(t3.TEXTURE_2D, null), t3.activeTexture(t3.TEXTURE2), t3.bindTexture(t3.TEXTURE_2D, null);
+      var t4 = s2.g;
+      t4.activeTexture(t4.TEXTURE0), t4.bindTexture(t4.TEXTURE_2D, e2), t4.activeTexture(t4.TEXTURE1), t4.bindTexture(t4.TEXTURE_2D, s2.j), t4.texImage2D(t4.TEXTURE_2D, 0, t4.RGBA, t4.RGBA, t4.UNSIGNED_BYTE, o2), t4.activeTexture(t4.TEXTURE2), t4.bindTexture(t4.TEXTURE_2D, s2.C), t4.texImage2D(t4.TEXTURE_2D, 0, t4.RGBA, t4.RGBA, t4.UNSIGNED_BYTE, a2), i2.clearColor(0, 0, 0, 0), i2.clear(i2.COLOR_BUFFER_BIT), i2.drawArrays(i2.TRIANGLE_FAN, 0, 4), i2.bindTexture(i2.TEXTURE_2D, null), (t4 = s2.g).activeTexture(t4.TEXTURE0), t4.bindTexture(t4.TEXTURE_2D, null), t4.activeTexture(t4.TEXTURE1), t4.bindTexture(t4.TEXTURE_2D, null), t4.activeTexture(t4.TEXTURE2), t4.bindTexture(t4.TEXTURE_2D, null);
     }));
   }
   var Ka = class {
-    constructor(t2, e2) {
-      "undefined" != typeof CanvasRenderingContext2D && t2 instanceof CanvasRenderingContext2D || t2 instanceof OffscreenCanvasRenderingContext2D ? (this.l = t2, this.j = e2) : this.j = t2;
+    constructor(t3, e2) {
+      "undefined" != typeof CanvasRenderingContext2D && t3 instanceof CanvasRenderingContext2D || t3 instanceof OffscreenCanvasRenderingContext2D ? (this.l = t3, this.j = e2) : this.j = t3;
     }
-    ya(t2, e2) {
-      if (t2) {
+    ya(t3, e2) {
+      if (t3) {
         var n2 = Va(this);
         e2 = Ba(e2), n2.save();
         var r2 = n2.canvas, i2 = 0;
-        for (const s2 of t2) n2.fillStyle = Ga(e2.fillColor, { index: i2, from: s2 }), n2.strokeStyle = Ga(e2.color, { index: i2, from: s2 }), n2.lineWidth = Ga(e2.lineWidth, { index: i2, from: s2 }), (t2 = new Path2D()).arc(s2.x * r2.width, s2.y * r2.height, Ga(e2.radius, { index: i2, from: s2 }), 0, 2 * Math.PI), n2.fill(t2), n2.stroke(t2), ++i2;
+        for (const s2 of t3) n2.fillStyle = Ga(e2.fillColor, { index: i2, from: s2 }), n2.strokeStyle = Ga(e2.color, { index: i2, from: s2 }), n2.lineWidth = Ga(e2.lineWidth, { index: i2, from: s2 }), (t3 = new Path2D()).arc(s2.x * r2.width, s2.y * r2.height, Ga(e2.radius, { index: i2, from: s2 }), 0, 2 * Math.PI), n2.fill(t3), n2.stroke(t3), ++i2;
         n2.restore();
       }
     }
-    xa(t2, e2, n2) {
-      if (t2 && e2) {
+    xa(t3, e2, n2) {
+      if (t3 && e2) {
         var r2 = Va(this);
         n2 = Ba(n2), r2.save();
         var i2 = r2.canvas, s2 = 0;
         for (const o2 of e2) {
-          r2.beginPath(), e2 = t2[o2.start];
-          const a2 = t2[o2.end];
+          r2.beginPath(), e2 = t3[o2.start];
+          const a2 = t3[o2.end];
           e2 && a2 && (r2.strokeStyle = Ga(n2.color, { index: s2, from: e2, to: a2 }), r2.lineWidth = Ga(n2.lineWidth, { index: s2, from: e2, to: a2 }), r2.moveTo(e2.x * i2.width, e2.y * i2.height), r2.lineTo(a2.x * i2.width, a2.y * i2.height)), ++s2, r2.stroke();
         }
         r2.restore();
       }
     }
-    ua(t2, e2) {
+    ua(t3, e2) {
       const n2 = Va(this);
-      e2 = Ba(e2), n2.save(), n2.beginPath(), n2.lineWidth = Ga(e2.lineWidth, {}), n2.strokeStyle = Ga(e2.color, {}), n2.fillStyle = Ga(e2.fillColor, {}), n2.moveTo(t2.originX, t2.originY), n2.lineTo(t2.originX + t2.width, t2.originY), n2.lineTo(t2.originX + t2.width, t2.originY + t2.height), n2.lineTo(t2.originX, t2.originY + t2.height), n2.lineTo(t2.originX, t2.originY), n2.stroke(), n2.fill(), n2.restore();
+      e2 = Ba(e2), n2.save(), n2.beginPath(), n2.lineWidth = Ga(e2.lineWidth, {}), n2.strokeStyle = Ga(e2.color, {}), n2.fillStyle = Ga(e2.fillColor, {}), n2.moveTo(t3.originX, t3.originY), n2.lineTo(t3.originX + t3.width, t3.originY), n2.lineTo(t3.originX + t3.width, t3.originY + t3.height), n2.lineTo(t3.originX, t3.originY + t3.height), n2.lineTo(t3.originX, t3.originY), n2.stroke(), n2.fill(), n2.restore();
     }
-    va(t2, e2, n2 = [0, 0, 0, 255]) {
-      this.l ? (function(t3, e3, n3, r2) {
-        const i2 = Xa(t3);
-        Ha(t3, e3, ((e4) => {
-          Wa(t3, e4, n3, r2), (e4 = Va(t3)).drawImage(i2.canvas, 0, 0, e4.canvas.width, e4.canvas.height);
+    va(t3, e2, n2 = [0, 0, 0, 255]) {
+      this.l ? (function(t4, e3, n3, r2) {
+        const i2 = Xa(t4);
+        Ha(t4, e3, ((e4) => {
+          Wa(t4, e4, n3, r2), (e4 = Va(t4)).drawImage(i2.canvas, 0, 0, e4.canvas.width, e4.canvas.height);
         }));
-      })(this, t2, n2, e2) : Wa(this, t2.N(), n2, e2);
+      })(this, t3, n2, e2) : Wa(this, t3.N(), n2, e2);
     }
-    wa(t2, e2, n2) {
-      this.l ? (function(t3, e3, n3, r2) {
-        const i2 = Xa(t3);
-        Ha(t3, e3, ((e4) => {
-          za(t3, e4, n3, r2), (e4 = Va(t3)).drawImage(i2.canvas, 0, 0, e4.canvas.width, e4.canvas.height);
+    wa(t3, e2, n2) {
+      this.l ? (function(t4, e3, n3, r2) {
+        const i2 = Xa(t4);
+        Ha(t4, e3, ((e4) => {
+          za(t4, e4, n3, r2), (e4 = Va(t4)).drawImage(i2.canvas, 0, 0, e4.canvas.width, e4.canvas.height);
         }));
-      })(this, t2, e2, n2) : za(this, t2.N(), e2, n2);
+      })(this, t3, e2, n2) : za(this, t3.N(), e2, n2);
     }
     close() {
       this.g?.close(), this.g = void 0, this.h?.close(), this.h = void 0, this.m?.close(), this.m = void 0;
     }
   };
-  function Ya(t2, e2) {
+  function Ya(t3, e2) {
     switch (e2) {
       case 0:
-        return t2.g.find(((t3) => t3 instanceof ImageData));
+        return t3.g.find(((t4) => t4 instanceof ImageData));
       case 1:
-        return t2.g.find(((t3) => "undefined" != typeof ImageBitmap && t3 instanceof ImageBitmap));
+        return t3.g.find(((t4) => "undefined" != typeof ImageBitmap && t4 instanceof ImageBitmap));
       case 2:
-        return t2.g.find(((t3) => "undefined" != typeof WebGLTexture && t3 instanceof WebGLTexture));
+        return t3.g.find(((t4) => "undefined" != typeof WebGLTexture && t4 instanceof WebGLTexture));
       default:
         throw Error(`Type is not supported: ${e2}`);
     }
   }
-  function qa(t2) {
-    var e2 = Ya(t2, 0);
+  function qa(t3) {
+    var e2 = Ya(t3, 0);
     if (!e2) {
-      e2 = Ja(t2);
-      const n2 = Za(t2), r2 = new Uint8Array(t2.width * t2.height * 4);
-      Ta(n2, e2, $a(t2)), e2.readPixels(0, 0, t2.width, t2.height, e2.RGBA, e2.UNSIGNED_BYTE, r2), Aa(n2), e2 = new ImageData(new Uint8ClampedArray(r2.buffer), t2.width, t2.height), t2.g.push(e2);
+      e2 = Ja(t3);
+      const n2 = Za(t3), r2 = new Uint8Array(t3.width * t3.height * 4);
+      Ta(n2, e2, $a(t3)), e2.readPixels(0, 0, t3.width, t3.height, e2.RGBA, e2.UNSIGNED_BYTE, r2), Aa(n2), e2 = new ImageData(new Uint8ClampedArray(r2.buffer), t3.width, t3.height), t3.g.push(e2);
     }
     return e2;
   }
-  function $a(t2) {
-    let e2 = Ya(t2, 2);
+  function $a(t3) {
+    let e2 = Ya(t3, 2);
     if (!e2) {
-      const n2 = Ja(t2);
-      e2 = Qa(t2);
-      const r2 = Ya(t2, 1) || qa(t2);
-      n2.texImage2D(n2.TEXTURE_2D, 0, n2.RGBA, n2.RGBA, n2.UNSIGNED_BYTE, r2), tc(t2);
+      const n2 = Ja(t3);
+      e2 = Qa(t3);
+      const r2 = Ya(t3, 1) || qa(t3);
+      n2.texImage2D(n2.TEXTURE_2D, 0, n2.RGBA, n2.RGBA, n2.UNSIGNED_BYTE, r2), tc(t3);
     }
     return e2;
   }
-  function Ja(t2) {
-    if (!t2.canvas) throw Error("Conversion to different image formats require that a canvas is passed when initializing the image.");
-    return t2.h || (t2.h = ga(t2.canvas.getContext("webgl2"), "You cannot use a canvas that is already bound to a different type of rendering context.")), t2.h;
+  function Ja(t3) {
+    if (!t3.canvas) throw Error("Conversion to different image formats require that a canvas is passed when initializing the image.");
+    return t3.h || (t3.h = ga(t3.canvas.getContext("webgl2"), "You cannot use a canvas that is already bound to a different type of rendering context.")), t3.h;
   }
-  function Za(t2) {
-    return t2.l || (t2.l = new ba()), t2.l;
+  function Za(t3) {
+    return t3.l || (t3.l = new ba()), t3.l;
   }
-  function Qa(t2) {
-    const e2 = Ja(t2);
-    e2.viewport(0, 0, t2.width, t2.height), e2.activeTexture(e2.TEXTURE0);
-    let n2 = Ya(t2, 2);
-    return n2 || (n2 = wa(Za(t2), e2), t2.g.push(n2), t2.m = true), e2.bindTexture(e2.TEXTURE_2D, n2), n2;
+  function Qa(t3) {
+    const e2 = Ja(t3);
+    e2.viewport(0, 0, t3.width, t3.height), e2.activeTexture(e2.TEXTURE0);
+    let n2 = Ya(t3, 2);
+    return n2 || (n2 = wa(Za(t3), e2), t3.g.push(n2), t3.m = true), e2.bindTexture(e2.TEXTURE_2D, n2), n2;
   }
-  function tc(t2) {
-    t2.h.bindTexture(t2.h.TEXTURE_2D, null);
+  function tc(t3) {
+    t3.h.bindTexture(t3.h.TEXTURE_2D, null);
   }
-  function ec(t2) {
-    const e2 = Ja(t2);
-    return Ea(Za(t2), e2, true, (() => (function(t3, e3) {
-      const n2 = t3.canvas;
-      if (n2.width === t3.width && n2.height === t3.height) return e3();
+  function ec(t3) {
+    const e2 = Ja(t3);
+    return Ea(Za(t3), e2, true, (() => (function(t4, e3) {
+      const n2 = t4.canvas;
+      if (n2.width === t4.width && n2.height === t4.height) return e3();
       const r2 = n2.width, i2 = n2.height;
-      return n2.width = t3.width, n2.height = t3.height, t3 = e3(), n2.width = r2, n2.height = i2, t3;
-    })(t2, (() => {
-      if (e2.bindFramebuffer(e2.FRAMEBUFFER, null), e2.clearColor(0, 0, 0, 0), e2.clear(e2.COLOR_BUFFER_BIT), e2.drawArrays(e2.TRIANGLE_FAN, 0, 4), !(t2.canvas instanceof OffscreenCanvas)) throw Error("Conversion to ImageBitmap requires that the MediaPipe Tasks is initialized with an OffscreenCanvas");
-      return t2.canvas.transferToImageBitmap();
+      return n2.width = t4.width, n2.height = t4.height, t4 = e3(), n2.width = r2, n2.height = i2, t4;
+    })(t3, (() => {
+      if (e2.bindFramebuffer(e2.FRAMEBUFFER, null), e2.clearColor(0, 0, 0, 0), e2.clear(e2.COLOR_BUFFER_BIT), e2.drawArrays(e2.TRIANGLE_FAN, 0, 4), !(t3.canvas instanceof OffscreenCanvas)) throw Error("Conversion to ImageBitmap requires that the MediaPipe Tasks is initialized with an OffscreenCanvas");
+      return t3.canvas.transferToImageBitmap();
     }))));
   }
-  Ka.prototype.close = Ka.prototype.close, Ka.prototype.drawConfidenceMask = Ka.prototype.wa, Ka.prototype.drawCategoryMask = Ka.prototype.va, Ka.prototype.drawBoundingBox = Ka.prototype.ua, Ka.prototype.drawConnectors = Ka.prototype.xa, Ka.prototype.drawLandmarks = Ka.prototype.ya, Ka.lerp = function(t2, e2, n2, r2, i2) {
-    return ja(r2 * (1 - (t2 - e2) / (n2 - e2)) + i2 * (1 - (n2 - t2) / (n2 - e2)), r2, i2);
+  Ka.prototype.close = Ka.prototype.close, Ka.prototype.drawConfidenceMask = Ka.prototype.wa, Ka.prototype.drawCategoryMask = Ka.prototype.va, Ka.prototype.drawBoundingBox = Ka.prototype.ua, Ka.prototype.drawConnectors = Ka.prototype.xa, Ka.prototype.drawLandmarks = Ka.prototype.ya, Ka.lerp = function(t3, e2, n2, r2, i2) {
+    return ja(r2 * (1 - (t3 - e2) / (n2 - e2)) + i2 * (1 - (n2 - t3) / (n2 - e2)), r2, i2);
   }, Ka.clamp = ja;
   var nc = class {
-    constructor(t2, e2, n2, r2, i2, s2, o2) {
-      this.g = t2, this.j = e2, this.m = n2, this.canvas = r2, this.l = i2, this.width = s2, this.height = o2, (this.j || this.m) && (0 === --rc && console.error("You seem to be creating MPImage instances without invoking .close(). This leaks resources."));
+    constructor(t3, e2, n2, r2, i2, s2, o2) {
+      this.g = t3, this.j = e2, this.m = n2, this.canvas = r2, this.l = i2, this.width = s2, this.height = o2, (this.j || this.m) && (0 === --rc && console.error("You seem to be creating MPImage instances without invoking .close(). This leaks resources."));
     }
     Ea() {
       return !!Ya(this, 0);
@@ -33486,29 +33486,29 @@
       return qa(this);
     }
     Ba() {
-      var t2 = Ya(this, 1);
-      return t2 || ($a(this), Qa(this), t2 = ec(this), tc(this), this.g.push(t2), this.j = true), t2;
+      var t3 = Ya(this, 1);
+      return t3 || ($a(this), Qa(this), t3 = ec(this), tc(this), this.g.push(t3), this.j = true), t3;
     }
     N() {
       return $a(this);
     }
     clone() {
-      const t2 = [];
+      const t3 = [];
       for (const e2 of this.g) {
         let n2;
         if (e2 instanceof ImageData) n2 = new ImageData(e2.data, this.width, this.height);
         else if (e2 instanceof WebGLTexture) {
-          const t3 = Ja(this), e3 = Za(this);
-          t3.activeTexture(t3.TEXTURE1), n2 = wa(e3, t3), t3.bindTexture(t3.TEXTURE_2D, n2), t3.texImage2D(t3.TEXTURE_2D, 0, t3.RGBA, this.width, this.height, 0, t3.RGBA, t3.UNSIGNED_BYTE, null), t3.bindTexture(t3.TEXTURE_2D, null), Ta(e3, t3, n2), Ea(e3, t3, false, (() => {
-            Qa(this), t3.clearColor(0, 0, 0, 0), t3.clear(t3.COLOR_BUFFER_BIT), t3.drawArrays(t3.TRIANGLE_FAN, 0, 4), tc(this);
+          const t4 = Ja(this), e3 = Za(this);
+          t4.activeTexture(t4.TEXTURE1), n2 = wa(e3, t4), t4.bindTexture(t4.TEXTURE_2D, n2), t4.texImage2D(t4.TEXTURE_2D, 0, t4.RGBA, this.width, this.height, 0, t4.RGBA, t4.UNSIGNED_BYTE, null), t4.bindTexture(t4.TEXTURE_2D, null), Ta(e3, t4, n2), Ea(e3, t4, false, (() => {
+            Qa(this), t4.clearColor(0, 0, 0, 0), t4.clear(t4.COLOR_BUFFER_BIT), t4.drawArrays(t4.TRIANGLE_FAN, 0, 4), tc(this);
           })), Aa(e3), tc(this);
         } else {
           if (!(e2 instanceof ImageBitmap)) throw Error(`Type is not supported: ${e2}`);
           $a(this), Qa(this), n2 = ec(this), tc(this);
         }
-        t2.push(n2);
+        t3.push(n2);
       }
-      return new nc(t2, this.la(), this.R(), this.canvas, this.l, this.width, this.height);
+      return new nc(t3, this.la(), this.R(), this.canvas, this.l, this.width, this.height);
     }
     close() {
       this.j && Ya(this, 1).close(), this.m && Ja(this).deleteTexture(Ya(this, 2)), rc = -1;
@@ -33516,343 +33516,343 @@
   };
   nc.prototype.close = nc.prototype.close, nc.prototype.clone = nc.prototype.clone, nc.prototype.getAsWebGLTexture = nc.prototype.N, nc.prototype.getAsImageBitmap = nc.prototype.Ba, nc.prototype.getAsImageData = nc.prototype.Ca, nc.prototype.hasWebGLTexture = nc.prototype.R, nc.prototype.hasImageBitmap = nc.prototype.la, nc.prototype.hasImageData = nc.prototype.Ea;
   var rc = 250;
-  function ic(...t2) {
-    return t2.map((([t3, e2]) => ({ start: t3, end: e2 })));
+  function ic(...t3) {
+    return t3.map((([t4, e2]) => ({ start: t4, end: e2 })));
   }
-  var sc = /* @__PURE__ */ (function(t2) {
-    return class extends t2 {
+  var sc = /* @__PURE__ */ (function(t3) {
+    return class extends t3 {
       Ja() {
         this.i._registerModelResourcesGraphService();
       }
     };
   })((oc = class {
-    constructor(t2, e2) {
-      this.l = true, this.i = t2, this.g = null, this.h = 0, this.m = "function" == typeof this.i._addIntToInputStream, void 0 !== e2 ? this.i.canvas = e2 : Qo() ? this.i.canvas = new OffscreenCanvas(1, 1) : (console.warn("OffscreenCanvas not supported and GraphRunner constructor glCanvas parameter is undefined. Creating backup canvas."), this.i.canvas = document.createElement("canvas"));
+    constructor(t3, e2) {
+      this.l = true, this.i = t3, this.g = null, this.h = 0, this.m = "function" == typeof this.i._addIntToInputStream, void 0 !== e2 ? this.i.canvas = e2 : Qo() ? this.i.canvas = new OffscreenCanvas(1, 1) : (console.warn("OffscreenCanvas not supported and GraphRunner constructor glCanvas parameter is undefined. Creating backup canvas."), this.i.canvas = document.createElement("canvas"));
     }
-    async initializeGraph(t2) {
-      const e2 = await (await fetch(t2)).arrayBuffer();
-      t2 = !(t2.endsWith(".pbtxt") || t2.endsWith(".textproto")), this.setGraph(new Uint8Array(e2), t2);
+    async initializeGraph(t3) {
+      const e2 = await (await fetch(t3)).arrayBuffer();
+      t3 = !(t3.endsWith(".pbtxt") || t3.endsWith(".textproto")), this.setGraph(new Uint8Array(e2), t3);
     }
-    setGraphFromString(t2) {
-      this.setGraph(new TextEncoder().encode(t2), false);
+    setGraphFromString(t3) {
+      this.setGraph(new TextEncoder().encode(t3), false);
     }
-    setGraph(t2, e2) {
-      const n2 = t2.length, r2 = this.i._malloc(n2);
-      this.i.HEAPU8.set(t2, r2), e2 ? this.i._changeBinaryGraph(n2, r2) : this.i._changeTextGraph(n2, r2), this.i._free(r2);
+    setGraph(t3, e2) {
+      const n2 = t3.length, r2 = this.i._malloc(n2);
+      this.i.HEAPU8.set(t3, r2), e2 ? this.i._changeBinaryGraph(n2, r2) : this.i._changeTextGraph(n2, r2), this.i._free(r2);
     }
-    configureAudio(t2, e2, n2, r2, i2) {
+    configureAudio(t3, e2, n2, r2, i2) {
       this.i._configureAudio || console.warn('Attempting to use configureAudio without support for input audio. Is build dep ":gl_graph_runner_audio" missing?'), na(this, r2 || "input_audio", ((r3) => {
         na(this, i2 = i2 || "audio_header", ((i3) => {
-          this.i._configureAudio(r3, i3, t2, e2 ?? 0, n2);
+          this.i._configureAudio(r3, i3, t3, e2 ?? 0, n2);
         }));
       }));
     }
-    setAutoResizeCanvas(t2) {
-      this.l = t2;
+    setAutoResizeCanvas(t3) {
+      this.l = t3;
     }
-    setAutoRenderToScreen(t2) {
-      this.i._setAutoRenderToScreen(t2);
+    setAutoRenderToScreen(t3) {
+      this.i._setAutoRenderToScreen(t3);
     }
-    setGpuBufferVerticalFlip(t2) {
-      this.i.gpuOriginForWebTexturesIsBottomLeft = t2;
+    setGpuBufferVerticalFlip(t3) {
+      this.i.gpuOriginForWebTexturesIsBottomLeft = t3;
     }
-    ca(t2) {
+    ca(t3) {
       sa(this, "__graph_config__", ((e2) => {
-        t2(e2);
-      })), na(this, "__graph_config__", ((t3) => {
-        this.i._getGraphConfig(t3, void 0);
+        t3(e2);
+      })), na(this, "__graph_config__", ((t4) => {
+        this.i._getGraphConfig(t4, void 0);
       })), delete this.i.simpleListeners.__graph_config__;
     }
-    attachErrorListener(t2) {
-      this.i.errorListener = t2;
+    attachErrorListener(t3) {
+      this.i.errorListener = t3;
     }
-    attachEmptyPacketListener(t2, e2) {
-      this.i.emptyPacketListeners = this.i.emptyPacketListeners || {}, this.i.emptyPacketListeners[t2] = e2;
+    attachEmptyPacketListener(t3, e2) {
+      this.i.emptyPacketListeners = this.i.emptyPacketListeners || {}, this.i.emptyPacketListeners[t3] = e2;
     }
-    addAudioToStream(t2, e2, n2) {
-      this.addAudioToStreamWithShape(t2, 0, 0, e2, n2);
+    addAudioToStream(t3, e2, n2) {
+      this.addAudioToStreamWithShape(t3, 0, 0, e2, n2);
     }
-    addAudioToStreamWithShape(t2, e2, n2, r2, i2) {
-      const s2 = 4 * t2.length;
-      this.h !== s2 && (this.g && this.i._free(this.g), this.g = this.i._malloc(s2), this.h = s2), this.i.HEAPF32.set(t2, this.g / 4), na(this, r2, ((t3) => {
-        this.i._addAudioToInputStream(this.g, e2, n2, t3, i2);
+    addAudioToStreamWithShape(t3, e2, n2, r2, i2) {
+      const s2 = 4 * t3.length;
+      this.h !== s2 && (this.g && this.i._free(this.g), this.g = this.i._malloc(s2), this.h = s2), this.i.HEAPF32.set(t3, this.g / 4), na(this, r2, ((t4) => {
+        this.i._addAudioToInputStream(this.g, e2, n2, t4, i2);
       }));
     }
-    addGpuBufferToStream(t2, e2, n2) {
+    addGpuBufferToStream(t3, e2, n2) {
       na(this, e2, ((e3) => {
-        const [r2, i2] = ra(this, t2, e3);
+        const [r2, i2] = ra(this, t3, e3);
         this.i._addBoundTextureToStream(e3, r2, i2, n2);
       }));
     }
-    addBoolToStream(t2, e2, n2) {
+    addBoolToStream(t3, e2, n2) {
       na(this, e2, ((e3) => {
-        this.i._addBoolToInputStream(t2, e3, n2);
+        this.i._addBoolToInputStream(t3, e3, n2);
       }));
     }
-    addDoubleToStream(t2, e2, n2) {
+    addDoubleToStream(t3, e2, n2) {
       na(this, e2, ((e3) => {
-        this.i._addDoubleToInputStream(t2, e3, n2);
+        this.i._addDoubleToInputStream(t3, e3, n2);
       }));
     }
-    addFloatToStream(t2, e2, n2) {
+    addFloatToStream(t3, e2, n2) {
       na(this, e2, ((e3) => {
-        this.i._addFloatToInputStream(t2, e3, n2);
+        this.i._addFloatToInputStream(t3, e3, n2);
       }));
     }
-    addIntToStream(t2, e2, n2) {
+    addIntToStream(t3, e2, n2) {
       na(this, e2, ((e3) => {
-        this.i._addIntToInputStream(t2, e3, n2);
+        this.i._addIntToInputStream(t3, e3, n2);
       }));
     }
-    addUintToStream(t2, e2, n2) {
+    addUintToStream(t3, e2, n2) {
       na(this, e2, ((e3) => {
-        this.i._addUintToInputStream(t2, e3, n2);
+        this.i._addUintToInputStream(t3, e3, n2);
       }));
     }
-    addStringToStream(t2, e2, n2) {
+    addStringToStream(t3, e2, n2) {
       na(this, e2, ((e3) => {
-        na(this, t2, ((t3) => {
-          this.i._addStringToInputStream(t3, e3, n2);
+        na(this, t3, ((t4) => {
+          this.i._addStringToInputStream(t4, e3, n2);
         }));
       }));
     }
-    addStringRecordToStream(t2, e2, n2) {
+    addStringRecordToStream(t3, e2, n2) {
       na(this, e2, ((e3) => {
-        ia(this, Object.keys(t2), ((r2) => {
-          ia(this, Object.values(t2), ((i2) => {
-            this.i._addFlatHashMapToInputStream(r2, i2, Object.keys(t2).length, e3, n2);
+        ia(this, Object.keys(t3), ((r2) => {
+          ia(this, Object.values(t3), ((i2) => {
+            this.i._addFlatHashMapToInputStream(r2, i2, Object.keys(t3).length, e3, n2);
           }));
         }));
       }));
     }
-    addProtoToStream(t2, e2, n2, r2) {
+    addProtoToStream(t3, e2, n2, r2) {
       na(this, n2, ((n3) => {
         na(this, e2, ((e3) => {
-          const i2 = this.i._malloc(t2.length);
-          this.i.HEAPU8.set(t2, i2), this.i._addProtoToInputStream(i2, t2.length, e3, n3, r2), this.i._free(i2);
+          const i2 = this.i._malloc(t3.length);
+          this.i.HEAPU8.set(t3, i2), this.i._addProtoToInputStream(i2, t3.length, e3, n3, r2), this.i._free(i2);
         }));
       }));
     }
-    addEmptyPacketToStream(t2, e2) {
-      na(this, t2, ((t3) => {
-        this.i._addEmptyPacketToInputStream(t3, e2);
+    addEmptyPacketToStream(t3, e2) {
+      na(this, t3, ((t4) => {
+        this.i._addEmptyPacketToInputStream(t4, e2);
       }));
     }
-    addBoolVectorToStream(t2, e2, n2) {
+    addBoolVectorToStream(t3, e2, n2) {
       na(this, e2, ((e3) => {
-        const r2 = this.i._allocateBoolVector(t2.length);
+        const r2 = this.i._allocateBoolVector(t3.length);
         if (!r2) throw Error("Unable to allocate new bool vector on heap.");
-        for (const e4 of t2) this.i._addBoolVectorEntry(r2, e4);
+        for (const e4 of t3) this.i._addBoolVectorEntry(r2, e4);
         this.i._addBoolVectorToInputStream(r2, e3, n2);
       }));
     }
-    addDoubleVectorToStream(t2, e2, n2) {
+    addDoubleVectorToStream(t3, e2, n2) {
       na(this, e2, ((e3) => {
-        const r2 = this.i._allocateDoubleVector(t2.length);
+        const r2 = this.i._allocateDoubleVector(t3.length);
         if (!r2) throw Error("Unable to allocate new double vector on heap.");
-        for (const e4 of t2) this.i._addDoubleVectorEntry(r2, e4);
+        for (const e4 of t3) this.i._addDoubleVectorEntry(r2, e4);
         this.i._addDoubleVectorToInputStream(r2, e3, n2);
       }));
     }
-    addFloatVectorToStream(t2, e2, n2) {
+    addFloatVectorToStream(t3, e2, n2) {
       na(this, e2, ((e3) => {
-        const r2 = this.i._allocateFloatVector(t2.length);
+        const r2 = this.i._allocateFloatVector(t3.length);
         if (!r2) throw Error("Unable to allocate new float vector on heap.");
-        for (const e4 of t2) this.i._addFloatVectorEntry(r2, e4);
+        for (const e4 of t3) this.i._addFloatVectorEntry(r2, e4);
         this.i._addFloatVectorToInputStream(r2, e3, n2);
       }));
     }
-    addIntVectorToStream(t2, e2, n2) {
+    addIntVectorToStream(t3, e2, n2) {
       na(this, e2, ((e3) => {
-        const r2 = this.i._allocateIntVector(t2.length);
+        const r2 = this.i._allocateIntVector(t3.length);
         if (!r2) throw Error("Unable to allocate new int vector on heap.");
-        for (const e4 of t2) this.i._addIntVectorEntry(r2, e4);
+        for (const e4 of t3) this.i._addIntVectorEntry(r2, e4);
         this.i._addIntVectorToInputStream(r2, e3, n2);
       }));
     }
-    addUintVectorToStream(t2, e2, n2) {
+    addUintVectorToStream(t3, e2, n2) {
       na(this, e2, ((e3) => {
-        const r2 = this.i._allocateUintVector(t2.length);
+        const r2 = this.i._allocateUintVector(t3.length);
         if (!r2) throw Error("Unable to allocate new unsigned int vector on heap.");
-        for (const e4 of t2) this.i._addUintVectorEntry(r2, e4);
+        for (const e4 of t3) this.i._addUintVectorEntry(r2, e4);
         this.i._addUintVectorToInputStream(r2, e3, n2);
       }));
     }
-    addStringVectorToStream(t2, e2, n2) {
+    addStringVectorToStream(t3, e2, n2) {
       na(this, e2, ((e3) => {
-        const r2 = this.i._allocateStringVector(t2.length);
+        const r2 = this.i._allocateStringVector(t3.length);
         if (!r2) throw Error("Unable to allocate new string vector on heap.");
-        for (const e4 of t2) na(this, e4, ((t3) => {
-          this.i._addStringVectorEntry(r2, t3);
+        for (const e4 of t3) na(this, e4, ((t4) => {
+          this.i._addStringVectorEntry(r2, t4);
         }));
         this.i._addStringVectorToInputStream(r2, e3, n2);
       }));
     }
-    addBoolToInputSidePacket(t2, e2) {
+    addBoolToInputSidePacket(t3, e2) {
       na(this, e2, ((e3) => {
-        this.i._addBoolToInputSidePacket(t2, e3);
+        this.i._addBoolToInputSidePacket(t3, e3);
       }));
     }
-    addDoubleToInputSidePacket(t2, e2) {
+    addDoubleToInputSidePacket(t3, e2) {
       na(this, e2, ((e3) => {
-        this.i._addDoubleToInputSidePacket(t2, e3);
+        this.i._addDoubleToInputSidePacket(t3, e3);
       }));
     }
-    addFloatToInputSidePacket(t2, e2) {
+    addFloatToInputSidePacket(t3, e2) {
       na(this, e2, ((e3) => {
-        this.i._addFloatToInputSidePacket(t2, e3);
+        this.i._addFloatToInputSidePacket(t3, e3);
       }));
     }
-    addIntToInputSidePacket(t2, e2) {
+    addIntToInputSidePacket(t3, e2) {
       na(this, e2, ((e3) => {
-        this.i._addIntToInputSidePacket(t2, e3);
+        this.i._addIntToInputSidePacket(t3, e3);
       }));
     }
-    addUintToInputSidePacket(t2, e2) {
+    addUintToInputSidePacket(t3, e2) {
       na(this, e2, ((e3) => {
-        this.i._addUintToInputSidePacket(t2, e3);
+        this.i._addUintToInputSidePacket(t3, e3);
       }));
     }
-    addStringToInputSidePacket(t2, e2) {
+    addStringToInputSidePacket(t3, e2) {
       na(this, e2, ((e3) => {
-        na(this, t2, ((t3) => {
-          this.i._addStringToInputSidePacket(t3, e3);
+        na(this, t3, ((t4) => {
+          this.i._addStringToInputSidePacket(t4, e3);
         }));
       }));
     }
-    addProtoToInputSidePacket(t2, e2, n2) {
+    addProtoToInputSidePacket(t3, e2, n2) {
       na(this, n2, ((n3) => {
         na(this, e2, ((e3) => {
-          const r2 = this.i._malloc(t2.length);
-          this.i.HEAPU8.set(t2, r2), this.i._addProtoToInputSidePacket(r2, t2.length, e3, n3), this.i._free(r2);
+          const r2 = this.i._malloc(t3.length);
+          this.i.HEAPU8.set(t3, r2), this.i._addProtoToInputSidePacket(r2, t3.length, e3, n3), this.i._free(r2);
         }));
       }));
     }
-    addBoolVectorToInputSidePacket(t2, e2) {
+    addBoolVectorToInputSidePacket(t3, e2) {
       na(this, e2, ((e3) => {
-        const n2 = this.i._allocateBoolVector(t2.length);
+        const n2 = this.i._allocateBoolVector(t3.length);
         if (!n2) throw Error("Unable to allocate new bool vector on heap.");
-        for (const e4 of t2) this.i._addBoolVectorEntry(n2, e4);
+        for (const e4 of t3) this.i._addBoolVectorEntry(n2, e4);
         this.i._addBoolVectorToInputSidePacket(n2, e3);
       }));
     }
-    addDoubleVectorToInputSidePacket(t2, e2) {
+    addDoubleVectorToInputSidePacket(t3, e2) {
       na(this, e2, ((e3) => {
-        const n2 = this.i._allocateDoubleVector(t2.length);
+        const n2 = this.i._allocateDoubleVector(t3.length);
         if (!n2) throw Error("Unable to allocate new double vector on heap.");
-        for (const e4 of t2) this.i._addDoubleVectorEntry(n2, e4);
+        for (const e4 of t3) this.i._addDoubleVectorEntry(n2, e4);
         this.i._addDoubleVectorToInputSidePacket(n2, e3);
       }));
     }
-    addFloatVectorToInputSidePacket(t2, e2) {
+    addFloatVectorToInputSidePacket(t3, e2) {
       na(this, e2, ((e3) => {
-        const n2 = this.i._allocateFloatVector(t2.length);
+        const n2 = this.i._allocateFloatVector(t3.length);
         if (!n2) throw Error("Unable to allocate new float vector on heap.");
-        for (const e4 of t2) this.i._addFloatVectorEntry(n2, e4);
+        for (const e4 of t3) this.i._addFloatVectorEntry(n2, e4);
         this.i._addFloatVectorToInputSidePacket(n2, e3);
       }));
     }
-    addIntVectorToInputSidePacket(t2, e2) {
+    addIntVectorToInputSidePacket(t3, e2) {
       na(this, e2, ((e3) => {
-        const n2 = this.i._allocateIntVector(t2.length);
+        const n2 = this.i._allocateIntVector(t3.length);
         if (!n2) throw Error("Unable to allocate new int vector on heap.");
-        for (const e4 of t2) this.i._addIntVectorEntry(n2, e4);
+        for (const e4 of t3) this.i._addIntVectorEntry(n2, e4);
         this.i._addIntVectorToInputSidePacket(n2, e3);
       }));
     }
-    addUintVectorToInputSidePacket(t2, e2) {
+    addUintVectorToInputSidePacket(t3, e2) {
       na(this, e2, ((e3) => {
-        const n2 = this.i._allocateUintVector(t2.length);
+        const n2 = this.i._allocateUintVector(t3.length);
         if (!n2) throw Error("Unable to allocate new unsigned int vector on heap.");
-        for (const e4 of t2) this.i._addUintVectorEntry(n2, e4);
+        for (const e4 of t3) this.i._addUintVectorEntry(n2, e4);
         this.i._addUintVectorToInputSidePacket(n2, e3);
       }));
     }
-    addStringVectorToInputSidePacket(t2, e2) {
+    addStringVectorToInputSidePacket(t3, e2) {
       na(this, e2, ((e3) => {
-        const n2 = this.i._allocateStringVector(t2.length);
+        const n2 = this.i._allocateStringVector(t3.length);
         if (!n2) throw Error("Unable to allocate new string vector on heap.");
-        for (const e4 of t2) na(this, e4, ((t3) => {
-          this.i._addStringVectorEntry(n2, t3);
+        for (const e4 of t3) na(this, e4, ((t4) => {
+          this.i._addStringVectorEntry(n2, t4);
         }));
         this.i._addStringVectorToInputSidePacket(n2, e3);
       }));
     }
-    attachBoolListener(t2, e2) {
-      sa(this, t2, e2), na(this, t2, ((t3) => {
-        this.i._attachBoolListener(t3);
+    attachBoolListener(t3, e2) {
+      sa(this, t3, e2), na(this, t3, ((t4) => {
+        this.i._attachBoolListener(t4);
       }));
     }
-    attachBoolVectorListener(t2, e2) {
-      oa(this, t2, e2), na(this, t2, ((t3) => {
-        this.i._attachBoolVectorListener(t3);
+    attachBoolVectorListener(t3, e2) {
+      oa(this, t3, e2), na(this, t3, ((t4) => {
+        this.i._attachBoolVectorListener(t4);
       }));
     }
-    attachIntListener(t2, e2) {
-      sa(this, t2, e2), na(this, t2, ((t3) => {
-        this.i._attachIntListener(t3);
+    attachIntListener(t3, e2) {
+      sa(this, t3, e2), na(this, t3, ((t4) => {
+        this.i._attachIntListener(t4);
       }));
     }
-    attachIntVectorListener(t2, e2) {
-      oa(this, t2, e2), na(this, t2, ((t3) => {
-        this.i._attachIntVectorListener(t3);
+    attachIntVectorListener(t3, e2) {
+      oa(this, t3, e2), na(this, t3, ((t4) => {
+        this.i._attachIntVectorListener(t4);
       }));
     }
-    attachUintListener(t2, e2) {
-      sa(this, t2, e2), na(this, t2, ((t3) => {
-        this.i._attachUintListener(t3);
+    attachUintListener(t3, e2) {
+      sa(this, t3, e2), na(this, t3, ((t4) => {
+        this.i._attachUintListener(t4);
       }));
     }
-    attachUintVectorListener(t2, e2) {
-      oa(this, t2, e2), na(this, t2, ((t3) => {
-        this.i._attachUintVectorListener(t3);
+    attachUintVectorListener(t3, e2) {
+      oa(this, t3, e2), na(this, t3, ((t4) => {
+        this.i._attachUintVectorListener(t4);
       }));
     }
-    attachDoubleListener(t2, e2) {
-      sa(this, t2, e2), na(this, t2, ((t3) => {
-        this.i._attachDoubleListener(t3);
+    attachDoubleListener(t3, e2) {
+      sa(this, t3, e2), na(this, t3, ((t4) => {
+        this.i._attachDoubleListener(t4);
       }));
     }
-    attachDoubleVectorListener(t2, e2) {
-      oa(this, t2, e2), na(this, t2, ((t3) => {
-        this.i._attachDoubleVectorListener(t3);
+    attachDoubleVectorListener(t3, e2) {
+      oa(this, t3, e2), na(this, t3, ((t4) => {
+        this.i._attachDoubleVectorListener(t4);
       }));
     }
-    attachFloatListener(t2, e2) {
-      sa(this, t2, e2), na(this, t2, ((t3) => {
-        this.i._attachFloatListener(t3);
+    attachFloatListener(t3, e2) {
+      sa(this, t3, e2), na(this, t3, ((t4) => {
+        this.i._attachFloatListener(t4);
       }));
     }
-    attachFloatVectorListener(t2, e2) {
-      oa(this, t2, e2), na(this, t2, ((t3) => {
-        this.i._attachFloatVectorListener(t3);
+    attachFloatVectorListener(t3, e2) {
+      oa(this, t3, e2), na(this, t3, ((t4) => {
+        this.i._attachFloatVectorListener(t4);
       }));
     }
-    attachStringListener(t2, e2) {
-      sa(this, t2, e2), na(this, t2, ((t3) => {
-        this.i._attachStringListener(t3);
+    attachStringListener(t3, e2) {
+      sa(this, t3, e2), na(this, t3, ((t4) => {
+        this.i._attachStringListener(t4);
       }));
     }
-    attachStringVectorListener(t2, e2) {
-      oa(this, t2, e2), na(this, t2, ((t3) => {
-        this.i._attachStringVectorListener(t3);
+    attachStringVectorListener(t3, e2) {
+      oa(this, t3, e2), na(this, t3, ((t4) => {
+        this.i._attachStringVectorListener(t4);
       }));
     }
-    attachProtoListener(t2, e2, n2) {
-      sa(this, t2, e2), na(this, t2, ((t3) => {
-        this.i._attachProtoListener(t3, n2 || false);
+    attachProtoListener(t3, e2, n2) {
+      sa(this, t3, e2), na(this, t3, ((t4) => {
+        this.i._attachProtoListener(t4, n2 || false);
       }));
     }
-    attachProtoVectorListener(t2, e2, n2) {
-      oa(this, t2, e2), na(this, t2, ((t3) => {
-        this.i._attachProtoVectorListener(t3, n2 || false);
+    attachProtoVectorListener(t3, e2, n2) {
+      oa(this, t3, e2), na(this, t3, ((t4) => {
+        this.i._attachProtoVectorListener(t4, n2 || false);
       }));
     }
-    attachAudioListener(t2, e2, n2) {
-      this.i._attachAudioListener || console.warn('Attempting to use attachAudioListener without support for output audio. Is build dep ":gl_graph_runner_audio_out" missing?'), sa(this, t2, ((t3, n3) => {
-        t3 = new Float32Array(t3.buffer, t3.byteOffset, t3.length / 4), e2(t3, n3);
-      })), na(this, t2, ((t3) => {
-        this.i._attachAudioListener(t3, n2 || false);
+    attachAudioListener(t3, e2, n2) {
+      this.i._attachAudioListener || console.warn('Attempting to use attachAudioListener without support for output audio. Is build dep ":gl_graph_runner_audio_out" missing?'), sa(this, t3, ((t4, n3) => {
+        t4 = new Float32Array(t4.buffer, t4.byteOffset, t4.length / 4), e2(t4, n3);
+      })), na(this, t3, ((t4) => {
+        this.i._attachAudioListener(t4, n2 || false);
       }));
     }
     finishProcessing() {
@@ -33865,36 +33865,36 @@
     get ga() {
       return this.i;
     }
-    pa(t2, e2, n2) {
+    pa(t3, e2, n2) {
       na(this, e2, ((e3) => {
-        const [r2, i2] = ra(this, t2, e3);
+        const [r2, i2] = ra(this, t3, e3);
         this.ga._addBoundTextureAsImageToStream(e3, r2, i2, n2);
       }));
     }
-    Z(t2, e2) {
-      sa(this, t2, e2), na(this, t2, ((t3) => {
-        this.ga._attachImageListener(t3);
+    Z(t3, e2) {
+      sa(this, t3, e2), na(this, t3, ((t4) => {
+        this.ga._attachImageListener(t4);
       }));
     }
-    aa(t2, e2) {
-      oa(this, t2, e2), na(this, t2, ((t3) => {
-        this.ga._attachImageVectorListener(t3);
+    aa(t3, e2) {
+      oa(this, t3, e2), na(this, t3, ((t4) => {
+        this.ga._attachImageVectorListener(t4);
       }));
     }
   }));
   var oc;
   var ac = class extends sc {
   };
-  async function cc(t2, e2, n2) {
-    return (async function(t3, e3, n3, r2) {
-      return aa(t3, e3, n3, r2);
-    })(t2, n2.canvas ?? (Qo() ? void 0 : document.createElement("canvas")), e2, n2);
+  async function cc(t3, e2, n2) {
+    return (async function(t4, e3, n3, r2) {
+      return aa(t4, e3, n3, r2);
+    })(t3, n2.canvas ?? (Qo() ? void 0 : document.createElement("canvas")), e2, n2);
   }
-  function hc(t2, e2, n2, r2) {
-    if (t2.U) {
+  function hc(t3, e2, n2, r2) {
+    if (t3.U) {
       const s2 = new Ls();
       if (n2?.regionOfInterest) {
-        if (!t2.oa) throw Error("This task doesn't support region-of-interest.");
+        if (!t3.oa) throw Error("This task doesn't support region-of-interest.");
         var i2 = n2.regionOfInterest;
         if (i2.left >= i2.right || i2.top >= i2.bottom) throw Error("Expected RectF with left < right and top < bottom.");
         if (i2.left < 0 || i2.top < 0 || i2.right > 1 || i2.bottom > 1) throw Error("Expected RectF values to be in [0,1].");
@@ -33903,35 +33903,35 @@
       if (n2?.rotationDegrees) {
         if (n2?.rotationDegrees % 90 != 0) throw Error("Expected rotation to be a multiple of 90\xB0.");
         if (Ln(s2, 5, -Math.PI * n2.rotationDegrees / 180), n2?.rotationDegrees % 180 != 0) {
-          const [t3, r3] = ea(e2);
-          n2 = Sn(s2, 3) * r3 / t3, i2 = Sn(s2, 4) * t3 / r3, Ln(s2, 4, n2), Ln(s2, 3, i2);
+          const [t4, r3] = ea(e2);
+          n2 = Sn(s2, 3) * r3 / t4, i2 = Sn(s2, 4) * t4 / r3, Ln(s2, 4, n2), Ln(s2, 3, i2);
         }
       }
-      t2.g.addProtoToStream(s2.g(), "mediapipe.NormalizedRect", t2.U, r2);
+      t3.g.addProtoToStream(s2.g(), "mediapipe.NormalizedRect", t3.U, r2);
     }
-    t2.g.pa(e2, t2.X, r2 ?? performance.now()), t2.finishProcessing();
+    t3.g.pa(e2, t3.X, r2 ?? performance.now()), t3.finishProcessing();
   }
-  function uc(t2, e2, n2) {
-    if (t2.baseOptions?.g()) throw Error("Task is not initialized with image mode. 'runningMode' must be set to 'IMAGE'.");
-    hc(t2, e2, n2, t2.C + 1);
+  function uc(t3, e2, n2) {
+    if (t3.baseOptions?.g()) throw Error("Task is not initialized with image mode. 'runningMode' must be set to 'IMAGE'.");
+    hc(t3, e2, n2, t3.C + 1);
   }
-  function lc(t2, e2, n2, r2) {
-    if (!t2.baseOptions?.g()) throw Error("Task is not initialized with video mode. 'runningMode' must be set to 'VIDEO'.");
-    hc(t2, e2, n2, r2);
+  function lc(t3, e2, n2, r2) {
+    if (!t3.baseOptions?.g()) throw Error("Task is not initialized with video mode. 'runningMode' must be set to 'VIDEO'.");
+    hc(t3, e2, n2, r2);
   }
-  function fc(t2, e2, n2, r2) {
+  function fc(t3, e2, n2, r2) {
     var i2 = e2.data;
     const s2 = e2.width, o2 = s2 * (e2 = e2.height);
     if ((i2 instanceof Uint8Array || i2 instanceof Float32Array) && i2.length !== o2) throw Error("Unsupported channel count: " + i2.length / o2);
-    return t2 = new Na([i2], n2, false, t2.g.i.canvas, t2.P, s2, e2), r2 ? t2.clone() : t2;
+    return t3 = new Na([i2], n2, false, t3.g.i.canvas, t3.P, s2, e2), r2 ? t3.clone() : t3;
   }
   var dc = class extends pa {
-    constructor(t2, e2, n2, r2) {
-      super(t2), this.g = t2, this.X = e2, this.U = n2, this.oa = r2, this.P = new ba();
+    constructor(t3, e2, n2, r2) {
+      super(t3), this.g = t3, this.X = e2, this.U = n2, this.oa = r2, this.P = new ba();
     }
-    l(t2, e2 = true) {
-      if ("runningMode" in t2 && Ze(this.baseOptions, 2, Jt(!!t2.runningMode && "IMAGE" !== t2.runningMode)), void 0 !== t2.canvas && this.g.i.canvas !== t2.canvas) throw Error("You must create a new task to reset the canvas.");
-      return super.l(t2, e2);
+    l(t3, e2 = true) {
+      if ("runningMode" in t3 && Ze(this.baseOptions, 2, Jt(!!t3.runningMode && "IMAGE" !== t3.runningMode)), void 0 !== t3.canvas && this.g.i.canvas !== t3.canvas) throw Error("You must create a new task to reset the canvas.");
+      return super.l(t3, e2);
     }
     close() {
       this.P.close(), super.close();
@@ -33939,44 +33939,44 @@
   };
   dc.prototype.close = dc.prototype.close;
   var pc = class extends dc {
-    constructor(t2, e2) {
-      super(new ac(t2, e2), "image_in", "norm_rect_in", false), this.j = { detections: [] }, wn(t2 = this.h = new zs(), 0, 1, e2 = new Xs()), Ln(this.h, 2, 0.5), Ln(this.h, 3, 0.3);
+    constructor(t3, e2) {
+      super(new ac(t3, e2), "image_in", "norm_rect_in", false), this.j = { detections: [] }, wn(t3 = this.h = new zs(), 0, 1, e2 = new Xs()), Ln(this.h, 2, 0.5), Ln(this.h, 3, 0.3);
     }
     get baseOptions() {
       return yn(this.h, Xs, 1);
     }
-    set baseOptions(t2) {
-      wn(this.h, 0, 1, t2);
+    set baseOptions(t3) {
+      wn(this.h, 0, 1, t3);
     }
-    o(t2) {
-      return "minDetectionConfidence" in t2 && Ln(this.h, 2, t2.minDetectionConfidence ?? 0.5), "minSuppressionThreshold" in t2 && Ln(this.h, 3, t2.minSuppressionThreshold ?? 0.3), this.l(t2);
+    o(t3) {
+      return "minDetectionConfidence" in t3 && Ln(this.h, 2, t3.minDetectionConfidence ?? 0.5), "minSuppressionThreshold" in t3 && Ln(this.h, 3, t3.minSuppressionThreshold ?? 0.3), this.l(t3);
     }
-    F(t2, e2) {
-      return this.j = { detections: [] }, uc(this, t2, e2), this.j;
+    F(t3, e2) {
+      return this.j = { detections: [] }, uc(this, t3, e2), this.j;
     }
-    G(t2, e2, n2) {
-      return this.j = { detections: [] }, lc(this, t2, n2, e2), this.j;
+    G(t3, e2, n2) {
+      return this.j = { detections: [] }, lc(this, t3, n2, e2), this.j;
     }
     m() {
-      var t2 = new ls();
-      hs(t2, "image_in"), hs(t2, "norm_rect_in"), us(t2, "detections");
+      var t3 = new ls();
+      hs(t3, "image_in"), hs(t3, "norm_rect_in"), us(t3, "detections");
       const e2 = new Qi();
       xr(e2, Ys, this.h);
       const n2 = new is();
-      Rn(n2, 2, "mediapipe.tasks.vision.face_detector.FaceDetectorGraph"), ns(n2, "IMAGE:image_in"), ns(n2, "NORM_RECT:norm_rect_in"), rs(n2, "DETECTIONS:detections"), n2.o(e2), cs(t2, n2), this.g.attachProtoVectorListener("detections", ((t3, e3) => {
-        for (const e4 of t3) t3 = ws(e4), this.j.detections.push(Xo(t3));
+      Rn(n2, 2, "mediapipe.tasks.vision.face_detector.FaceDetectorGraph"), ns(n2, "IMAGE:image_in"), ns(n2, "NORM_RECT:norm_rect_in"), rs(n2, "DETECTIONS:detections"), n2.o(e2), cs(t3, n2), this.g.attachProtoVectorListener("detections", ((t4, e3) => {
+        for (const e4 of t4) t4 = ws(e4), this.j.detections.push(Xo(t4));
         ua(this, e3);
-      })), this.g.attachEmptyPacketListener("detections", ((t3) => {
-        ua(this, t3);
-      })), t2 = t2.g(), this.setGraph(new Uint8Array(t2), true);
+      })), this.g.attachEmptyPacketListener("detections", ((t4) => {
+        ua(this, t4);
+      })), t3 = t3.g(), this.setGraph(new Uint8Array(t3), true);
     }
   };
-  pc.prototype.detectForVideo = pc.prototype.G, pc.prototype.detect = pc.prototype.F, pc.prototype.setOptions = pc.prototype.o, pc.createFromModelPath = async function(t2, e2) {
-    return cc(pc, t2, { baseOptions: { modelAssetPath: e2 } });
-  }, pc.createFromModelBuffer = function(t2, e2) {
-    return cc(pc, t2, { baseOptions: { modelAssetBuffer: e2 } });
-  }, pc.createFromOptions = function(t2, e2) {
-    return cc(pc, t2, e2);
+  pc.prototype.detectForVideo = pc.prototype.G, pc.prototype.detect = pc.prototype.F, pc.prototype.setOptions = pc.prototype.o, pc.createFromModelPath = async function(t3, e2) {
+    return cc(pc, t3, { baseOptions: { modelAssetPath: e2 } });
+  }, pc.createFromModelBuffer = function(t3, e2) {
+    return cc(pc, t3, { baseOptions: { modelAssetBuffer: e2 } });
+  }, pc.createFromOptions = function(t3, e2) {
+    return cc(pc, t3, e2);
   };
   var gc = ic([61, 146], [146, 91], [91, 181], [181, 84], [84, 17], [17, 314], [314, 405], [405, 321], [321, 375], [375, 291], [61, 185], [185, 40], [40, 39], [39, 37], [37, 0], [0, 267], [267, 269], [269, 270], [270, 409], [409, 291], [78, 95], [95, 88], [88, 178], [178, 87], [87, 14], [14, 317], [317, 402], [402, 318], [318, 324], [324, 308], [78, 191], [191, 80], [80, 81], [81, 82], [82, 13], [13, 312], [312, 311], [311, 310], [310, 415], [415, 308]);
   var mc = ic([263, 249], [249, 390], [390, 373], [373, 374], [374, 380], [380, 381], [381, 382], [382, 362], [263, 466], [466, 388], [388, 387], [387, 386], [386, 385], [385, 384], [384, 398], [398, 362]);
@@ -33988,505 +33988,505 @@
   var Tc = ic([10, 338], [338, 297], [297, 332], [332, 284], [284, 251], [251, 389], [389, 356], [356, 454], [454, 323], [323, 361], [361, 288], [288, 397], [397, 365], [365, 379], [379, 378], [378, 400], [400, 377], [377, 152], [152, 148], [148, 176], [176, 149], [149, 150], [150, 136], [136, 172], [172, 58], [58, 132], [132, 93], [93, 234], [234, 127], [127, 162], [162, 21], [21, 54], [54, 103], [103, 67], [67, 109], [109, 10]);
   var Ac = [...gc, ...mc, ...yc, ...vc, ...Ec, ...Tc];
   var bc = ic([127, 34], [34, 139], [139, 127], [11, 0], [0, 37], [37, 11], [232, 231], [231, 120], [120, 232], [72, 37], [37, 39], [39, 72], [128, 121], [121, 47], [47, 128], [232, 121], [121, 128], [128, 232], [104, 69], [69, 67], [67, 104], [175, 171], [171, 148], [148, 175], [118, 50], [50, 101], [101, 118], [73, 39], [39, 40], [40, 73], [9, 151], [151, 108], [108, 9], [48, 115], [115, 131], [131, 48], [194, 204], [204, 211], [211, 194], [74, 40], [40, 185], [185, 74], [80, 42], [42, 183], [183, 80], [40, 92], [92, 186], [186, 40], [230, 229], [229, 118], [118, 230], [202, 212], [212, 214], [214, 202], [83, 18], [18, 17], [17, 83], [76, 61], [61, 146], [146, 76], [160, 29], [29, 30], [30, 160], [56, 157], [157, 173], [173, 56], [106, 204], [204, 194], [194, 106], [135, 214], [214, 192], [192, 135], [203, 165], [165, 98], [98, 203], [21, 71], [71, 68], [68, 21], [51, 45], [45, 4], [4, 51], [144, 24], [24, 23], [23, 144], [77, 146], [146, 91], [91, 77], [205, 50], [50, 187], [187, 205], [201, 200], [200, 18], [18, 201], [91, 106], [106, 182], [182, 91], [90, 91], [91, 181], [181, 90], [85, 84], [84, 17], [17, 85], [206, 203], [203, 36], [36, 206], [148, 171], [171, 140], [140, 148], [92, 40], [40, 39], [39, 92], [193, 189], [189, 244], [244, 193], [159, 158], [158, 28], [28, 159], [247, 246], [246, 161], [161, 247], [236, 3], [3, 196], [196, 236], [54, 68], [68, 104], [104, 54], [193, 168], [168, 8], [8, 193], [117, 228], [228, 31], [31, 117], [189, 193], [193, 55], [55, 189], [98, 97], [97, 99], [99, 98], [126, 47], [47, 100], [100, 126], [166, 79], [79, 218], [218, 166], [155, 154], [154, 26], [26, 155], [209, 49], [49, 131], [131, 209], [135, 136], [136, 150], [150, 135], [47, 126], [126, 217], [217, 47], [223, 52], [52, 53], [53, 223], [45, 51], [51, 134], [134, 45], [211, 170], [170, 140], [140, 211], [67, 69], [69, 108], [108, 67], [43, 106], [106, 91], [91, 43], [230, 119], [119, 120], [120, 230], [226, 130], [130, 247], [247, 226], [63, 53], [53, 52], [52, 63], [238, 20], [20, 242], [242, 238], [46, 70], [70, 156], [156, 46], [78, 62], [62, 96], [96, 78], [46, 53], [53, 63], [63, 46], [143, 34], [34, 227], [227, 143], [123, 117], [117, 111], [111, 123], [44, 125], [125, 19], [19, 44], [236, 134], [134, 51], [51, 236], [216, 206], [206, 205], [205, 216], [154, 153], [153, 22], [22, 154], [39, 37], [37, 167], [167, 39], [200, 201], [201, 208], [208, 200], [36, 142], [142, 100], [100, 36], [57, 212], [212, 202], [202, 57], [20, 60], [60, 99], [99, 20], [28, 158], [158, 157], [157, 28], [35, 226], [226, 113], [113, 35], [160, 159], [159, 27], [27, 160], [204, 202], [202, 210], [210, 204], [113, 225], [225, 46], [46, 113], [43, 202], [202, 204], [204, 43], [62, 76], [76, 77], [77, 62], [137, 123], [123, 116], [116, 137], [41, 38], [38, 72], [72, 41], [203, 129], [129, 142], [142, 203], [64, 98], [98, 240], [240, 64], [49, 102], [102, 64], [64, 49], [41, 73], [73, 74], [74, 41], [212, 216], [216, 207], [207, 212], [42, 74], [74, 184], [184, 42], [169, 170], [170, 211], [211, 169], [170, 149], [149, 176], [176, 170], [105, 66], [66, 69], [69, 105], [122, 6], [6, 168], [168, 122], [123, 147], [147, 187], [187, 123], [96, 77], [77, 90], [90, 96], [65, 55], [55, 107], [107, 65], [89, 90], [90, 180], [180, 89], [101, 100], [100, 120], [120, 101], [63, 105], [105, 104], [104, 63], [93, 137], [137, 227], [227, 93], [15, 86], [86, 85], [85, 15], [129, 102], [102, 49], [49, 129], [14, 87], [87, 86], [86, 14], [55, 8], [8, 9], [9, 55], [100, 47], [47, 121], [121, 100], [145, 23], [23, 22], [22, 145], [88, 89], [89, 179], [179, 88], [6, 122], [122, 196], [196, 6], [88, 95], [95, 96], [96, 88], [138, 172], [172, 136], [136, 138], [215, 58], [58, 172], [172, 215], [115, 48], [48, 219], [219, 115], [42, 80], [80, 81], [81, 42], [195, 3], [3, 51], [51, 195], [43, 146], [146, 61], [61, 43], [171, 175], [175, 199], [199, 171], [81, 82], [82, 38], [38, 81], [53, 46], [46, 225], [225, 53], [144, 163], [163, 110], [110, 144], [52, 65], [65, 66], [66, 52], [229, 228], [228, 117], [117, 229], [34, 127], [127, 234], [234, 34], [107, 108], [108, 69], [69, 107], [109, 108], [108, 151], [151, 109], [48, 64], [64, 235], [235, 48], [62, 78], [78, 191], [191, 62], [129, 209], [209, 126], [126, 129], [111, 35], [35, 143], [143, 111], [117, 123], [123, 50], [50, 117], [222, 65], [65, 52], [52, 222], [19, 125], [125, 141], [141, 19], [221, 55], [55, 65], [65, 221], [3, 195], [195, 197], [197, 3], [25, 7], [7, 33], [33, 25], [220, 237], [237, 44], [44, 220], [70, 71], [71, 139], [139, 70], [122, 193], [193, 245], [245, 122], [247, 130], [130, 33], [33, 247], [71, 21], [21, 162], [162, 71], [170, 169], [169, 150], [150, 170], [188, 174], [174, 196], [196, 188], [216, 186], [186, 92], [92, 216], [2, 97], [97, 167], [167, 2], [141, 125], [125, 241], [241, 141], [164, 167], [167, 37], [37, 164], [72, 38], [38, 12], [12, 72], [38, 82], [82, 13], [13, 38], [63, 68], [68, 71], [71, 63], [226, 35], [35, 111], [111, 226], [101, 50], [50, 205], [205, 101], [206, 92], [92, 165], [165, 206], [209, 198], [198, 217], [217, 209], [165, 167], [167, 97], [97, 165], [220, 115], [115, 218], [218, 220], [133, 112], [112, 243], [243, 133], [239, 238], [238, 241], [241, 239], [214, 135], [135, 169], [169, 214], [190, 173], [173, 133], [133, 190], [171, 208], [208, 32], [32, 171], [125, 44], [44, 237], [237, 125], [86, 87], [87, 178], [178, 86], [85, 86], [86, 179], [179, 85], [84, 85], [85, 180], [180, 84], [83, 84], [84, 181], [181, 83], [201, 83], [83, 182], [182, 201], [137, 93], [93, 132], [132, 137], [76, 62], [62, 183], [183, 76], [61, 76], [76, 184], [184, 61], [57, 61], [61, 185], [185, 57], [212, 57], [57, 186], [186, 212], [214, 207], [207, 187], [187, 214], [34, 143], [143, 156], [156, 34], [79, 239], [239, 237], [237, 79], [123, 137], [137, 177], [177, 123], [44, 1], [1, 4], [4, 44], [201, 194], [194, 32], [32, 201], [64, 102], [102, 129], [129, 64], [213, 215], [215, 138], [138, 213], [59, 166], [166, 219], [219, 59], [242, 99], [99, 97], [97, 242], [2, 94], [94, 141], [141, 2], [75, 59], [59, 235], [235, 75], [24, 110], [110, 228], [228, 24], [25, 130], [130, 226], [226, 25], [23, 24], [24, 229], [229, 23], [22, 23], [23, 230], [230, 22], [26, 22], [22, 231], [231, 26], [112, 26], [26, 232], [232, 112], [189, 190], [190, 243], [243, 189], [221, 56], [56, 190], [190, 221], [28, 56], [56, 221], [221, 28], [27, 28], [28, 222], [222, 27], [29, 27], [27, 223], [223, 29], [30, 29], [29, 224], [224, 30], [247, 30], [30, 225], [225, 247], [238, 79], [79, 20], [20, 238], [166, 59], [59, 75], [75, 166], [60, 75], [75, 240], [240, 60], [147, 177], [177, 215], [215, 147], [20, 79], [79, 166], [166, 20], [187, 147], [147, 213], [213, 187], [112, 233], [233, 244], [244, 112], [233, 128], [128, 245], [245, 233], [128, 114], [114, 188], [188, 128], [114, 217], [217, 174], [174, 114], [131, 115], [115, 220], [220, 131], [217, 198], [198, 236], [236, 217], [198, 131], [131, 134], [134, 198], [177, 132], [132, 58], [58, 177], [143, 35], [35, 124], [124, 143], [110, 163], [163, 7], [7, 110], [228, 110], [110, 25], [25, 228], [356, 389], [389, 368], [368, 356], [11, 302], [302, 267], [267, 11], [452, 350], [350, 349], [349, 452], [302, 303], [303, 269], [269, 302], [357, 343], [343, 277], [277, 357], [452, 453], [453, 357], [357, 452], [333, 332], [332, 297], [297, 333], [175, 152], [152, 377], [377, 175], [347, 348], [348, 330], [330, 347], [303, 304], [304, 270], [270, 303], [9, 336], [336, 337], [337, 9], [278, 279], [279, 360], [360, 278], [418, 262], [262, 431], [431, 418], [304, 408], [408, 409], [409, 304], [310, 415], [415, 407], [407, 310], [270, 409], [409, 410], [410, 270], [450, 348], [348, 347], [347, 450], [422, 430], [430, 434], [434, 422], [313, 314], [314, 17], [17, 313], [306, 307], [307, 375], [375, 306], [387, 388], [388, 260], [260, 387], [286, 414], [414, 398], [398, 286], [335, 406], [406, 418], [418, 335], [364, 367], [367, 416], [416, 364], [423, 358], [358, 327], [327, 423], [251, 284], [284, 298], [298, 251], [281, 5], [5, 4], [4, 281], [373, 374], [374, 253], [253, 373], [307, 320], [320, 321], [321, 307], [425, 427], [427, 411], [411, 425], [421, 313], [313, 18], [18, 421], [321, 405], [405, 406], [406, 321], [320, 404], [404, 405], [405, 320], [315, 16], [16, 17], [17, 315], [426, 425], [425, 266], [266, 426], [377, 400], [400, 369], [369, 377], [322, 391], [391, 269], [269, 322], [417, 465], [465, 464], [464, 417], [386, 257], [257, 258], [258, 386], [466, 260], [260, 388], [388, 466], [456, 399], [399, 419], [419, 456], [284, 332], [332, 333], [333, 284], [417, 285], [285, 8], [8, 417], [346, 340], [340, 261], [261, 346], [413, 441], [441, 285], [285, 413], [327, 460], [460, 328], [328, 327], [355, 371], [371, 329], [329, 355], [392, 439], [439, 438], [438, 392], [382, 341], [341, 256], [256, 382], [429, 420], [420, 360], [360, 429], [364, 394], [394, 379], [379, 364], [277, 343], [343, 437], [437, 277], [443, 444], [444, 283], [283, 443], [275, 440], [440, 363], [363, 275], [431, 262], [262, 369], [369, 431], [297, 338], [338, 337], [337, 297], [273, 375], [375, 321], [321, 273], [450, 451], [451, 349], [349, 450], [446, 342], [342, 467], [467, 446], [293, 334], [334, 282], [282, 293], [458, 461], [461, 462], [462, 458], [276, 353], [353, 383], [383, 276], [308, 324], [324, 325], [325, 308], [276, 300], [300, 293], [293, 276], [372, 345], [345, 447], [447, 372], [352, 345], [345, 340], [340, 352], [274, 1], [1, 19], [19, 274], [456, 248], [248, 281], [281, 456], [436, 427], [427, 425], [425, 436], [381, 256], [256, 252], [252, 381], [269, 391], [391, 393], [393, 269], [200, 199], [199, 428], [428, 200], [266, 330], [330, 329], [329, 266], [287, 273], [273, 422], [422, 287], [250, 462], [462, 328], [328, 250], [258, 286], [286, 384], [384, 258], [265, 353], [353, 342], [342, 265], [387, 259], [259, 257], [257, 387], [424, 431], [431, 430], [430, 424], [342, 353], [353, 276], [276, 342], [273, 335], [335, 424], [424, 273], [292, 325], [325, 307], [307, 292], [366, 447], [447, 345], [345, 366], [271, 303], [303, 302], [302, 271], [423, 266], [266, 371], [371, 423], [294, 455], [455, 460], [460, 294], [279, 278], [278, 294], [294, 279], [271, 272], [272, 304], [304, 271], [432, 434], [434, 427], [427, 432], [272, 407], [407, 408], [408, 272], [394, 430], [430, 431], [431, 394], [395, 369], [369, 400], [400, 395], [334, 333], [333, 299], [299, 334], [351, 417], [417, 168], [168, 351], [352, 280], [280, 411], [411, 352], [325, 319], [319, 320], [320, 325], [295, 296], [296, 336], [336, 295], [319, 403], [403, 404], [404, 319], [330, 348], [348, 349], [349, 330], [293, 298], [298, 333], [333, 293], [323, 454], [454, 447], [447, 323], [15, 16], [16, 315], [315, 15], [358, 429], [429, 279], [279, 358], [14, 15], [15, 316], [316, 14], [285, 336], [336, 9], [9, 285], [329, 349], [349, 350], [350, 329], [374, 380], [380, 252], [252, 374], [318, 402], [402, 403], [403, 318], [6, 197], [197, 419], [419, 6], [318, 319], [319, 325], [325, 318], [367, 364], [364, 365], [365, 367], [435, 367], [367, 397], [397, 435], [344, 438], [438, 439], [439, 344], [272, 271], [271, 311], [311, 272], [195, 5], [5, 281], [281, 195], [273, 287], [287, 291], [291, 273], [396, 428], [428, 199], [199, 396], [311, 271], [271, 268], [268, 311], [283, 444], [444, 445], [445, 283], [373, 254], [254, 339], [339, 373], [282, 334], [334, 296], [296, 282], [449, 347], [347, 346], [346, 449], [264, 447], [447, 454], [454, 264], [336, 296], [296, 299], [299, 336], [338, 10], [10, 151], [151, 338], [278, 439], [439, 455], [455, 278], [292, 407], [407, 415], [415, 292], [358, 371], [371, 355], [355, 358], [340, 345], [345, 372], [372, 340], [346, 347], [347, 280], [280, 346], [442, 443], [443, 282], [282, 442], [19, 94], [94, 370], [370, 19], [441, 442], [442, 295], [295, 441], [248, 419], [419, 197], [197, 248], [263, 255], [255, 359], [359, 263], [440, 275], [275, 274], [274, 440], [300, 383], [383, 368], [368, 300], [351, 412], [412, 465], [465, 351], [263, 467], [467, 466], [466, 263], [301, 368], [368, 389], [389, 301], [395, 378], [378, 379], [379, 395], [412, 351], [351, 419], [419, 412], [436, 426], [426, 322], [322, 436], [2, 164], [164, 393], [393, 2], [370, 462], [462, 461], [461, 370], [164, 0], [0, 267], [267, 164], [302, 11], [11, 12], [12, 302], [268, 12], [12, 13], [13, 268], [293, 300], [300, 301], [301, 293], [446, 261], [261, 340], [340, 446], [330, 266], [266, 425], [425, 330], [426, 423], [423, 391], [391, 426], [429, 355], [355, 437], [437, 429], [391, 327], [327, 326], [326, 391], [440, 457], [457, 438], [438, 440], [341, 382], [382, 362], [362, 341], [459, 457], [457, 461], [461, 459], [434, 430], [430, 394], [394, 434], [414, 463], [463, 362], [362, 414], [396, 369], [369, 262], [262, 396], [354, 461], [461, 457], [457, 354], [316, 403], [403, 402], [402, 316], [315, 404], [404, 403], [403, 315], [314, 405], [405, 404], [404, 314], [313, 406], [406, 405], [405, 313], [421, 418], [418, 406], [406, 421], [366, 401], [401, 361], [361, 366], [306, 408], [408, 407], [407, 306], [291, 409], [409, 408], [408, 291], [287, 410], [410, 409], [409, 287], [432, 436], [436, 410], [410, 432], [434, 416], [416, 411], [411, 434], [264, 368], [368, 383], [383, 264], [309, 438], [438, 457], [457, 309], [352, 376], [376, 401], [401, 352], [274, 275], [275, 4], [4, 274], [421, 428], [428, 262], [262, 421], [294, 327], [327, 358], [358, 294], [433, 416], [416, 367], [367, 433], [289, 455], [455, 439], [439, 289], [462, 370], [370, 326], [326, 462], [2, 326], [326, 370], [370, 2], [305, 460], [460, 455], [455, 305], [254, 449], [449, 448], [448, 254], [255, 261], [261, 446], [446, 255], [253, 450], [450, 449], [449, 253], [252, 451], [451, 450], [450, 252], [256, 452], [452, 451], [451, 256], [341, 453], [453, 452], [452, 341], [413, 464], [464, 463], [463, 413], [441, 413], [413, 414], [414, 441], [258, 442], [442, 441], [441, 258], [257, 443], [443, 442], [442, 257], [259, 444], [444, 443], [443, 259], [260, 445], [445, 444], [444, 260], [467, 342], [342, 445], [445, 467], [459, 458], [458, 250], [250, 459], [289, 392], [392, 290], [290, 289], [290, 328], [328, 460], [460, 290], [376, 433], [433, 435], [435, 376], [250, 290], [290, 392], [392, 250], [411, 416], [416, 433], [433, 411], [341, 463], [463, 464], [464, 341], [453, 464], [464, 465], [465, 453], [357, 465], [465, 412], [412, 357], [343, 412], [412, 399], [399, 343], [360, 363], [363, 440], [440, 360], [437, 399], [399, 456], [456, 437], [420, 456], [456, 363], [363, 420], [401, 435], [435, 288], [288, 401], [372, 383], [383, 353], [353, 372], [339, 255], [255, 249], [249, 339], [448, 261], [261, 255], [255, 448], [133, 243], [243, 190], [190, 133], [133, 155], [155, 112], [112, 133], [33, 246], [246, 247], [247, 33], [33, 130], [130, 25], [25, 33], [398, 384], [384, 286], [286, 398], [362, 398], [398, 414], [414, 362], [362, 463], [463, 341], [341, 362], [263, 359], [359, 467], [467, 263], [263, 249], [249, 255], [255, 263], [466, 467], [467, 260], [260, 466], [75, 60], [60, 166], [166, 75], [238, 239], [239, 79], [79, 238], [162, 127], [127, 139], [139, 162], [72, 11], [11, 37], [37, 72], [121, 232], [232, 120], [120, 121], [73, 72], [72, 39], [39, 73], [114, 128], [128, 47], [47, 114], [233, 232], [232, 128], [128, 233], [103, 104], [104, 67], [67, 103], [152, 175], [175, 148], [148, 152], [119, 118], [118, 101], [101, 119], [74, 73], [73, 40], [40, 74], [107, 9], [9, 108], [108, 107], [49, 48], [48, 131], [131, 49], [32, 194], [194, 211], [211, 32], [184, 74], [74, 185], [185, 184], [191, 80], [80, 183], [183, 191], [185, 40], [40, 186], [186, 185], [119, 230], [230, 118], [118, 119], [210, 202], [202, 214], [214, 210], [84, 83], [83, 17], [17, 84], [77, 76], [76, 146], [146, 77], [161, 160], [160, 30], [30, 161], [190, 56], [56, 173], [173, 190], [182, 106], [106, 194], [194, 182], [138, 135], [135, 192], [192, 138], [129, 203], [203, 98], [98, 129], [54, 21], [21, 68], [68, 54], [5, 51], [51, 4], [4, 5], [145, 144], [144, 23], [23, 145], [90, 77], [77, 91], [91, 90], [207, 205], [205, 187], [187, 207], [83, 201], [201, 18], [18, 83], [181, 91], [91, 182], [182, 181], [180, 90], [90, 181], [181, 180], [16, 85], [85, 17], [17, 16], [205, 206], [206, 36], [36, 205], [176, 148], [148, 140], [140, 176], [165, 92], [92, 39], [39, 165], [245, 193], [193, 244], [244, 245], [27, 159], [159, 28], [28, 27], [30, 247], [247, 161], [161, 30], [174, 236], [236, 196], [196, 174], [103, 54], [54, 104], [104, 103], [55, 193], [193, 8], [8, 55], [111, 117], [117, 31], [31, 111], [221, 189], [189, 55], [55, 221], [240, 98], [98, 99], [99, 240], [142, 126], [126, 100], [100, 142], [219, 166], [166, 218], [218, 219], [112, 155], [155, 26], [26, 112], [198, 209], [209, 131], [131, 198], [169, 135], [135, 150], [150, 169], [114, 47], [47, 217], [217, 114], [224, 223], [223, 53], [53, 224], [220, 45], [45, 134], [134, 220], [32, 211], [211, 140], [140, 32], [109, 67], [67, 108], [108, 109], [146, 43], [43, 91], [91, 146], [231, 230], [230, 120], [120, 231], [113, 226], [226, 247], [247, 113], [105, 63], [63, 52], [52, 105], [241, 238], [238, 242], [242, 241], [124, 46], [46, 156], [156, 124], [95, 78], [78, 96], [96, 95], [70, 46], [46, 63], [63, 70], [116, 143], [143, 227], [227, 116], [116, 123], [123, 111], [111, 116], [1, 44], [44, 19], [19, 1], [3, 236], [236, 51], [51, 3], [207, 216], [216, 205], [205, 207], [26, 154], [154, 22], [22, 26], [165, 39], [39, 167], [167, 165], [199, 200], [200, 208], [208, 199], [101, 36], [36, 100], [100, 101], [43, 57], [57, 202], [202, 43], [242, 20], [20, 99], [99, 242], [56, 28], [28, 157], [157, 56], [124, 35], [35, 113], [113, 124], [29, 160], [160, 27], [27, 29], [211, 204], [204, 210], [210, 211], [124, 113], [113, 46], [46, 124], [106, 43], [43, 204], [204, 106], [96, 62], [62, 77], [77, 96], [227, 137], [137, 116], [116, 227], [73, 41], [41, 72], [72, 73], [36, 203], [203, 142], [142, 36], [235, 64], [64, 240], [240, 235], [48, 49], [49, 64], [64, 48], [42, 41], [41, 74], [74, 42], [214, 212], [212, 207], [207, 214], [183, 42], [42, 184], [184, 183], [210, 169], [169, 211], [211, 210], [140, 170], [170, 176], [176, 140], [104, 105], [105, 69], [69, 104], [193, 122], [122, 168], [168, 193], [50, 123], [123, 187], [187, 50], [89, 96], [96, 90], [90, 89], [66, 65], [65, 107], [107, 66], [179, 89], [89, 180], [180, 179], [119, 101], [101, 120], [120, 119], [68, 63], [63, 104], [104, 68], [234, 93], [93, 227], [227, 234], [16, 15], [15, 85], [85, 16], [209, 129], [129, 49], [49, 209], [15, 14], [14, 86], [86, 15], [107, 55], [55, 9], [9, 107], [120, 100], [100, 121], [121, 120], [153, 145], [145, 22], [22, 153], [178, 88], [88, 179], [179, 178], [197, 6], [6, 196], [196, 197], [89, 88], [88, 96], [96, 89], [135, 138], [138, 136], [136, 135], [138, 215], [215, 172], [172, 138], [218, 115], [115, 219], [219, 218], [41, 42], [42, 81], [81, 41], [5, 195], [195, 51], [51, 5], [57, 43], [43, 61], [61, 57], [208, 171], [171, 199], [199, 208], [41, 81], [81, 38], [38, 41], [224, 53], [53, 225], [225, 224], [24, 144], [144, 110], [110, 24], [105, 52], [52, 66], [66, 105], [118, 229], [229, 117], [117, 118], [227, 34], [34, 234], [234, 227], [66, 107], [107, 69], [69, 66], [10, 109], [109, 151], [151, 10], [219, 48], [48, 235], [235, 219], [183, 62], [62, 191], [191, 183], [142, 129], [129, 126], [126, 142], [116, 111], [111, 143], [143, 116], [118, 117], [117, 50], [50, 118], [223, 222], [222, 52], [52, 223], [94, 19], [19, 141], [141, 94], [222, 221], [221, 65], [65, 222], [196, 3], [3, 197], [197, 196], [45, 220], [220, 44], [44, 45], [156, 70], [70, 139], [139, 156], [188, 122], [122, 245], [245, 188], [139, 71], [71, 162], [162, 139], [149, 170], [170, 150], [150, 149], [122, 188], [188, 196], [196, 122], [206, 216], [216, 92], [92, 206], [164, 2], [2, 167], [167, 164], [242, 141], [141, 241], [241, 242], [0, 164], [164, 37], [37, 0], [11, 72], [72, 12], [12, 11], [12, 38], [38, 13], [13, 12], [70, 63], [63, 71], [71, 70], [31, 226], [226, 111], [111, 31], [36, 101], [101, 205], [205, 36], [203, 206], [206, 165], [165, 203], [126, 209], [209, 217], [217, 126], [98, 165], [165, 97], [97, 98], [237, 220], [220, 218], [218, 237], [237, 239], [239, 241], [241, 237], [210, 214], [214, 169], [169, 210], [140, 171], [171, 32], [32, 140], [241, 125], [125, 237], [237, 241], [179, 86], [86, 178], [178, 179], [180, 85], [85, 179], [179, 180], [181, 84], [84, 180], [180, 181], [182, 83], [83, 181], [181, 182], [194, 201], [201, 182], [182, 194], [177, 137], [137, 132], [132, 177], [184, 76], [76, 183], [183, 184], [185, 61], [61, 184], [184, 185], [186, 57], [57, 185], [185, 186], [216, 212], [212, 186], [186, 216], [192, 214], [214, 187], [187, 192], [139, 34], [34, 156], [156, 139], [218, 79], [79, 237], [237, 218], [147, 123], [123, 177], [177, 147], [45, 44], [44, 4], [4, 45], [208, 201], [201, 32], [32, 208], [98, 64], [64, 129], [129, 98], [192, 213], [213, 138], [138, 192], [235, 59], [59, 219], [219, 235], [141, 242], [242, 97], [97, 141], [97, 2], [2, 141], [141, 97], [240, 75], [75, 235], [235, 240], [229, 24], [24, 228], [228, 229], [31, 25], [25, 226], [226, 31], [230, 23], [23, 229], [229, 230], [231, 22], [22, 230], [230, 231], [232, 26], [26, 231], [231, 232], [233, 112], [112, 232], [232, 233], [244, 189], [189, 243], [243, 244], [189, 221], [221, 190], [190, 189], [222, 28], [28, 221], [221, 222], [223, 27], [27, 222], [222, 223], [224, 29], [29, 223], [223, 224], [225, 30], [30, 224], [224, 225], [113, 247], [247, 225], [225, 113], [99, 60], [60, 240], [240, 99], [213, 147], [147, 215], [215, 213], [60, 20], [20, 166], [166, 60], [192, 187], [187, 213], [213, 192], [243, 112], [112, 244], [244, 243], [244, 233], [233, 245], [245, 244], [245, 128], [128, 188], [188, 245], [188, 114], [114, 174], [174, 188], [134, 131], [131, 220], [220, 134], [174, 217], [217, 236], [236, 174], [236, 198], [198, 134], [134, 236], [215, 177], [177, 58], [58, 215], [156, 143], [143, 124], [124, 156], [25, 110], [110, 7], [7, 25], [31, 228], [228, 25], [25, 31], [264, 356], [356, 368], [368, 264], [0, 11], [11, 267], [267, 0], [451, 452], [452, 349], [349, 451], [267, 302], [302, 269], [269, 267], [350, 357], [357, 277], [277, 350], [350, 452], [452, 357], [357, 350], [299, 333], [333, 297], [297, 299], [396, 175], [175, 377], [377, 396], [280, 347], [347, 330], [330, 280], [269, 303], [303, 270], [270, 269], [151, 9], [9, 337], [337, 151], [344, 278], [278, 360], [360, 344], [424, 418], [418, 431], [431, 424], [270, 304], [304, 409], [409, 270], [272, 310], [310, 407], [407, 272], [322, 270], [270, 410], [410, 322], [449, 450], [450, 347], [347, 449], [432, 422], [422, 434], [434, 432], [18, 313], [313, 17], [17, 18], [291, 306], [306, 375], [375, 291], [259, 387], [387, 260], [260, 259], [424, 335], [335, 418], [418, 424], [434, 364], [364, 416], [416, 434], [391, 423], [423, 327], [327, 391], [301, 251], [251, 298], [298, 301], [275, 281], [281, 4], [4, 275], [254, 373], [373, 253], [253, 254], [375, 307], [307, 321], [321, 375], [280, 425], [425, 411], [411, 280], [200, 421], [421, 18], [18, 200], [335, 321], [321, 406], [406, 335], [321, 320], [320, 405], [405, 321], [314, 315], [315, 17], [17, 314], [423, 426], [426, 266], [266, 423], [396, 377], [377, 369], [369, 396], [270, 322], [322, 269], [269, 270], [413, 417], [417, 464], [464, 413], [385, 386], [386, 258], [258, 385], [248, 456], [456, 419], [419, 248], [298, 284], [284, 333], [333, 298], [168, 417], [417, 8], [8, 168], [448, 346], [346, 261], [261, 448], [417, 413], [413, 285], [285, 417], [326, 327], [327, 328], [328, 326], [277, 355], [355, 329], [329, 277], [309, 392], [392, 438], [438, 309], [381, 382], [382, 256], [256, 381], [279, 429], [429, 360], [360, 279], [365, 364], [364, 379], [379, 365], [355, 277], [277, 437], [437, 355], [282, 443], [443, 283], [283, 282], [281, 275], [275, 363], [363, 281], [395, 431], [431, 369], [369, 395], [299, 297], [297, 337], [337, 299], [335, 273], [273, 321], [321, 335], [348, 450], [450, 349], [349, 348], [359, 446], [446, 467], [467, 359], [283, 293], [293, 282], [282, 283], [250, 458], [458, 462], [462, 250], [300, 276], [276, 383], [383, 300], [292, 308], [308, 325], [325, 292], [283, 276], [276, 293], [293, 283], [264, 372], [372, 447], [447, 264], [346, 352], [352, 340], [340, 346], [354, 274], [274, 19], [19, 354], [363, 456], [456, 281], [281, 363], [426, 436], [436, 425], [425, 426], [380, 381], [381, 252], [252, 380], [267, 269], [269, 393], [393, 267], [421, 200], [200, 428], [428, 421], [371, 266], [266, 329], [329, 371], [432, 287], [287, 422], [422, 432], [290, 250], [250, 328], [328, 290], [385, 258], [258, 384], [384, 385], [446, 265], [265, 342], [342, 446], [386, 387], [387, 257], [257, 386], [422, 424], [424, 430], [430, 422], [445, 342], [342, 276], [276, 445], [422, 273], [273, 424], [424, 422], [306, 292], [292, 307], [307, 306], [352, 366], [366, 345], [345, 352], [268, 271], [271, 302], [302, 268], [358, 423], [423, 371], [371, 358], [327, 294], [294, 460], [460, 327], [331, 279], [279, 294], [294, 331], [303, 271], [271, 304], [304, 303], [436, 432], [432, 427], [427, 436], [304, 272], [272, 408], [408, 304], [395, 394], [394, 431], [431, 395], [378, 395], [395, 400], [400, 378], [296, 334], [334, 299], [299, 296], [6, 351], [351, 168], [168, 6], [376, 352], [352, 411], [411, 376], [307, 325], [325, 320], [320, 307], [285, 295], [295, 336], [336, 285], [320, 319], [319, 404], [404, 320], [329, 330], [330, 349], [349, 329], [334, 293], [293, 333], [333, 334], [366, 323], [323, 447], [447, 366], [316, 15], [15, 315], [315, 316], [331, 358], [358, 279], [279, 331], [317, 14], [14, 316], [316, 317], [8, 285], [285, 9], [9, 8], [277, 329], [329, 350], [350, 277], [253, 374], [374, 252], [252, 253], [319, 318], [318, 403], [403, 319], [351, 6], [6, 419], [419, 351], [324, 318], [318, 325], [325, 324], [397, 367], [367, 365], [365, 397], [288, 435], [435, 397], [397, 288], [278, 344], [344, 439], [439, 278], [310, 272], [272, 311], [311, 310], [248, 195], [195, 281], [281, 248], [375, 273], [273, 291], [291, 375], [175, 396], [396, 199], [199, 175], [312, 311], [311, 268], [268, 312], [276, 283], [283, 445], [445, 276], [390, 373], [373, 339], [339, 390], [295, 282], [282, 296], [296, 295], [448, 449], [449, 346], [346, 448], [356, 264], [264, 454], [454, 356], [337, 336], [336, 299], [299, 337], [337, 338], [338, 151], [151, 337], [294, 278], [278, 455], [455, 294], [308, 292], [292, 415], [415, 308], [429, 358], [358, 355], [355, 429], [265, 340], [340, 372], [372, 265], [352, 346], [346, 280], [280, 352], [295, 442], [442, 282], [282, 295], [354, 19], [19, 370], [370, 354], [285, 441], [441, 295], [295, 285], [195, 248], [248, 197], [197, 195], [457, 440], [440, 274], [274, 457], [301, 300], [300, 368], [368, 301], [417, 351], [351, 465], [465, 417], [251, 301], [301, 389], [389, 251], [394, 395], [395, 379], [379, 394], [399, 412], [412, 419], [419, 399], [410, 436], [436, 322], [322, 410], [326, 2], [2, 393], [393, 326], [354, 370], [370, 461], [461, 354], [393, 164], [164, 267], [267, 393], [268, 302], [302, 12], [12, 268], [312, 268], [268, 13], [13, 312], [298, 293], [293, 301], [301, 298], [265, 446], [446, 340], [340, 265], [280, 330], [330, 425], [425, 280], [322, 426], [426, 391], [391, 322], [420, 429], [429, 437], [437, 420], [393, 391], [391, 326], [326, 393], [344, 440], [440, 438], [438, 344], [458, 459], [459, 461], [461, 458], [364, 434], [434, 394], [394, 364], [428, 396], [396, 262], [262, 428], [274, 354], [354, 457], [457, 274], [317, 316], [316, 402], [402, 317], [316, 315], [315, 403], [403, 316], [315, 314], [314, 404], [404, 315], [314, 313], [313, 405], [405, 314], [313, 421], [421, 406], [406, 313], [323, 366], [366, 361], [361, 323], [292, 306], [306, 407], [407, 292], [306, 291], [291, 408], [408, 306], [291, 287], [287, 409], [409, 291], [287, 432], [432, 410], [410, 287], [427, 434], [434, 411], [411, 427], [372, 264], [264, 383], [383, 372], [459, 309], [309, 457], [457, 459], [366, 352], [352, 401], [401, 366], [1, 274], [274, 4], [4, 1], [418, 421], [421, 262], [262, 418], [331, 294], [294, 358], [358, 331], [435, 433], [433, 367], [367, 435], [392, 289], [289, 439], [439, 392], [328, 462], [462, 326], [326, 328], [94, 2], [2, 370], [370, 94], [289, 305], [305, 455], [455, 289], [339, 254], [254, 448], [448, 339], [359, 255], [255, 446], [446, 359], [254, 253], [253, 449], [449, 254], [253, 252], [252, 450], [450, 253], [252, 256], [256, 451], [451, 252], [256, 341], [341, 452], [452, 256], [414, 413], [413, 463], [463, 414], [286, 441], [441, 414], [414, 286], [286, 258], [258, 441], [441, 286], [258, 257], [257, 442], [442, 258], [257, 259], [259, 443], [443, 257], [259, 260], [260, 444], [444, 259], [260, 467], [467, 445], [445, 260], [309, 459], [459, 250], [250, 309], [305, 289], [289, 290], [290, 305], [305, 290], [290, 460], [460, 305], [401, 376], [376, 435], [435, 401], [309, 250], [250, 392], [392, 309], [376, 411], [411, 433], [433, 376], [453, 341], [341, 464], [464, 453], [357, 453], [453, 465], [465, 357], [343, 357], [357, 412], [412, 343], [437, 343], [343, 399], [399, 437], [344, 360], [360, 440], [440, 344], [420, 437], [437, 456], [456, 420], [360, 420], [420, 363], [363, 360], [361, 401], [401, 288], [288, 361], [265, 372], [372, 353], [353, 265], [390, 339], [339, 249], [249, 390], [339, 448], [448, 255], [255, 339]);
-  function kc(t2) {
-    t2.j = { faceLandmarks: [], faceBlendshapes: [], facialTransformationMatrixes: [] };
+  function kc(t3) {
+    t3.j = { faceLandmarks: [], faceBlendshapes: [], facialTransformationMatrixes: [] };
   }
   var Sc = class extends dc {
-    constructor(t2, e2) {
-      super(new ac(t2, e2), "image_in", "norm_rect", false), this.j = { faceLandmarks: [], faceBlendshapes: [], facialTransformationMatrixes: [] }, this.outputFacialTransformationMatrixes = this.outputFaceBlendshapes = false, wn(t2 = this.h = new Js(), 0, 1, e2 = new Xs()), this.A = new $s(), wn(this.h, 0, 3, this.A), this.u = new zs(), wn(this.h, 0, 2, this.u), xn(this.u, 4, 1), Ln(this.u, 2, 0.5), Ln(this.A, 2, 0.5), Ln(this.h, 4, 0.5);
+    constructor(t3, e2) {
+      super(new ac(t3, e2), "image_in", "norm_rect", false), this.j = { faceLandmarks: [], faceBlendshapes: [], facialTransformationMatrixes: [] }, this.outputFacialTransformationMatrixes = this.outputFaceBlendshapes = false, wn(t3 = this.h = new Js(), 0, 1, e2 = new Xs()), this.A = new $s(), wn(this.h, 0, 3, this.A), this.u = new zs(), wn(this.h, 0, 2, this.u), xn(this.u, 4, 1), Ln(this.u, 2, 0.5), Ln(this.A, 2, 0.5), Ln(this.h, 4, 0.5);
     }
     get baseOptions() {
       return yn(this.h, Xs, 1);
     }
-    set baseOptions(t2) {
-      wn(this.h, 0, 1, t2);
+    set baseOptions(t3) {
+      wn(this.h, 0, 1, t3);
     }
-    o(t2) {
-      return "numFaces" in t2 && xn(this.u, 4, t2.numFaces ?? 1), "minFaceDetectionConfidence" in t2 && Ln(this.u, 2, t2.minFaceDetectionConfidence ?? 0.5), "minTrackingConfidence" in t2 && Ln(this.h, 4, t2.minTrackingConfidence ?? 0.5), "minFacePresenceConfidence" in t2 && Ln(this.A, 2, t2.minFacePresenceConfidence ?? 0.5), "outputFaceBlendshapes" in t2 && (this.outputFaceBlendshapes = !!t2.outputFaceBlendshapes), "outputFacialTransformationMatrixes" in t2 && (this.outputFacialTransformationMatrixes = !!t2.outputFacialTransformationMatrixes), this.l(t2);
+    o(t3) {
+      return "numFaces" in t3 && xn(this.u, 4, t3.numFaces ?? 1), "minFaceDetectionConfidence" in t3 && Ln(this.u, 2, t3.minFaceDetectionConfidence ?? 0.5), "minTrackingConfidence" in t3 && Ln(this.h, 4, t3.minTrackingConfidence ?? 0.5), "minFacePresenceConfidence" in t3 && Ln(this.A, 2, t3.minFacePresenceConfidence ?? 0.5), "outputFaceBlendshapes" in t3 && (this.outputFaceBlendshapes = !!t3.outputFaceBlendshapes), "outputFacialTransformationMatrixes" in t3 && (this.outputFacialTransformationMatrixes = !!t3.outputFacialTransformationMatrixes), this.l(t3);
     }
-    F(t2, e2) {
-      return kc(this), uc(this, t2, e2), this.j;
+    F(t3, e2) {
+      return kc(this), uc(this, t3, e2), this.j;
     }
-    G(t2, e2, n2) {
-      return kc(this), lc(this, t2, n2, e2), this.j;
+    G(t3, e2, n2) {
+      return kc(this), lc(this, t3, n2, e2), this.j;
     }
     m() {
-      var t2 = new ls();
-      hs(t2, "image_in"), hs(t2, "norm_rect"), us(t2, "face_landmarks");
+      var t3 = new ls();
+      hs(t3, "image_in"), hs(t3, "norm_rect"), us(t3, "face_landmarks");
       const e2 = new Qi();
       xr(e2, Qs, this.h);
       const n2 = new is();
-      Rn(n2, 2, "mediapipe.tasks.vision.face_landmarker.FaceLandmarkerGraph"), ns(n2, "IMAGE:image_in"), ns(n2, "NORM_RECT:norm_rect"), rs(n2, "NORM_LANDMARKS:face_landmarks"), n2.o(e2), cs(t2, n2), this.g.attachProtoVectorListener("face_landmarks", ((t3, e3) => {
-        for (const e4 of t3) t3 = ks(e4), this.j.faceLandmarks.push(Ho(t3));
+      Rn(n2, 2, "mediapipe.tasks.vision.face_landmarker.FaceLandmarkerGraph"), ns(n2, "IMAGE:image_in"), ns(n2, "NORM_RECT:norm_rect"), rs(n2, "NORM_LANDMARKS:face_landmarks"), n2.o(e2), cs(t3, n2), this.g.attachProtoVectorListener("face_landmarks", ((t4, e3) => {
+        for (const e4 of t4) t4 = ks(e4), this.j.faceLandmarks.push(Ho(t4));
         ua(this, e3);
-      })), this.g.attachEmptyPacketListener("face_landmarks", ((t3) => {
-        ua(this, t3);
-      })), this.outputFaceBlendshapes && (us(t2, "blendshapes"), rs(n2, "BLENDSHAPES:blendshapes"), this.g.attachProtoVectorListener("blendshapes", ((t3, e3) => {
-        if (this.outputFaceBlendshapes) for (const e4 of t3) t3 = ys(e4), this.j.faceBlendshapes.push(jo(t3.g() ?? []));
+      })), this.g.attachEmptyPacketListener("face_landmarks", ((t4) => {
+        ua(this, t4);
+      })), this.outputFaceBlendshapes && (us(t3, "blendshapes"), rs(n2, "BLENDSHAPES:blendshapes"), this.g.attachProtoVectorListener("blendshapes", ((t4, e3) => {
+        if (this.outputFaceBlendshapes) for (const e4 of t4) t4 = ys(e4), this.j.faceBlendshapes.push(jo(t4.g() ?? []));
         ua(this, e3);
-      })), this.g.attachEmptyPacketListener("blendshapes", ((t3) => {
-        ua(this, t3);
-      }))), this.outputFacialTransformationMatrixes && (us(t2, "face_geometry"), rs(n2, "FACE_GEOMETRY:face_geometry"), this.g.attachProtoVectorListener("face_geometry", ((t3, e3) => {
-        if (this.outputFacialTransformationMatrixes) for (const e4 of t3) (t3 = yn(t3 = qs(e4), Ss, 2)) && this.j.facialTransformationMatrixes.push({ rows: kn(t3, 1) ?? 0 ?? 0, columns: kn(t3, 2) ?? 0 ?? 0, data: en(t3, 3, $t, tn()).slice() ?? [] });
+      })), this.g.attachEmptyPacketListener("blendshapes", ((t4) => {
+        ua(this, t4);
+      }))), this.outputFacialTransformationMatrixes && (us(t3, "face_geometry"), rs(n2, "FACE_GEOMETRY:face_geometry"), this.g.attachProtoVectorListener("face_geometry", ((t4, e3) => {
+        if (this.outputFacialTransformationMatrixes) for (const e4 of t4) (t4 = yn(t4 = qs(e4), Ss, 2)) && this.j.facialTransformationMatrixes.push({ rows: kn(t4, 1) ?? 0 ?? 0, columns: kn(t4, 2) ?? 0 ?? 0, data: en(t4, 3, $t, tn()).slice() ?? [] });
         ua(this, e3);
-      })), this.g.attachEmptyPacketListener("face_geometry", ((t3) => {
-        ua(this, t3);
-      }))), t2 = t2.g(), this.setGraph(new Uint8Array(t2), true);
+      })), this.g.attachEmptyPacketListener("face_geometry", ((t4) => {
+        ua(this, t4);
+      }))), t3 = t3.g(), this.setGraph(new Uint8Array(t3), true);
     }
   };
-  Sc.prototype.detectForVideo = Sc.prototype.G, Sc.prototype.detect = Sc.prototype.F, Sc.prototype.setOptions = Sc.prototype.o, Sc.createFromModelPath = function(t2, e2) {
-    return cc(Sc, t2, { baseOptions: { modelAssetPath: e2 } });
-  }, Sc.createFromModelBuffer = function(t2, e2) {
-    return cc(Sc, t2, { baseOptions: { modelAssetBuffer: e2 } });
-  }, Sc.createFromOptions = function(t2, e2) {
-    return cc(Sc, t2, e2);
+  Sc.prototype.detectForVideo = Sc.prototype.G, Sc.prototype.detect = Sc.prototype.F, Sc.prototype.setOptions = Sc.prototype.o, Sc.createFromModelPath = function(t3, e2) {
+    return cc(Sc, t3, { baseOptions: { modelAssetPath: e2 } });
+  }, Sc.createFromModelBuffer = function(t3, e2) {
+    return cc(Sc, t3, { baseOptions: { modelAssetBuffer: e2 } });
+  }, Sc.createFromOptions = function(t3, e2) {
+    return cc(Sc, t3, e2);
   }, Sc.FACE_LANDMARKS_LIPS = gc, Sc.FACE_LANDMARKS_LEFT_EYE = mc, Sc.FACE_LANDMARKS_LEFT_EYEBROW = yc, Sc.FACE_LANDMARKS_LEFT_IRIS = _c, Sc.FACE_LANDMARKS_RIGHT_EYE = vc, Sc.FACE_LANDMARKS_RIGHT_EYEBROW = Ec, Sc.FACE_LANDMARKS_RIGHT_IRIS = wc, Sc.FACE_LANDMARKS_FACE_OVAL = Tc, Sc.FACE_LANDMARKS_CONTOURS = Ac, Sc.FACE_LANDMARKS_TESSELATION = bc;
   var xc = ic([0, 1], [1, 2], [2, 3], [3, 4], [0, 5], [5, 6], [6, 7], [7, 8], [5, 9], [9, 10], [10, 11], [11, 12], [9, 13], [13, 14], [14, 15], [15, 16], [13, 17], [0, 17], [17, 18], [18, 19], [19, 20]);
-  function Lc(t2) {
-    t2.gestures = [], t2.landmarks = [], t2.worldLandmarks = [], t2.handedness = [];
+  function Lc(t3) {
+    t3.gestures = [], t3.landmarks = [], t3.worldLandmarks = [], t3.handedness = [];
   }
-  function Rc(t2) {
-    return 0 === t2.gestures.length ? { gestures: [], landmarks: [], worldLandmarks: [], handedness: [], handednesses: [] } : { gestures: t2.gestures, landmarks: t2.landmarks, worldLandmarks: t2.worldLandmarks, handedness: t2.handedness, handednesses: t2.handedness };
+  function Rc(t3) {
+    return 0 === t3.gestures.length ? { gestures: [], landmarks: [], worldLandmarks: [], handedness: [], handednesses: [] } : { gestures: t3.gestures, landmarks: t3.landmarks, worldLandmarks: t3.worldLandmarks, handedness: t3.handedness, handednesses: t3.handedness };
   }
-  function Ic(t2, e2 = true) {
+  function Ic(t3, e2 = true) {
     const n2 = [];
-    for (const i2 of t2) {
+    for (const i2 of t3) {
       var r2 = ys(i2);
-      t2 = [];
-      for (const n3 of r2.g()) r2 = e2 && null != kn(n3, 1) ? kn(n3, 1) ?? 0 : -1, t2.push({ score: Sn(n3, 2) ?? 0, index: r2, categoryName: le($e(n3, 3)) ?? "" ?? "", displayName: le($e(n3, 4)) ?? "" ?? "" });
-      n2.push(t2);
+      t3 = [];
+      for (const n3 of r2.g()) r2 = e2 && null != kn(n3, 1) ? kn(n3, 1) ?? 0 : -1, t3.push({ score: Sn(n3, 2) ?? 0, index: r2, categoryName: le($e(n3, 3)) ?? "" ?? "", displayName: le($e(n3, 4)) ?? "" ?? "" });
+      n2.push(t3);
     }
     return n2;
   }
   var Fc = class extends dc {
-    constructor(t2, e2) {
-      super(new ac(t2, e2), "image_in", "norm_rect", false), this.gestures = [], this.landmarks = [], this.worldLandmarks = [], this.handedness = [], wn(t2 = this.j = new oo(), 0, 1, e2 = new Xs()), this.u = new so(), wn(this.j, 0, 2, this.u), this.D = new io(), wn(this.u, 0, 3, this.D), this.A = new ro(), wn(this.u, 0, 2, this.A), this.h = new no(), wn(this.j, 0, 3, this.h), Ln(this.A, 2, 0.5), Ln(this.u, 4, 0.5), Ln(this.D, 2, 0.5);
+    constructor(t3, e2) {
+      super(new ac(t3, e2), "image_in", "norm_rect", false), this.gestures = [], this.landmarks = [], this.worldLandmarks = [], this.handedness = [], wn(t3 = this.j = new oo(), 0, 1, e2 = new Xs()), this.u = new so(), wn(this.j, 0, 2, this.u), this.D = new io(), wn(this.u, 0, 3, this.D), this.A = new ro(), wn(this.u, 0, 2, this.A), this.h = new no(), wn(this.j, 0, 3, this.h), Ln(this.A, 2, 0.5), Ln(this.u, 4, 0.5), Ln(this.D, 2, 0.5);
     }
     get baseOptions() {
       return yn(this.j, Xs, 1);
     }
-    set baseOptions(t2) {
-      wn(this.j, 0, 1, t2);
+    set baseOptions(t3) {
+      wn(this.j, 0, 1, t3);
     }
-    o(t2) {
-      if (xn(this.A, 3, t2.numHands ?? 1), "minHandDetectionConfidence" in t2 && Ln(this.A, 2, t2.minHandDetectionConfidence ?? 0.5), "minTrackingConfidence" in t2 && Ln(this.u, 4, t2.minTrackingConfidence ?? 0.5), "minHandPresenceConfidence" in t2 && Ln(this.D, 2, t2.minHandPresenceConfidence ?? 0.5), t2.cannedGesturesClassifierOptions) {
-        var e2 = new to(), n2 = e2, r2 = Bo(t2.cannedGesturesClassifierOptions, yn(this.h, to, 3)?.l());
+    o(t3) {
+      if (xn(this.A, 3, t3.numHands ?? 1), "minHandDetectionConfidence" in t3 && Ln(this.A, 2, t3.minHandDetectionConfidence ?? 0.5), "minTrackingConfidence" in t3 && Ln(this.u, 4, t3.minTrackingConfidence ?? 0.5), "minHandPresenceConfidence" in t3 && Ln(this.D, 2, t3.minHandPresenceConfidence ?? 0.5), t3.cannedGesturesClassifierOptions) {
+        var e2 = new to(), n2 = e2, r2 = Bo(t3.cannedGesturesClassifierOptions, yn(this.h, to, 3)?.l());
         wn(n2, 0, 2, r2), wn(this.h, 0, 3, e2);
-      } else void 0 === t2.cannedGesturesClassifierOptions && yn(this.h, to, 3)?.g();
-      return t2.customGesturesClassifierOptions ? (wn(n2 = e2 = new to(), 0, 2, r2 = Bo(t2.customGesturesClassifierOptions, yn(this.h, to, 4)?.l())), wn(this.h, 0, 4, e2)) : void 0 === t2.customGesturesClassifierOptions && yn(this.h, to, 4)?.g(), this.l(t2);
+      } else void 0 === t3.cannedGesturesClassifierOptions && yn(this.h, to, 3)?.g();
+      return t3.customGesturesClassifierOptions ? (wn(n2 = e2 = new to(), 0, 2, r2 = Bo(t3.customGesturesClassifierOptions, yn(this.h, to, 4)?.l())), wn(this.h, 0, 4, e2)) : void 0 === t3.customGesturesClassifierOptions && yn(this.h, to, 4)?.g(), this.l(t3);
     }
-    Ha(t2, e2) {
-      return Lc(this), uc(this, t2, e2), Rc(this);
+    Ha(t3, e2) {
+      return Lc(this), uc(this, t3, e2), Rc(this);
     }
-    Ia(t2, e2, n2) {
-      return Lc(this), lc(this, t2, n2, e2), Rc(this);
+    Ia(t3, e2, n2) {
+      return Lc(this), lc(this, t3, n2, e2), Rc(this);
     }
     m() {
-      var t2 = new ls();
-      hs(t2, "image_in"), hs(t2, "norm_rect"), us(t2, "hand_gestures"), us(t2, "hand_landmarks"), us(t2, "world_hand_landmarks"), us(t2, "handedness");
+      var t3 = new ls();
+      hs(t3, "image_in"), hs(t3, "norm_rect"), us(t3, "hand_gestures"), us(t3, "hand_landmarks"), us(t3, "world_hand_landmarks"), us(t3, "handedness");
       const e2 = new Qi();
       xr(e2, lo, this.j);
       const n2 = new is();
-      Rn(n2, 2, "mediapipe.tasks.vision.gesture_recognizer.GestureRecognizerGraph"), ns(n2, "IMAGE:image_in"), ns(n2, "NORM_RECT:norm_rect"), rs(n2, "HAND_GESTURES:hand_gestures"), rs(n2, "LANDMARKS:hand_landmarks"), rs(n2, "WORLD_LANDMARKS:world_hand_landmarks"), rs(n2, "HANDEDNESS:handedness"), n2.o(e2), cs(t2, n2), this.g.attachProtoVectorListener("hand_landmarks", ((t3, e3) => {
-        for (const e4 of t3) {
-          t3 = ks(e4);
+      Rn(n2, 2, "mediapipe.tasks.vision.gesture_recognizer.GestureRecognizerGraph"), ns(n2, "IMAGE:image_in"), ns(n2, "NORM_RECT:norm_rect"), rs(n2, "HAND_GESTURES:hand_gestures"), rs(n2, "LANDMARKS:hand_landmarks"), rs(n2, "WORLD_LANDMARKS:world_hand_landmarks"), rs(n2, "HANDEDNESS:handedness"), n2.o(e2), cs(t3, n2), this.g.attachProtoVectorListener("hand_landmarks", ((t4, e3) => {
+        for (const e4 of t4) {
+          t4 = ks(e4);
           const n3 = [];
-          for (const e5 of vn(t3, bs, 1)) n3.push({ x: Sn(e5, 1) ?? 0, y: Sn(e5, 2) ?? 0, z: Sn(e5, 3) ?? 0, visibility: Sn(e5, 4) ?? 0 });
+          for (const e5 of vn(t4, bs, 1)) n3.push({ x: Sn(e5, 1) ?? 0, y: Sn(e5, 2) ?? 0, z: Sn(e5, 3) ?? 0, visibility: Sn(e5, 4) ?? 0 });
           this.landmarks.push(n3);
         }
         ua(this, e3);
-      })), this.g.attachEmptyPacketListener("hand_landmarks", ((t3) => {
-        ua(this, t3);
-      })), this.g.attachProtoVectorListener("world_hand_landmarks", ((t3, e3) => {
-        for (const e4 of t3) {
-          t3 = As(e4);
+      })), this.g.attachEmptyPacketListener("hand_landmarks", ((t4) => {
+        ua(this, t4);
+      })), this.g.attachProtoVectorListener("world_hand_landmarks", ((t4, e3) => {
+        for (const e4 of t4) {
+          t4 = As(e4);
           const n3 = [];
-          for (const e5 of vn(t3, Ts, 1)) n3.push({ x: Sn(e5, 1) ?? 0, y: Sn(e5, 2) ?? 0, z: Sn(e5, 3) ?? 0, visibility: Sn(e5, 4) ?? 0 });
+          for (const e5 of vn(t4, Ts, 1)) n3.push({ x: Sn(e5, 1) ?? 0, y: Sn(e5, 2) ?? 0, z: Sn(e5, 3) ?? 0, visibility: Sn(e5, 4) ?? 0 });
           this.worldLandmarks.push(n3);
         }
         ua(this, e3);
-      })), this.g.attachEmptyPacketListener("world_hand_landmarks", ((t3) => {
-        ua(this, t3);
-      })), this.g.attachProtoVectorListener("hand_gestures", ((t3, e3) => {
-        this.gestures.push(...Ic(t3, false)), ua(this, e3);
-      })), this.g.attachEmptyPacketListener("hand_gestures", ((t3) => {
-        ua(this, t3);
-      })), this.g.attachProtoVectorListener("handedness", ((t3, e3) => {
-        this.handedness.push(...Ic(t3)), ua(this, e3);
-      })), this.g.attachEmptyPacketListener("handedness", ((t3) => {
-        ua(this, t3);
-      })), t2 = t2.g(), this.setGraph(new Uint8Array(t2), true);
+      })), this.g.attachEmptyPacketListener("world_hand_landmarks", ((t4) => {
+        ua(this, t4);
+      })), this.g.attachProtoVectorListener("hand_gestures", ((t4, e3) => {
+        this.gestures.push(...Ic(t4, false)), ua(this, e3);
+      })), this.g.attachEmptyPacketListener("hand_gestures", ((t4) => {
+        ua(this, t4);
+      })), this.g.attachProtoVectorListener("handedness", ((t4, e3) => {
+        this.handedness.push(...Ic(t4)), ua(this, e3);
+      })), this.g.attachEmptyPacketListener("handedness", ((t4) => {
+        ua(this, t4);
+      })), t3 = t3.g(), this.setGraph(new Uint8Array(t3), true);
     }
   };
-  function Mc(t2) {
-    return { landmarks: t2.landmarks, worldLandmarks: t2.worldLandmarks, handednesses: t2.handedness, handedness: t2.handedness };
+  function Mc(t3) {
+    return { landmarks: t3.landmarks, worldLandmarks: t3.worldLandmarks, handednesses: t3.handedness, handedness: t3.handedness };
   }
-  Fc.prototype.recognizeForVideo = Fc.prototype.Ia, Fc.prototype.recognize = Fc.prototype.Ha, Fc.prototype.setOptions = Fc.prototype.o, Fc.createFromModelPath = function(t2, e2) {
-    return cc(Fc, t2, { baseOptions: { modelAssetPath: e2 } });
-  }, Fc.createFromModelBuffer = function(t2, e2) {
-    return cc(Fc, t2, { baseOptions: { modelAssetBuffer: e2 } });
-  }, Fc.createFromOptions = function(t2, e2) {
-    return cc(Fc, t2, e2);
+  Fc.prototype.recognizeForVideo = Fc.prototype.Ia, Fc.prototype.recognize = Fc.prototype.Ha, Fc.prototype.setOptions = Fc.prototype.o, Fc.createFromModelPath = function(t3, e2) {
+    return cc(Fc, t3, { baseOptions: { modelAssetPath: e2 } });
+  }, Fc.createFromModelBuffer = function(t3, e2) {
+    return cc(Fc, t3, { baseOptions: { modelAssetBuffer: e2 } });
+  }, Fc.createFromOptions = function(t3, e2) {
+    return cc(Fc, t3, e2);
   }, Fc.HAND_CONNECTIONS = xc;
   var Pc = class extends dc {
-    constructor(t2, e2) {
-      super(new ac(t2, e2), "image_in", "norm_rect", false), this.landmarks = [], this.worldLandmarks = [], this.handedness = [], wn(t2 = this.h = new so(), 0, 1, e2 = new Xs()), this.u = new io(), wn(this.h, 0, 3, this.u), this.j = new ro(), wn(this.h, 0, 2, this.j), xn(this.j, 3, 1), Ln(this.j, 2, 0.5), Ln(this.u, 2, 0.5), Ln(this.h, 4, 0.5);
+    constructor(t3, e2) {
+      super(new ac(t3, e2), "image_in", "norm_rect", false), this.landmarks = [], this.worldLandmarks = [], this.handedness = [], wn(t3 = this.h = new so(), 0, 1, e2 = new Xs()), this.u = new io(), wn(this.h, 0, 3, this.u), this.j = new ro(), wn(this.h, 0, 2, this.j), xn(this.j, 3, 1), Ln(this.j, 2, 0.5), Ln(this.u, 2, 0.5), Ln(this.h, 4, 0.5);
     }
     get baseOptions() {
       return yn(this.h, Xs, 1);
     }
-    set baseOptions(t2) {
-      wn(this.h, 0, 1, t2);
+    set baseOptions(t3) {
+      wn(this.h, 0, 1, t3);
     }
-    o(t2) {
-      return "numHands" in t2 && xn(this.j, 3, t2.numHands ?? 1), "minHandDetectionConfidence" in t2 && Ln(this.j, 2, t2.minHandDetectionConfidence ?? 0.5), "minTrackingConfidence" in t2 && Ln(this.h, 4, t2.minTrackingConfidence ?? 0.5), "minHandPresenceConfidence" in t2 && Ln(this.u, 2, t2.minHandPresenceConfidence ?? 0.5), this.l(t2);
+    o(t3) {
+      return "numHands" in t3 && xn(this.j, 3, t3.numHands ?? 1), "minHandDetectionConfidence" in t3 && Ln(this.j, 2, t3.minHandDetectionConfidence ?? 0.5), "minTrackingConfidence" in t3 && Ln(this.h, 4, t3.minTrackingConfidence ?? 0.5), "minHandPresenceConfidence" in t3 && Ln(this.u, 2, t3.minHandPresenceConfidence ?? 0.5), this.l(t3);
     }
-    F(t2, e2) {
-      return this.landmarks = [], this.worldLandmarks = [], this.handedness = [], uc(this, t2, e2), Mc(this);
+    F(t3, e2) {
+      return this.landmarks = [], this.worldLandmarks = [], this.handedness = [], uc(this, t3, e2), Mc(this);
     }
-    G(t2, e2, n2) {
-      return this.landmarks = [], this.worldLandmarks = [], this.handedness = [], lc(this, t2, n2, e2), Mc(this);
+    G(t3, e2, n2) {
+      return this.landmarks = [], this.worldLandmarks = [], this.handedness = [], lc(this, t3, n2, e2), Mc(this);
     }
     m() {
-      var t2 = new ls();
-      hs(t2, "image_in"), hs(t2, "norm_rect"), us(t2, "hand_landmarks"), us(t2, "world_hand_landmarks"), us(t2, "handedness");
+      var t3 = new ls();
+      hs(t3, "image_in"), hs(t3, "norm_rect"), us(t3, "hand_landmarks"), us(t3, "world_hand_landmarks"), us(t3, "handedness");
       const e2 = new Qi();
       xr(e2, fo, this.h);
       const n2 = new is();
-      Rn(n2, 2, "mediapipe.tasks.vision.hand_landmarker.HandLandmarkerGraph"), ns(n2, "IMAGE:image_in"), ns(n2, "NORM_RECT:norm_rect"), rs(n2, "LANDMARKS:hand_landmarks"), rs(n2, "WORLD_LANDMARKS:world_hand_landmarks"), rs(n2, "HANDEDNESS:handedness"), n2.o(e2), cs(t2, n2), this.g.attachProtoVectorListener("hand_landmarks", ((t3, e3) => {
-        for (const e4 of t3) t3 = ks(e4), this.landmarks.push(Ho(t3));
+      Rn(n2, 2, "mediapipe.tasks.vision.hand_landmarker.HandLandmarkerGraph"), ns(n2, "IMAGE:image_in"), ns(n2, "NORM_RECT:norm_rect"), rs(n2, "LANDMARKS:hand_landmarks"), rs(n2, "WORLD_LANDMARKS:world_hand_landmarks"), rs(n2, "HANDEDNESS:handedness"), n2.o(e2), cs(t3, n2), this.g.attachProtoVectorListener("hand_landmarks", ((t4, e3) => {
+        for (const e4 of t4) t4 = ks(e4), this.landmarks.push(Ho(t4));
         ua(this, e3);
-      })), this.g.attachEmptyPacketListener("hand_landmarks", ((t3) => {
-        ua(this, t3);
-      })), this.g.attachProtoVectorListener("world_hand_landmarks", ((t3, e3) => {
-        for (const e4 of t3) t3 = As(e4), this.worldLandmarks.push(Wo(t3));
+      })), this.g.attachEmptyPacketListener("hand_landmarks", ((t4) => {
+        ua(this, t4);
+      })), this.g.attachProtoVectorListener("world_hand_landmarks", ((t4, e3) => {
+        for (const e4 of t4) t4 = As(e4), this.worldLandmarks.push(Wo(t4));
         ua(this, e3);
-      })), this.g.attachEmptyPacketListener("world_hand_landmarks", ((t3) => {
-        ua(this, t3);
-      })), this.g.attachProtoVectorListener("handedness", ((t3, e3) => {
+      })), this.g.attachEmptyPacketListener("world_hand_landmarks", ((t4) => {
+        ua(this, t4);
+      })), this.g.attachProtoVectorListener("handedness", ((t4, e3) => {
         var n3 = this.handedness, r2 = n3.push;
         const i2 = [];
-        for (const e4 of t3) {
-          t3 = ys(e4);
+        for (const e4 of t4) {
+          t4 = ys(e4);
           const n4 = [];
-          for (const e5 of t3.g()) n4.push({ score: Sn(e5, 2) ?? 0, index: kn(e5, 1) ?? 0 ?? -1, categoryName: le($e(e5, 3)) ?? "" ?? "", displayName: le($e(e5, 4)) ?? "" ?? "" });
+          for (const e5 of t4.g()) n4.push({ score: Sn(e5, 2) ?? 0, index: kn(e5, 1) ?? 0 ?? -1, categoryName: le($e(e5, 3)) ?? "" ?? "", displayName: le($e(e5, 4)) ?? "" ?? "" });
           i2.push(n4);
         }
         r2.call(n3, ...i2), ua(this, e3);
-      })), this.g.attachEmptyPacketListener("handedness", ((t3) => {
-        ua(this, t3);
-      })), t2 = t2.g(), this.setGraph(new Uint8Array(t2), true);
+      })), this.g.attachEmptyPacketListener("handedness", ((t4) => {
+        ua(this, t4);
+      })), t3 = t3.g(), this.setGraph(new Uint8Array(t3), true);
     }
   };
-  Pc.prototype.detectForVideo = Pc.prototype.G, Pc.prototype.detect = Pc.prototype.F, Pc.prototype.setOptions = Pc.prototype.o, Pc.createFromModelPath = function(t2, e2) {
-    return cc(Pc, t2, { baseOptions: { modelAssetPath: e2 } });
-  }, Pc.createFromModelBuffer = function(t2, e2) {
-    return cc(Pc, t2, { baseOptions: { modelAssetBuffer: e2 } });
-  }, Pc.createFromOptions = function(t2, e2) {
-    return cc(Pc, t2, e2);
+  Pc.prototype.detectForVideo = Pc.prototype.G, Pc.prototype.detect = Pc.prototype.F, Pc.prototype.setOptions = Pc.prototype.o, Pc.createFromModelPath = function(t3, e2) {
+    return cc(Pc, t3, { baseOptions: { modelAssetPath: e2 } });
+  }, Pc.createFromModelBuffer = function(t3, e2) {
+    return cc(Pc, t3, { baseOptions: { modelAssetBuffer: e2 } });
+  }, Pc.createFromOptions = function(t3, e2) {
+    return cc(Pc, t3, e2);
   }, Pc.HAND_CONNECTIONS = xc;
   var Cc = ic([0, 1], [1, 2], [2, 3], [3, 7], [0, 4], [4, 5], [5, 6], [6, 8], [9, 10], [11, 12], [11, 13], [13, 15], [15, 17], [15, 19], [15, 21], [17, 19], [12, 14], [14, 16], [16, 18], [16, 20], [16, 22], [18, 20], [11, 23], [12, 24], [23, 24], [23, 25], [24, 26], [25, 27], [26, 28], [27, 29], [28, 30], [29, 31], [30, 32], [27, 31], [28, 32]);
-  function Oc(t2) {
-    t2.h = { faceLandmarks: [], faceBlendshapes: [], poseLandmarks: [], poseWorldLandmarks: [], poseSegmentationMasks: [], leftHandLandmarks: [], leftHandWorldLandmarks: [], rightHandLandmarks: [], rightHandWorldLandmarks: [] };
+  function Oc(t3) {
+    t3.h = { faceLandmarks: [], faceBlendshapes: [], poseLandmarks: [], poseWorldLandmarks: [], poseSegmentationMasks: [], leftHandLandmarks: [], leftHandWorldLandmarks: [], rightHandLandmarks: [], rightHandWorldLandmarks: [] };
   }
-  function Nc(t2) {
+  function Nc(t3) {
     try {
-      if (!t2.D) return t2.h;
-      t2.D(t2.h);
+      if (!t3.D) return t3.h;
+      t3.D(t3.h);
     } finally {
-      da(t2);
+      da(t3);
     }
   }
-  function Uc(t2, e2) {
-    t2 = ks(t2), e2.push(Ho(t2));
+  function Uc(t3, e2) {
+    t3 = ks(t3), e2.push(Ho(t3));
   }
   var Dc = class extends dc {
-    constructor(t2, e2) {
-      super(new ac(t2, e2), "input_frames_image", null, false), this.h = { faceLandmarks: [], faceBlendshapes: [], poseLandmarks: [], poseWorldLandmarks: [], poseSegmentationMasks: [], leftHandLandmarks: [], leftHandWorldLandmarks: [], rightHandLandmarks: [], rightHandWorldLandmarks: [] }, this.outputPoseSegmentationMasks = this.outputFaceBlendshapes = false, wn(t2 = this.j = new yo(), 0, 1, e2 = new Xs()), this.I = new io(), wn(this.j, 0, 2, this.I), this.W = new po(), wn(this.j, 0, 3, this.W), this.u = new zs(), wn(this.j, 0, 4, this.u), this.O = new $s(), wn(this.j, 0, 5, this.O), this.A = new go(), wn(this.j, 0, 6, this.A), this.M = new mo(), wn(this.j, 0, 7, this.M), Ln(this.u, 2, 0.5), Ln(this.u, 3, 0.3), Ln(this.O, 2, 0.5), Ln(this.A, 2, 0.5), Ln(this.A, 3, 0.3), Ln(this.M, 2, 0.5), Ln(this.I, 2, 0.5);
+    constructor(t3, e2) {
+      super(new ac(t3, e2), "input_frames_image", null, false), this.h = { faceLandmarks: [], faceBlendshapes: [], poseLandmarks: [], poseWorldLandmarks: [], poseSegmentationMasks: [], leftHandLandmarks: [], leftHandWorldLandmarks: [], rightHandLandmarks: [], rightHandWorldLandmarks: [] }, this.outputPoseSegmentationMasks = this.outputFaceBlendshapes = false, wn(t3 = this.j = new yo(), 0, 1, e2 = new Xs()), this.I = new io(), wn(this.j, 0, 2, this.I), this.W = new po(), wn(this.j, 0, 3, this.W), this.u = new zs(), wn(this.j, 0, 4, this.u), this.O = new $s(), wn(this.j, 0, 5, this.O), this.A = new go(), wn(this.j, 0, 6, this.A), this.M = new mo(), wn(this.j, 0, 7, this.M), Ln(this.u, 2, 0.5), Ln(this.u, 3, 0.3), Ln(this.O, 2, 0.5), Ln(this.A, 2, 0.5), Ln(this.A, 3, 0.3), Ln(this.M, 2, 0.5), Ln(this.I, 2, 0.5);
     }
     get baseOptions() {
       return yn(this.j, Xs, 1);
     }
-    set baseOptions(t2) {
-      wn(this.j, 0, 1, t2);
+    set baseOptions(t3) {
+      wn(this.j, 0, 1, t3);
     }
-    o(t2) {
-      return "minFaceDetectionConfidence" in t2 && Ln(this.u, 2, t2.minFaceDetectionConfidence ?? 0.5), "minFaceSuppressionThreshold" in t2 && Ln(this.u, 3, t2.minFaceSuppressionThreshold ?? 0.3), "minFacePresenceConfidence" in t2 && Ln(this.O, 2, t2.minFacePresenceConfidence ?? 0.5), "outputFaceBlendshapes" in t2 && (this.outputFaceBlendshapes = !!t2.outputFaceBlendshapes), "minPoseDetectionConfidence" in t2 && Ln(this.A, 2, t2.minPoseDetectionConfidence ?? 0.5), "minPoseSuppressionThreshold" in t2 && Ln(this.A, 3, t2.minPoseSuppressionThreshold ?? 0.3), "minPosePresenceConfidence" in t2 && Ln(this.M, 2, t2.minPosePresenceConfidence ?? 0.5), "outputPoseSegmentationMasks" in t2 && (this.outputPoseSegmentationMasks = !!t2.outputPoseSegmentationMasks), "minHandLandmarksConfidence" in t2 && Ln(this.I, 2, t2.minHandLandmarksConfidence ?? 0.5), this.l(t2);
+    o(t3) {
+      return "minFaceDetectionConfidence" in t3 && Ln(this.u, 2, t3.minFaceDetectionConfidence ?? 0.5), "minFaceSuppressionThreshold" in t3 && Ln(this.u, 3, t3.minFaceSuppressionThreshold ?? 0.3), "minFacePresenceConfidence" in t3 && Ln(this.O, 2, t3.minFacePresenceConfidence ?? 0.5), "outputFaceBlendshapes" in t3 && (this.outputFaceBlendshapes = !!t3.outputFaceBlendshapes), "minPoseDetectionConfidence" in t3 && Ln(this.A, 2, t3.minPoseDetectionConfidence ?? 0.5), "minPoseSuppressionThreshold" in t3 && Ln(this.A, 3, t3.minPoseSuppressionThreshold ?? 0.3), "minPosePresenceConfidence" in t3 && Ln(this.M, 2, t3.minPosePresenceConfidence ?? 0.5), "outputPoseSegmentationMasks" in t3 && (this.outputPoseSegmentationMasks = !!t3.outputPoseSegmentationMasks), "minHandLandmarksConfidence" in t3 && Ln(this.I, 2, t3.minHandLandmarksConfidence ?? 0.5), this.l(t3);
     }
-    F(t2, e2, n2) {
+    F(t3, e2, n2) {
       const r2 = "function" != typeof e2 ? e2 : {};
-      return this.D = "function" == typeof e2 ? e2 : n2, Oc(this), uc(this, t2, r2), Nc(this);
+      return this.D = "function" == typeof e2 ? e2 : n2, Oc(this), uc(this, t3, r2), Nc(this);
     }
-    G(t2, e2, n2, r2) {
+    G(t3, e2, n2, r2) {
       const i2 = "function" != typeof n2 ? n2 : {};
-      return this.D = "function" == typeof n2 ? n2 : r2, Oc(this), lc(this, t2, i2, e2), Nc(this);
+      return this.D = "function" == typeof n2 ? n2 : r2, Oc(this), lc(this, t3, i2, e2), Nc(this);
     }
     m() {
-      var t2 = new ls();
-      hs(t2, "input_frames_image"), us(t2, "pose_landmarks"), us(t2, "pose_world_landmarks"), us(t2, "face_landmarks"), us(t2, "left_hand_landmarks"), us(t2, "left_hand_world_landmarks"), us(t2, "right_hand_landmarks"), us(t2, "right_hand_world_landmarks");
+      var t3 = new ls();
+      hs(t3, "input_frames_image"), us(t3, "pose_landmarks"), us(t3, "pose_world_landmarks"), us(t3, "face_landmarks"), us(t3, "left_hand_landmarks"), us(t3, "left_hand_world_landmarks"), us(t3, "right_hand_landmarks"), us(t3, "right_hand_world_landmarks");
       const e2 = new Qi(), n2 = new Bi();
-      Rn(n2, 1, "type.googleapis.com/mediapipe.tasks.vision.holistic_landmarker.proto.HolisticLandmarkerGraphOptions"), (function(t3, e3) {
-        if (null != e3) if (Array.isArray(e3)) Ze(t3, 2, Ie(e3, 0, Me));
+      Rn(n2, 1, "type.googleapis.com/mediapipe.tasks.vision.holistic_landmarker.proto.HolisticLandmarkerGraphOptions"), (function(t4, e3) {
+        if (null != e3) if (Array.isArray(e3)) Ze(t4, 2, Ie(e3, 0, Me));
         else {
           if (!("string" == typeof e3 || e3 instanceof F || x(e3))) throw Error("invalid value in Any.value field: " + e3 + " expected a ByteString, a base64 encoded string, a Uint8Array or a jspb array");
-          hn(t3, 2, ht(e3, false), R());
+          hn(t4, 2, ht(e3, false), R());
         }
       })(n2, this.j.g());
       const r2 = new is();
-      Rn(r2, 2, "mediapipe.tasks.vision.holistic_landmarker.HolisticLandmarkerGraph"), bn(r2, 8, Bi, n2), ns(r2, "IMAGE:input_frames_image"), rs(r2, "POSE_LANDMARKS:pose_landmarks"), rs(r2, "POSE_WORLD_LANDMARKS:pose_world_landmarks"), rs(r2, "FACE_LANDMARKS:face_landmarks"), rs(r2, "LEFT_HAND_LANDMARKS:left_hand_landmarks"), rs(r2, "LEFT_HAND_WORLD_LANDMARKS:left_hand_world_landmarks"), rs(r2, "RIGHT_HAND_LANDMARKS:right_hand_landmarks"), rs(r2, "RIGHT_HAND_WORLD_LANDMARKS:right_hand_world_landmarks"), r2.o(e2), cs(t2, r2), la(this, t2), this.g.attachProtoListener("pose_landmarks", ((t3, e3) => {
-        Uc(t3, this.h.poseLandmarks), ua(this, e3);
-      })), this.g.attachEmptyPacketListener("pose_landmarks", ((t3) => {
-        ua(this, t3);
-      })), this.g.attachProtoListener("pose_world_landmarks", ((t3, e3) => {
+      Rn(r2, 2, "mediapipe.tasks.vision.holistic_landmarker.HolisticLandmarkerGraph"), bn(r2, 8, Bi, n2), ns(r2, "IMAGE:input_frames_image"), rs(r2, "POSE_LANDMARKS:pose_landmarks"), rs(r2, "POSE_WORLD_LANDMARKS:pose_world_landmarks"), rs(r2, "FACE_LANDMARKS:face_landmarks"), rs(r2, "LEFT_HAND_LANDMARKS:left_hand_landmarks"), rs(r2, "LEFT_HAND_WORLD_LANDMARKS:left_hand_world_landmarks"), rs(r2, "RIGHT_HAND_LANDMARKS:right_hand_landmarks"), rs(r2, "RIGHT_HAND_WORLD_LANDMARKS:right_hand_world_landmarks"), r2.o(e2), cs(t3, r2), la(this, t3), this.g.attachProtoListener("pose_landmarks", ((t4, e3) => {
+        Uc(t4, this.h.poseLandmarks), ua(this, e3);
+      })), this.g.attachEmptyPacketListener("pose_landmarks", ((t4) => {
+        ua(this, t4);
+      })), this.g.attachProtoListener("pose_world_landmarks", ((t4, e3) => {
         var n3 = this.h.poseWorldLandmarks;
-        t3 = As(t3), n3.push(Wo(t3)), ua(this, e3);
-      })), this.g.attachEmptyPacketListener("pose_world_landmarks", ((t3) => {
-        ua(this, t3);
-      })), this.outputPoseSegmentationMasks && (rs(r2, "POSE_SEGMENTATION_MASK:pose_segmentation_mask"), fa(this, "pose_segmentation_mask"), this.g.Z("pose_segmentation_mask", ((t3, e3) => {
-        this.h.poseSegmentationMasks = [fc(this, t3, true, !this.D)], ua(this, e3);
-      })), this.g.attachEmptyPacketListener("pose_segmentation_mask", ((t3) => {
-        this.h.poseSegmentationMasks = [], ua(this, t3);
-      }))), this.g.attachProtoListener("face_landmarks", ((t3, e3) => {
-        Uc(t3, this.h.faceLandmarks), ua(this, e3);
-      })), this.g.attachEmptyPacketListener("face_landmarks", ((t3) => {
-        ua(this, t3);
-      })), this.outputFaceBlendshapes && (us(t2, "extra_blendshapes"), rs(r2, "FACE_BLENDSHAPES:extra_blendshapes"), this.g.attachProtoListener("extra_blendshapes", ((t3, e3) => {
+        t4 = As(t4), n3.push(Wo(t4)), ua(this, e3);
+      })), this.g.attachEmptyPacketListener("pose_world_landmarks", ((t4) => {
+        ua(this, t4);
+      })), this.outputPoseSegmentationMasks && (rs(r2, "POSE_SEGMENTATION_MASK:pose_segmentation_mask"), fa(this, "pose_segmentation_mask"), this.g.Z("pose_segmentation_mask", ((t4, e3) => {
+        this.h.poseSegmentationMasks = [fc(this, t4, true, !this.D)], ua(this, e3);
+      })), this.g.attachEmptyPacketListener("pose_segmentation_mask", ((t4) => {
+        this.h.poseSegmentationMasks = [], ua(this, t4);
+      }))), this.g.attachProtoListener("face_landmarks", ((t4, e3) => {
+        Uc(t4, this.h.faceLandmarks), ua(this, e3);
+      })), this.g.attachEmptyPacketListener("face_landmarks", ((t4) => {
+        ua(this, t4);
+      })), this.outputFaceBlendshapes && (us(t3, "extra_blendshapes"), rs(r2, "FACE_BLENDSHAPES:extra_blendshapes"), this.g.attachProtoListener("extra_blendshapes", ((t4, e3) => {
         var n3 = this.h.faceBlendshapes;
-        this.outputFaceBlendshapes && (t3 = ys(t3), n3.push(jo(t3.g() ?? []))), ua(this, e3);
-      })), this.g.attachEmptyPacketListener("extra_blendshapes", ((t3) => {
-        ua(this, t3);
-      }))), this.g.attachProtoListener("left_hand_landmarks", ((t3, e3) => {
-        Uc(t3, this.h.leftHandLandmarks), ua(this, e3);
-      })), this.g.attachEmptyPacketListener("left_hand_landmarks", ((t3) => {
-        ua(this, t3);
-      })), this.g.attachProtoListener("left_hand_world_landmarks", ((t3, e3) => {
+        this.outputFaceBlendshapes && (t4 = ys(t4), n3.push(jo(t4.g() ?? []))), ua(this, e3);
+      })), this.g.attachEmptyPacketListener("extra_blendshapes", ((t4) => {
+        ua(this, t4);
+      }))), this.g.attachProtoListener("left_hand_landmarks", ((t4, e3) => {
+        Uc(t4, this.h.leftHandLandmarks), ua(this, e3);
+      })), this.g.attachEmptyPacketListener("left_hand_landmarks", ((t4) => {
+        ua(this, t4);
+      })), this.g.attachProtoListener("left_hand_world_landmarks", ((t4, e3) => {
         var n3 = this.h.leftHandWorldLandmarks;
-        t3 = As(t3), n3.push(Wo(t3)), ua(this, e3);
-      })), this.g.attachEmptyPacketListener("left_hand_world_landmarks", ((t3) => {
-        ua(this, t3);
-      })), this.g.attachProtoListener("right_hand_landmarks", ((t3, e3) => {
-        Uc(t3, this.h.rightHandLandmarks), ua(this, e3);
-      })), this.g.attachEmptyPacketListener("right_hand_landmarks", ((t3) => {
-        ua(this, t3);
-      })), this.g.attachProtoListener("right_hand_world_landmarks", ((t3, e3) => {
+        t4 = As(t4), n3.push(Wo(t4)), ua(this, e3);
+      })), this.g.attachEmptyPacketListener("left_hand_world_landmarks", ((t4) => {
+        ua(this, t4);
+      })), this.g.attachProtoListener("right_hand_landmarks", ((t4, e3) => {
+        Uc(t4, this.h.rightHandLandmarks), ua(this, e3);
+      })), this.g.attachEmptyPacketListener("right_hand_landmarks", ((t4) => {
+        ua(this, t4);
+      })), this.g.attachProtoListener("right_hand_world_landmarks", ((t4, e3) => {
         var n3 = this.h.rightHandWorldLandmarks;
-        t3 = As(t3), n3.push(Wo(t3)), ua(this, e3);
-      })), this.g.attachEmptyPacketListener("right_hand_world_landmarks", ((t3) => {
-        ua(this, t3);
-      })), t2 = t2.g(), this.setGraph(new Uint8Array(t2), true);
+        t4 = As(t4), n3.push(Wo(t4)), ua(this, e3);
+      })), this.g.attachEmptyPacketListener("right_hand_world_landmarks", ((t4) => {
+        ua(this, t4);
+      })), t3 = t3.g(), this.setGraph(new Uint8Array(t3), true);
     }
   };
-  Dc.prototype.detectForVideo = Dc.prototype.G, Dc.prototype.detect = Dc.prototype.F, Dc.prototype.setOptions = Dc.prototype.o, Dc.createFromModelPath = function(t2, e2) {
-    return cc(Dc, t2, { baseOptions: { modelAssetPath: e2 } });
-  }, Dc.createFromModelBuffer = function(t2, e2) {
-    return cc(Dc, t2, { baseOptions: { modelAssetBuffer: e2 } });
-  }, Dc.createFromOptions = function(t2, e2) {
-    return cc(Dc, t2, e2);
+  Dc.prototype.detectForVideo = Dc.prototype.G, Dc.prototype.detect = Dc.prototype.F, Dc.prototype.setOptions = Dc.prototype.o, Dc.createFromModelPath = function(t3, e2) {
+    return cc(Dc, t3, { baseOptions: { modelAssetPath: e2 } });
+  }, Dc.createFromModelBuffer = function(t3, e2) {
+    return cc(Dc, t3, { baseOptions: { modelAssetBuffer: e2 } });
+  }, Dc.createFromOptions = function(t3, e2) {
+    return cc(Dc, t3, e2);
   }, Dc.HAND_CONNECTIONS = xc, Dc.POSE_CONNECTIONS = Cc, Dc.FACE_LANDMARKS_LIPS = gc, Dc.FACE_LANDMARKS_LEFT_EYE = mc, Dc.FACE_LANDMARKS_LEFT_EYEBROW = yc, Dc.FACE_LANDMARKS_LEFT_IRIS = _c, Dc.FACE_LANDMARKS_RIGHT_EYE = vc, Dc.FACE_LANDMARKS_RIGHT_EYEBROW = Ec, Dc.FACE_LANDMARKS_RIGHT_IRIS = wc, Dc.FACE_LANDMARKS_FACE_OVAL = Tc, Dc.FACE_LANDMARKS_CONTOURS = Ac, Dc.FACE_LANDMARKS_TESSELATION = bc;
   var Bc = class extends dc {
-    constructor(t2, e2) {
-      super(new ac(t2, e2), "input_image", "norm_rect", true), this.j = { classifications: [] }, wn(t2 = this.h = new Eo(), 0, 1, e2 = new Xs());
+    constructor(t3, e2) {
+      super(new ac(t3, e2), "input_image", "norm_rect", true), this.j = { classifications: [] }, wn(t3 = this.h = new Eo(), 0, 1, e2 = new Xs());
     }
     get baseOptions() {
       return yn(this.h, Xs, 1);
     }
-    set baseOptions(t2) {
-      wn(this.h, 0, 1, t2);
+    set baseOptions(t3) {
+      wn(this.h, 0, 1, t3);
     }
-    o(t2) {
-      return wn(this.h, 0, 2, Bo(t2, yn(this.h, Ns, 2))), this.l(t2);
+    o(t3) {
+      return wn(this.h, 0, 2, Bo(t3, yn(this.h, Ns, 2))), this.l(t3);
     }
-    sa(t2, e2) {
-      return this.j = { classifications: [] }, uc(this, t2, e2), this.j;
+    sa(t3, e2) {
+      return this.j = { classifications: [] }, uc(this, t3, e2), this.j;
     }
-    ta(t2, e2, n2) {
-      return this.j = { classifications: [] }, lc(this, t2, n2, e2), this.j;
+    ta(t3, e2, n2) {
+      return this.j = { classifications: [] }, lc(this, t3, n2, e2), this.j;
     }
     m() {
-      var t2 = new ls();
-      hs(t2, "input_image"), hs(t2, "norm_rect"), us(t2, "classifications");
+      var t3 = new ls();
+      hs(t3, "input_image"), hs(t3, "norm_rect"), us(t3, "classifications");
       const e2 = new Qi();
       xr(e2, wo, this.h);
       const n2 = new is();
-      Rn(n2, 2, "mediapipe.tasks.vision.image_classifier.ImageClassifierGraph"), ns(n2, "IMAGE:input_image"), ns(n2, "NORM_RECT:norm_rect"), rs(n2, "CLASSIFICATIONS:classifications"), n2.o(e2), cs(t2, n2), this.g.attachProtoListener("classifications", ((t3, e3) => {
-        this.j = Vo(Is(t3)), ua(this, e3);
-      })), this.g.attachEmptyPacketListener("classifications", ((t3) => {
-        ua(this, t3);
-      })), t2 = t2.g(), this.setGraph(new Uint8Array(t2), true);
+      Rn(n2, 2, "mediapipe.tasks.vision.image_classifier.ImageClassifierGraph"), ns(n2, "IMAGE:input_image"), ns(n2, "NORM_RECT:norm_rect"), rs(n2, "CLASSIFICATIONS:classifications"), n2.o(e2), cs(t3, n2), this.g.attachProtoListener("classifications", ((t4, e3) => {
+        this.j = Vo(Is(t4)), ua(this, e3);
+      })), this.g.attachEmptyPacketListener("classifications", ((t4) => {
+        ua(this, t4);
+      })), t3 = t3.g(), this.setGraph(new Uint8Array(t3), true);
     }
   };
-  Bc.prototype.classifyForVideo = Bc.prototype.ta, Bc.prototype.classify = Bc.prototype.sa, Bc.prototype.setOptions = Bc.prototype.o, Bc.createFromModelPath = function(t2, e2) {
-    return cc(Bc, t2, { baseOptions: { modelAssetPath: e2 } });
-  }, Bc.createFromModelBuffer = function(t2, e2) {
-    return cc(Bc, t2, { baseOptions: { modelAssetBuffer: e2 } });
-  }, Bc.createFromOptions = function(t2, e2) {
-    return cc(Bc, t2, e2);
+  Bc.prototype.classifyForVideo = Bc.prototype.ta, Bc.prototype.classify = Bc.prototype.sa, Bc.prototype.setOptions = Bc.prototype.o, Bc.createFromModelPath = function(t3, e2) {
+    return cc(Bc, t3, { baseOptions: { modelAssetPath: e2 } });
+  }, Bc.createFromModelBuffer = function(t3, e2) {
+    return cc(Bc, t3, { baseOptions: { modelAssetBuffer: e2 } });
+  }, Bc.createFromOptions = function(t3, e2) {
+    return cc(Bc, t3, e2);
   };
   var Gc = class extends dc {
-    constructor(t2, e2) {
-      super(new ac(t2, e2), "image_in", "norm_rect", true), this.h = new To(), this.embeddings = { embeddings: [] }, wn(t2 = this.h, 0, 1, e2 = new Xs());
+    constructor(t3, e2) {
+      super(new ac(t3, e2), "image_in", "norm_rect", true), this.h = new To(), this.embeddings = { embeddings: [] }, wn(t3 = this.h, 0, 1, e2 = new Xs());
     }
     get baseOptions() {
       return yn(this.h, Xs, 1);
     }
-    set baseOptions(t2) {
-      wn(this.h, 0, 1, t2);
+    set baseOptions(t3) {
+      wn(this.h, 0, 1, t3);
     }
-    o(t2) {
+    o(t3) {
       var e2 = this.h, n2 = yn(this.h, Ds, 2);
-      return n2 = n2 ? n2.clone() : new Ds(), void 0 !== t2.l2Normalize ? Ze(n2, 1, Jt(t2.l2Normalize)) : "l2Normalize" in t2 && Ze(n2, 1), void 0 !== t2.quantize ? Ze(n2, 2, Jt(t2.quantize)) : "quantize" in t2 && Ze(n2, 2), wn(e2, 0, 2, n2), this.l(t2);
+      return n2 = n2 ? n2.clone() : new Ds(), void 0 !== t3.l2Normalize ? Ze(n2, 1, Jt(t3.l2Normalize)) : "l2Normalize" in t3 && Ze(n2, 1), void 0 !== t3.quantize ? Ze(n2, 2, Jt(t3.quantize)) : "quantize" in t3 && Ze(n2, 2), wn(e2, 0, 2, n2), this.l(t3);
     }
-    za(t2, e2) {
-      return uc(this, t2, e2), this.embeddings;
+    za(t3, e2) {
+      return uc(this, t3, e2), this.embeddings;
     }
-    Aa(t2, e2, n2) {
-      return lc(this, t2, n2, e2), this.embeddings;
+    Aa(t3, e2, n2) {
+      return lc(this, t3, n2, e2), this.embeddings;
     }
     m() {
-      var t2 = new ls();
-      hs(t2, "image_in"), hs(t2, "norm_rect"), us(t2, "embeddings_out");
+      var t3 = new ls();
+      hs(t3, "image_in"), hs(t3, "norm_rect"), us(t3, "embeddings_out");
       const e2 = new Qi();
       xr(e2, Ao, this.h);
       const n2 = new is();
-      Rn(n2, 2, "mediapipe.tasks.vision.image_embedder.ImageEmbedderGraph"), ns(n2, "IMAGE:image_in"), ns(n2, "NORM_RECT:norm_rect"), rs(n2, "EMBEDDINGS:embeddings_out"), n2.o(e2), cs(t2, n2), this.g.attachProtoListener("embeddings_out", ((t3, e3) => {
-        t3 = Os(t3), this.embeddings = (function(t4) {
-          return { embeddings: vn(t4, Ps, 1).map(((t5) => {
-            const e4 = { headIndex: kn(t5, 3) ?? 0 ?? -1, headName: le($e(t5, 4)) ?? "" ?? "" };
-            var n3 = t5.v;
-            return void 0 !== mn(n3, 0 | n3[Q], Fs, ln(t5, 1)) ? (t5 = en(t5 = yn(t5, Fs, ln(t5, 1), void 0), 1, $t, tn()), e4.floatEmbedding = t5.slice()) : (n3 = new Uint8Array(0), e4.quantizedEmbedding = yn(t5, Ms, ln(t5, 2), void 0)?.na()?.h() ?? n3), e4;
-          })), timestampMs: Go($e(t4, 2, void 0, void 0, ce) ?? Ye) };
-        })(t3), ua(this, e3);
-      })), this.g.attachEmptyPacketListener("embeddings_out", ((t3) => {
-        ua(this, t3);
-      })), t2 = t2.g(), this.setGraph(new Uint8Array(t2), true);
+      Rn(n2, 2, "mediapipe.tasks.vision.image_embedder.ImageEmbedderGraph"), ns(n2, "IMAGE:image_in"), ns(n2, "NORM_RECT:norm_rect"), rs(n2, "EMBEDDINGS:embeddings_out"), n2.o(e2), cs(t3, n2), this.g.attachProtoListener("embeddings_out", ((t4, e3) => {
+        t4 = Os(t4), this.embeddings = (function(t5) {
+          return { embeddings: vn(t5, Ps, 1).map(((t6) => {
+            const e4 = { headIndex: kn(t6, 3) ?? 0 ?? -1, headName: le($e(t6, 4)) ?? "" ?? "" };
+            var n3 = t6.v;
+            return void 0 !== mn(n3, 0 | n3[Q], Fs, ln(t6, 1)) ? (t6 = en(t6 = yn(t6, Fs, ln(t6, 1), void 0), 1, $t, tn()), e4.floatEmbedding = t6.slice()) : (n3 = new Uint8Array(0), e4.quantizedEmbedding = yn(t6, Ms, ln(t6, 2), void 0)?.na()?.h() ?? n3), e4;
+          })), timestampMs: Go($e(t5, 2, void 0, void 0, ce) ?? Ye) };
+        })(t4), ua(this, e3);
+      })), this.g.attachEmptyPacketListener("embeddings_out", ((t4) => {
+        ua(this, t4);
+      })), t3 = t3.g(), this.setGraph(new Uint8Array(t3), true);
     }
   };
-  Gc.cosineSimilarity = function(t2, e2) {
-    if (t2.floatEmbedding && e2.floatEmbedding) t2 = Ko(t2.floatEmbedding, e2.floatEmbedding);
+  Gc.cosineSimilarity = function(t3, e2) {
+    if (t3.floatEmbedding && e2.floatEmbedding) t3 = Ko(t3.floatEmbedding, e2.floatEmbedding);
     else {
-      if (!t2.quantizedEmbedding || !e2.quantizedEmbedding) throw Error("Cannot compute cosine similarity between quantized and float embeddings.");
-      t2 = Ko(zo(t2.quantizedEmbedding), zo(e2.quantizedEmbedding));
+      if (!t3.quantizedEmbedding || !e2.quantizedEmbedding) throw Error("Cannot compute cosine similarity between quantized and float embeddings.");
+      t3 = Ko(zo(t3.quantizedEmbedding), zo(e2.quantizedEmbedding));
     }
-    return t2;
-  }, Gc.prototype.embedForVideo = Gc.prototype.Aa, Gc.prototype.embed = Gc.prototype.za, Gc.prototype.setOptions = Gc.prototype.o, Gc.createFromModelPath = function(t2, e2) {
-    return cc(Gc, t2, { baseOptions: { modelAssetPath: e2 } });
-  }, Gc.createFromModelBuffer = function(t2, e2) {
-    return cc(Gc, t2, { baseOptions: { modelAssetBuffer: e2 } });
-  }, Gc.createFromOptions = function(t2, e2) {
-    return cc(Gc, t2, e2);
+    return t3;
+  }, Gc.prototype.embedForVideo = Gc.prototype.Aa, Gc.prototype.embed = Gc.prototype.za, Gc.prototype.setOptions = Gc.prototype.o, Gc.createFromModelPath = function(t3, e2) {
+    return cc(Gc, t3, { baseOptions: { modelAssetPath: e2 } });
+  }, Gc.createFromModelBuffer = function(t3, e2) {
+    return cc(Gc, t3, { baseOptions: { modelAssetBuffer: e2 } });
+  }, Gc.createFromOptions = function(t3, e2) {
+    return cc(Gc, t3, e2);
   };
   var jc = class {
-    constructor(t2, e2, n2) {
-      this.confidenceMasks = t2, this.categoryMask = e2, this.qualityScores = n2;
+    constructor(t3, e2, n2) {
+      this.confidenceMasks = t3, this.categoryMask = e2, this.qualityScores = n2;
     }
     close() {
-      this.confidenceMasks?.forEach(((t2) => {
-        t2.close();
+      this.confidenceMasks?.forEach(((t3) => {
+        t3.close();
       })), this.categoryMask?.close();
     }
   };
-  function Vc(t2) {
-    const e2 = (function(t3) {
-      return vn(t3, is, 1);
-    })(t2.ca()).filter(((t3) => (le($e(t3, 1)) ?? "").includes("mediapipe.tasks.TensorsToSegmentationCalculator")));
-    if (t2.u = [], e2.length > 1) throw Error("The graph has more than one mediapipe.tasks.TensorsToSegmentationCalculator.");
+  function Vc(t3) {
+    const e2 = (function(t4) {
+      return vn(t4, is, 1);
+    })(t3.ca()).filter(((t4) => (le($e(t4, 1)) ?? "").includes("mediapipe.tasks.TensorsToSegmentationCalculator")));
+    if (t3.u = [], e2.length > 1) throw Error("The graph has more than one mediapipe.tasks.TensorsToSegmentationCalculator.");
     1 === e2.length && (yn(e2[0], Qi, 7)?.j()?.g() ?? /* @__PURE__ */ new Map()).forEach(((e3, n2) => {
-      t2.u[Number(n2)] = le($e(e3, 1)) ?? "";
+      t3.u[Number(n2)] = le($e(e3, 1)) ?? "";
     }));
   }
-  function Xc(t2) {
-    t2.categoryMask = void 0, t2.confidenceMasks = void 0, t2.qualityScores = void 0;
+  function Xc(t3) {
+    t3.categoryMask = void 0, t3.confidenceMasks = void 0, t3.qualityScores = void 0;
   }
-  function Hc(t2) {
+  function Hc(t3) {
     try {
-      const e2 = new jc(t2.confidenceMasks, t2.categoryMask, t2.qualityScores);
-      if (!t2.j) return e2;
-      t2.j(e2);
+      const e2 = new jc(t3.confidenceMasks, t3.categoryMask, t3.qualityScores);
+      if (!t3.j) return e2;
+      t3.j(e2);
     } finally {
-      da(t2);
+      da(t3);
     }
   }
   jc.prototype.close = jc.prototype.close;
   var Wc = class extends dc {
-    constructor(t2, e2) {
-      super(new ac(t2, e2), "image_in", "norm_rect", false), this.u = [], this.outputCategoryMask = false, this.outputConfidenceMasks = true, this.h = new Lo(), this.A = new bo(), wn(this.h, 0, 3, this.A), wn(t2 = this.h, 0, 1, e2 = new Xs());
+    constructor(t3, e2) {
+      super(new ac(t3, e2), "image_in", "norm_rect", false), this.u = [], this.outputCategoryMask = false, this.outputConfidenceMasks = true, this.h = new Lo(), this.A = new bo(), wn(this.h, 0, 3, this.A), wn(t3 = this.h, 0, 1, e2 = new Xs());
     }
     get baseOptions() {
       return yn(this.h, Xs, 1);
     }
-    set baseOptions(t2) {
-      wn(this.h, 0, 1, t2);
+    set baseOptions(t3) {
+      wn(this.h, 0, 1, t3);
     }
-    o(t2) {
-      return void 0 !== t2.displayNamesLocale ? Ze(this.h, 2, ue(t2.displayNamesLocale)) : "displayNamesLocale" in t2 && Ze(this.h, 2), "outputCategoryMask" in t2 && (this.outputCategoryMask = t2.outputCategoryMask ?? false), "outputConfidenceMasks" in t2 && (this.outputConfidenceMasks = t2.outputConfidenceMasks ?? true), super.l(t2);
+    o(t3) {
+      return void 0 !== t3.displayNamesLocale ? Ze(this.h, 2, ue(t3.displayNamesLocale)) : "displayNamesLocale" in t3 && Ze(this.h, 2), "outputCategoryMask" in t3 && (this.outputCategoryMask = t3.outputCategoryMask ?? false), "outputConfidenceMasks" in t3 && (this.outputConfidenceMasks = t3.outputConfidenceMasks ?? true), super.l(t3);
     }
     L() {
       Vc(this);
     }
-    segment(t2, e2, n2) {
+    segment(t3, e2, n2) {
       const r2 = "function" != typeof e2 ? e2 : {};
-      return this.j = "function" == typeof e2 ? e2 : n2, Xc(this), uc(this, t2, r2), Hc(this);
+      return this.j = "function" == typeof e2 ? e2 : n2, Xc(this), uc(this, t3, r2), Hc(this);
     }
-    La(t2, e2, n2, r2) {
+    La(t3, e2, n2, r2) {
       const i2 = "function" != typeof n2 ? n2 : {};
-      return this.j = "function" == typeof n2 ? n2 : r2, Xc(this), lc(this, t2, i2, e2), Hc(this);
+      return this.j = "function" == typeof n2 ? n2 : r2, Xc(this), lc(this, t3, i2, e2), Hc(this);
     }
     Da() {
       return this.u;
     }
     m() {
-      var t2 = new ls();
-      hs(t2, "image_in"), hs(t2, "norm_rect");
+      var t3 = new ls();
+      hs(t3, "image_in"), hs(t3, "norm_rect");
       const e2 = new Qi();
       xr(e2, Ro, this.h);
       const n2 = new is();
-      Rn(n2, 2, "mediapipe.tasks.vision.image_segmenter.ImageSegmenterGraph"), ns(n2, "IMAGE:image_in"), ns(n2, "NORM_RECT:norm_rect"), n2.o(e2), cs(t2, n2), la(this, t2), this.outputConfidenceMasks && (us(t2, "confidence_masks"), rs(n2, "CONFIDENCE_MASKS:confidence_masks"), fa(this, "confidence_masks"), this.g.aa("confidence_masks", ((t3, e3) => {
-        this.confidenceMasks = t3.map(((t4) => fc(this, t4, true, !this.j))), ua(this, e3);
-      })), this.g.attachEmptyPacketListener("confidence_masks", ((t3) => {
-        this.confidenceMasks = [], ua(this, t3);
-      }))), this.outputCategoryMask && (us(t2, "category_mask"), rs(n2, "CATEGORY_MASK:category_mask"), fa(this, "category_mask"), this.g.Z("category_mask", ((t3, e3) => {
-        this.categoryMask = fc(this, t3, false, !this.j), ua(this, e3);
-      })), this.g.attachEmptyPacketListener("category_mask", ((t3) => {
-        this.categoryMask = void 0, ua(this, t3);
-      }))), us(t2, "quality_scores"), rs(n2, "QUALITY_SCORES:quality_scores"), this.g.attachFloatVectorListener("quality_scores", ((t3, e3) => {
-        this.qualityScores = t3, ua(this, e3);
-      })), this.g.attachEmptyPacketListener("quality_scores", ((t3) => {
-        this.categoryMask = void 0, ua(this, t3);
-      })), t2 = t2.g(), this.setGraph(new Uint8Array(t2), true);
+      Rn(n2, 2, "mediapipe.tasks.vision.image_segmenter.ImageSegmenterGraph"), ns(n2, "IMAGE:image_in"), ns(n2, "NORM_RECT:norm_rect"), n2.o(e2), cs(t3, n2), la(this, t3), this.outputConfidenceMasks && (us(t3, "confidence_masks"), rs(n2, "CONFIDENCE_MASKS:confidence_masks"), fa(this, "confidence_masks"), this.g.aa("confidence_masks", ((t4, e3) => {
+        this.confidenceMasks = t4.map(((t5) => fc(this, t5, true, !this.j))), ua(this, e3);
+      })), this.g.attachEmptyPacketListener("confidence_masks", ((t4) => {
+        this.confidenceMasks = [], ua(this, t4);
+      }))), this.outputCategoryMask && (us(t3, "category_mask"), rs(n2, "CATEGORY_MASK:category_mask"), fa(this, "category_mask"), this.g.Z("category_mask", ((t4, e3) => {
+        this.categoryMask = fc(this, t4, false, !this.j), ua(this, e3);
+      })), this.g.attachEmptyPacketListener("category_mask", ((t4) => {
+        this.categoryMask = void 0, ua(this, t4);
+      }))), us(t3, "quality_scores"), rs(n2, "QUALITY_SCORES:quality_scores"), this.g.attachFloatVectorListener("quality_scores", ((t4, e3) => {
+        this.qualityScores = t4, ua(this, e3);
+      })), this.g.attachEmptyPacketListener("quality_scores", ((t4) => {
+        this.categoryMask = void 0, ua(this, t4);
+      })), t3 = t3.g(), this.setGraph(new Uint8Array(t3), true);
     }
   };
-  Wc.prototype.getLabels = Wc.prototype.Da, Wc.prototype.segmentForVideo = Wc.prototype.La, Wc.prototype.segment = Wc.prototype.segment, Wc.prototype.setOptions = Wc.prototype.o, Wc.createFromModelPath = function(t2, e2) {
-    return cc(Wc, t2, { baseOptions: { modelAssetPath: e2 } });
-  }, Wc.createFromModelBuffer = function(t2, e2) {
-    return cc(Wc, t2, { baseOptions: { modelAssetBuffer: e2 } });
-  }, Wc.createFromOptions = function(t2, e2) {
-    return cc(Wc, t2, e2);
+  Wc.prototype.getLabels = Wc.prototype.Da, Wc.prototype.segmentForVideo = Wc.prototype.La, Wc.prototype.segment = Wc.prototype.segment, Wc.prototype.setOptions = Wc.prototype.o, Wc.createFromModelPath = function(t3, e2) {
+    return cc(Wc, t3, { baseOptions: { modelAssetPath: e2 } });
+  }, Wc.createFromModelBuffer = function(t3, e2) {
+    return cc(Wc, t3, { baseOptions: { modelAssetBuffer: e2 } });
+  }, Wc.createFromOptions = function(t3, e2) {
+    return cc(Wc, t3, e2);
   };
   var zc = class {
-    constructor(t2, e2, n2) {
-      this.confidenceMasks = t2, this.categoryMask = e2, this.qualityScores = n2;
+    constructor(t3, e2, n2) {
+      this.confidenceMasks = t3, this.categoryMask = e2, this.qualityScores = n2;
     }
     close() {
-      this.confidenceMasks?.forEach(((t2) => {
-        t2.close();
+      this.confidenceMasks?.forEach(((t3) => {
+        t3.close();
       })), this.categoryMask?.close();
     }
   };
   zc.prototype.close = zc.prototype.close;
   var Kc = class extends dc {
-    constructor(t2, e2) {
-      super(new ac(t2, e2), "image_in", "norm_rect_in", false), this.outputCategoryMask = false, this.outputConfidenceMasks = true, this.h = new Lo(), this.u = new bo(), wn(this.h, 0, 3, this.u), wn(t2 = this.h, 0, 1, e2 = new Xs());
+    constructor(t3, e2) {
+      super(new ac(t3, e2), "image_in", "norm_rect_in", false), this.outputCategoryMask = false, this.outputConfidenceMasks = true, this.h = new Lo(), this.u = new bo(), wn(this.h, 0, 3, this.u), wn(t3 = this.h, 0, 1, e2 = new Xs());
     }
     get baseOptions() {
       return yn(this.h, Xs, 1);
     }
-    set baseOptions(t2) {
-      wn(this.h, 0, 1, t2);
+    set baseOptions(t3) {
+      wn(this.h, 0, 1, t3);
     }
-    o(t2) {
-      return "outputCategoryMask" in t2 && (this.outputCategoryMask = t2.outputCategoryMask ?? false), "outputConfidenceMasks" in t2 && (this.outputConfidenceMasks = t2.outputConfidenceMasks ?? true), super.l(t2);
+    o(t3) {
+      return "outputCategoryMask" in t3 && (this.outputCategoryMask = t3.outputCategoryMask ?? false), "outputConfidenceMasks" in t3 && (this.outputConfidenceMasks = t3.outputConfidenceMasks ?? true), super.l(t3);
     }
-    segment(t2, e2, n2, r2) {
+    segment(t3, e2, n2, r2) {
       const i2 = "function" != typeof n2 ? n2 : {};
       if (this.j = "function" == typeof n2 ? n2 : r2, this.qualityScores = this.categoryMask = this.confidenceMasks = void 0, n2 = this.C + 1, r2 = new Po(), e2.keypoint && e2.scribble) throw Error("Cannot provide both keypoint and scribble.");
       if (e2.keypoint) {
@@ -34495,20 +34495,20 @@
       } else {
         if (!e2.scribble) throw Error("Must provide either a keypoint or a scribble.");
         {
-          const t3 = new Mo();
-          for (s2 of e2.scribble) hn(e2 = new Io(), 3, Jt(true), false), hn(e2, 1, qt(s2.x), 0), hn(e2, 2, qt(s2.y), 0), bn(t3, 1, Io, e2);
-          Tn(r2, 2, Co, t3);
+          const t4 = new Mo();
+          for (s2 of e2.scribble) hn(e2 = new Io(), 3, Jt(true), false), hn(e2, 1, qt(s2.x), 0), hn(e2, 2, qt(s2.y), 0), bn(t4, 1, Io, e2);
+          Tn(r2, 2, Co, t4);
         }
       }
-      this.g.addProtoToStream(r2.g(), "mediapipe.tasks.vision.interactive_segmenter.proto.RegionOfInterest", "roi_in", n2), uc(this, t2, i2);
+      this.g.addProtoToStream(r2.g(), "mediapipe.tasks.vision.interactive_segmenter.proto.RegionOfInterest", "roi_in", n2), uc(this, t3, i2);
       t: {
         try {
-          const t3 = new zc(this.confidenceMasks, this.categoryMask, this.qualityScores);
+          const t4 = new zc(this.confidenceMasks, this.categoryMask, this.qualityScores);
           if (!this.j) {
-            var o2 = t3;
+            var o2 = t4;
             break t;
           }
-          this.j(t3);
+          this.j(t4);
         } finally {
           da(this);
         }
@@ -34517,148 +34517,148 @@
       return o2;
     }
     m() {
-      var t2 = new ls();
-      hs(t2, "image_in"), hs(t2, "roi_in"), hs(t2, "norm_rect_in");
+      var t3 = new ls();
+      hs(t3, "image_in"), hs(t3, "roi_in"), hs(t3, "norm_rect_in");
       const e2 = new Qi();
       xr(e2, Ro, this.h);
       const n2 = new is();
-      Rn(n2, 2, "mediapipe.tasks.vision.interactive_segmenter.InteractiveSegmenterGraphV2"), ns(n2, "IMAGE:image_in"), ns(n2, "ROI:roi_in"), ns(n2, "NORM_RECT:norm_rect_in"), n2.o(e2), cs(t2, n2), la(this, t2), this.outputConfidenceMasks && (us(t2, "confidence_masks"), rs(n2, "CONFIDENCE_MASKS:confidence_masks"), fa(this, "confidence_masks"), this.g.aa("confidence_masks", ((t3, e3) => {
-        this.confidenceMasks = t3.map(((t4) => fc(this, t4, true, !this.j))), ua(this, e3);
-      })), this.g.attachEmptyPacketListener("confidence_masks", ((t3) => {
-        this.confidenceMasks = [], ua(this, t3);
-      }))), this.outputCategoryMask && (us(t2, "category_mask"), rs(n2, "CATEGORY_MASK:category_mask"), fa(this, "category_mask"), this.g.Z("category_mask", ((t3, e3) => {
-        this.categoryMask = fc(this, t3, false, !this.j), ua(this, e3);
-      })), this.g.attachEmptyPacketListener("category_mask", ((t3) => {
-        this.categoryMask = void 0, ua(this, t3);
-      }))), us(t2, "quality_scores"), rs(n2, "QUALITY_SCORES:quality_scores"), this.g.attachFloatVectorListener("quality_scores", ((t3, e3) => {
-        this.qualityScores = t3, ua(this, e3);
-      })), this.g.attachEmptyPacketListener("quality_scores", ((t3) => {
-        this.categoryMask = void 0, ua(this, t3);
-      })), t2 = t2.g(), this.setGraph(new Uint8Array(t2), true);
+      Rn(n2, 2, "mediapipe.tasks.vision.interactive_segmenter.InteractiveSegmenterGraphV2"), ns(n2, "IMAGE:image_in"), ns(n2, "ROI:roi_in"), ns(n2, "NORM_RECT:norm_rect_in"), n2.o(e2), cs(t3, n2), la(this, t3), this.outputConfidenceMasks && (us(t3, "confidence_masks"), rs(n2, "CONFIDENCE_MASKS:confidence_masks"), fa(this, "confidence_masks"), this.g.aa("confidence_masks", ((t4, e3) => {
+        this.confidenceMasks = t4.map(((t5) => fc(this, t5, true, !this.j))), ua(this, e3);
+      })), this.g.attachEmptyPacketListener("confidence_masks", ((t4) => {
+        this.confidenceMasks = [], ua(this, t4);
+      }))), this.outputCategoryMask && (us(t3, "category_mask"), rs(n2, "CATEGORY_MASK:category_mask"), fa(this, "category_mask"), this.g.Z("category_mask", ((t4, e3) => {
+        this.categoryMask = fc(this, t4, false, !this.j), ua(this, e3);
+      })), this.g.attachEmptyPacketListener("category_mask", ((t4) => {
+        this.categoryMask = void 0, ua(this, t4);
+      }))), us(t3, "quality_scores"), rs(n2, "QUALITY_SCORES:quality_scores"), this.g.attachFloatVectorListener("quality_scores", ((t4, e3) => {
+        this.qualityScores = t4, ua(this, e3);
+      })), this.g.attachEmptyPacketListener("quality_scores", ((t4) => {
+        this.categoryMask = void 0, ua(this, t4);
+      })), t3 = t3.g(), this.setGraph(new Uint8Array(t3), true);
     }
   };
-  Kc.prototype.segment = Kc.prototype.segment, Kc.prototype.setOptions = Kc.prototype.o, Kc.createFromModelPath = function(t2, e2) {
-    return cc(Kc, t2, { baseOptions: { modelAssetPath: e2 } });
-  }, Kc.createFromModelBuffer = function(t2, e2) {
-    return cc(Kc, t2, { baseOptions: { modelAssetBuffer: e2 } });
-  }, Kc.createFromOptions = function(t2, e2) {
-    return cc(Kc, t2, e2);
+  Kc.prototype.segment = Kc.prototype.segment, Kc.prototype.setOptions = Kc.prototype.o, Kc.createFromModelPath = function(t3, e2) {
+    return cc(Kc, t3, { baseOptions: { modelAssetPath: e2 } });
+  }, Kc.createFromModelBuffer = function(t3, e2) {
+    return cc(Kc, t3, { baseOptions: { modelAssetBuffer: e2 } });
+  }, Kc.createFromOptions = function(t3, e2) {
+    return cc(Kc, t3, e2);
   };
   var Yc = class extends dc {
-    constructor(t2, e2) {
-      super(new ac(t2, e2), "input_frame_gpu", "norm_rect", false), this.j = { detections: [] }, wn(t2 = this.h = new Oo(), 0, 1, e2 = new Xs());
+    constructor(t3, e2) {
+      super(new ac(t3, e2), "input_frame_gpu", "norm_rect", false), this.j = { detections: [] }, wn(t3 = this.h = new Oo(), 0, 1, e2 = new Xs());
     }
     get baseOptions() {
       return yn(this.h, Xs, 1);
     }
-    set baseOptions(t2) {
-      wn(this.h, 0, 1, t2);
+    set baseOptions(t3) {
+      wn(this.h, 0, 1, t3);
     }
-    o(t2) {
-      return void 0 !== t2.displayNamesLocale ? Ze(this.h, 2, ue(t2.displayNamesLocale)) : "displayNamesLocale" in t2 && Ze(this.h, 2), void 0 !== t2.maxResults ? xn(this.h, 3, t2.maxResults) : "maxResults" in t2 && Ze(this.h, 3), void 0 !== t2.scoreThreshold ? Ln(this.h, 4, t2.scoreThreshold) : "scoreThreshold" in t2 && Ze(this.h, 4), void 0 !== t2.categoryAllowlist ? In(this.h, 5, t2.categoryAllowlist) : "categoryAllowlist" in t2 && Ze(this.h, 5), void 0 !== t2.categoryDenylist ? In(this.h, 6, t2.categoryDenylist) : "categoryDenylist" in t2 && Ze(this.h, 6), this.l(t2);
+    o(t3) {
+      return void 0 !== t3.displayNamesLocale ? Ze(this.h, 2, ue(t3.displayNamesLocale)) : "displayNamesLocale" in t3 && Ze(this.h, 2), void 0 !== t3.maxResults ? xn(this.h, 3, t3.maxResults) : "maxResults" in t3 && Ze(this.h, 3), void 0 !== t3.scoreThreshold ? Ln(this.h, 4, t3.scoreThreshold) : "scoreThreshold" in t3 && Ze(this.h, 4), void 0 !== t3.categoryAllowlist ? In(this.h, 5, t3.categoryAllowlist) : "categoryAllowlist" in t3 && Ze(this.h, 5), void 0 !== t3.categoryDenylist ? In(this.h, 6, t3.categoryDenylist) : "categoryDenylist" in t3 && Ze(this.h, 6), this.l(t3);
     }
-    F(t2, e2) {
-      return this.j = { detections: [] }, uc(this, t2, e2), this.j;
+    F(t3, e2) {
+      return this.j = { detections: [] }, uc(this, t3, e2), this.j;
     }
-    G(t2, e2, n2) {
-      return this.j = { detections: [] }, lc(this, t2, n2, e2), this.j;
+    G(t3, e2, n2) {
+      return this.j = { detections: [] }, lc(this, t3, n2, e2), this.j;
     }
     m() {
-      var t2 = new ls();
-      hs(t2, "input_frame_gpu"), hs(t2, "norm_rect"), us(t2, "detections");
+      var t3 = new ls();
+      hs(t3, "input_frame_gpu"), hs(t3, "norm_rect"), us(t3, "detections");
       const e2 = new Qi();
       xr(e2, No, this.h);
       const n2 = new is();
-      Rn(n2, 2, "mediapipe.tasks.vision.ObjectDetectorGraph"), ns(n2, "IMAGE:input_frame_gpu"), ns(n2, "NORM_RECT:norm_rect"), rs(n2, "DETECTIONS:detections"), n2.o(e2), cs(t2, n2), this.g.attachProtoVectorListener("detections", ((t3, e3) => {
-        for (const e4 of t3) t3 = ws(e4), this.j.detections.push(Xo(t3));
+      Rn(n2, 2, "mediapipe.tasks.vision.ObjectDetectorGraph"), ns(n2, "IMAGE:input_frame_gpu"), ns(n2, "NORM_RECT:norm_rect"), rs(n2, "DETECTIONS:detections"), n2.o(e2), cs(t3, n2), this.g.attachProtoVectorListener("detections", ((t4, e3) => {
+        for (const e4 of t4) t4 = ws(e4), this.j.detections.push(Xo(t4));
         ua(this, e3);
-      })), this.g.attachEmptyPacketListener("detections", ((t3) => {
-        ua(this, t3);
-      })), t2 = t2.g(), this.setGraph(new Uint8Array(t2), true);
+      })), this.g.attachEmptyPacketListener("detections", ((t4) => {
+        ua(this, t4);
+      })), t3 = t3.g(), this.setGraph(new Uint8Array(t3), true);
     }
   };
-  Yc.prototype.detectForVideo = Yc.prototype.G, Yc.prototype.detect = Yc.prototype.F, Yc.prototype.setOptions = Yc.prototype.o, Yc.createFromModelPath = async function(t2, e2) {
-    return cc(Yc, t2, { baseOptions: { modelAssetPath: e2 } });
-  }, Yc.createFromModelBuffer = function(t2, e2) {
-    return cc(Yc, t2, { baseOptions: { modelAssetBuffer: e2 } });
-  }, Yc.createFromOptions = function(t2, e2) {
-    return cc(Yc, t2, e2);
+  Yc.prototype.detectForVideo = Yc.prototype.G, Yc.prototype.detect = Yc.prototype.F, Yc.prototype.setOptions = Yc.prototype.o, Yc.createFromModelPath = async function(t3, e2) {
+    return cc(Yc, t3, { baseOptions: { modelAssetPath: e2 } });
+  }, Yc.createFromModelBuffer = function(t3, e2) {
+    return cc(Yc, t3, { baseOptions: { modelAssetBuffer: e2 } });
+  }, Yc.createFromOptions = function(t3, e2) {
+    return cc(Yc, t3, e2);
   };
   var qc = class {
-    constructor(t2, e2, n2) {
-      this.landmarks = t2, this.worldLandmarks = e2, this.segmentationMasks = n2;
+    constructor(t3, e2, n2) {
+      this.landmarks = t3, this.worldLandmarks = e2, this.segmentationMasks = n2;
     }
     close() {
-      this.segmentationMasks?.forEach(((t2) => {
-        t2.close();
+      this.segmentationMasks?.forEach(((t3) => {
+        t3.close();
       }));
     }
   };
-  function $c(t2) {
-    t2.landmarks = [], t2.worldLandmarks = [], t2.segmentationMasks = void 0;
+  function $c(t3) {
+    t3.landmarks = [], t3.worldLandmarks = [], t3.segmentationMasks = void 0;
   }
-  function Jc(t2) {
+  function Jc(t3) {
     try {
-      const e2 = new qc(t2.landmarks, t2.worldLandmarks, t2.segmentationMasks);
-      if (!t2.u) return e2;
-      t2.u(e2);
+      const e2 = new qc(t3.landmarks, t3.worldLandmarks, t3.segmentationMasks);
+      if (!t3.u) return e2;
+      t3.u(e2);
     } finally {
-      da(t2);
+      da(t3);
     }
   }
   qc.prototype.close = qc.prototype.close;
   var Zc = class extends dc {
-    constructor(t2, e2) {
-      super(new ac(t2, e2), "image_in", "norm_rect", false), this.landmarks = [], this.worldLandmarks = [], this.outputSegmentationMasks = false, wn(t2 = this.h = new Uo(), 0, 1, e2 = new Xs()), this.A = new mo(), wn(this.h, 0, 3, this.A), this.j = new go(), wn(this.h, 0, 2, this.j), xn(this.j, 4, 1), Ln(this.j, 2, 0.5), Ln(this.A, 2, 0.5), Ln(this.h, 4, 0.5);
+    constructor(t3, e2) {
+      super(new ac(t3, e2), "image_in", "norm_rect", false), this.landmarks = [], this.worldLandmarks = [], this.outputSegmentationMasks = false, wn(t3 = this.h = new Uo(), 0, 1, e2 = new Xs()), this.A = new mo(), wn(this.h, 0, 3, this.A), this.j = new go(), wn(this.h, 0, 2, this.j), xn(this.j, 4, 1), Ln(this.j, 2, 0.5), Ln(this.A, 2, 0.5), Ln(this.h, 4, 0.5);
     }
     get baseOptions() {
       return yn(this.h, Xs, 1);
     }
-    set baseOptions(t2) {
-      wn(this.h, 0, 1, t2);
+    set baseOptions(t3) {
+      wn(this.h, 0, 1, t3);
     }
-    o(t2) {
-      return "numPoses" in t2 && xn(this.j, 4, t2.numPoses ?? 1), "minPoseDetectionConfidence" in t2 && Ln(this.j, 2, t2.minPoseDetectionConfidence ?? 0.5), "minTrackingConfidence" in t2 && Ln(this.h, 4, t2.minTrackingConfidence ?? 0.5), "minPosePresenceConfidence" in t2 && Ln(this.A, 2, t2.minPosePresenceConfidence ?? 0.5), "outputSegmentationMasks" in t2 && (this.outputSegmentationMasks = t2.outputSegmentationMasks ?? false), this.l(t2);
+    o(t3) {
+      return "numPoses" in t3 && xn(this.j, 4, t3.numPoses ?? 1), "minPoseDetectionConfidence" in t3 && Ln(this.j, 2, t3.minPoseDetectionConfidence ?? 0.5), "minTrackingConfidence" in t3 && Ln(this.h, 4, t3.minTrackingConfidence ?? 0.5), "minPosePresenceConfidence" in t3 && Ln(this.A, 2, t3.minPosePresenceConfidence ?? 0.5), "outputSegmentationMasks" in t3 && (this.outputSegmentationMasks = t3.outputSegmentationMasks ?? false), this.l(t3);
     }
-    F(t2, e2, n2) {
+    F(t3, e2, n2) {
       const r2 = "function" != typeof e2 ? e2 : {};
-      return this.u = "function" == typeof e2 ? e2 : n2, $c(this), uc(this, t2, r2), Jc(this);
+      return this.u = "function" == typeof e2 ? e2 : n2, $c(this), uc(this, t3, r2), Jc(this);
     }
-    G(t2, e2, n2, r2) {
+    G(t3, e2, n2, r2) {
       const i2 = "function" != typeof n2 ? n2 : {};
-      return this.u = "function" == typeof n2 ? n2 : r2, $c(this), lc(this, t2, i2, e2), Jc(this);
+      return this.u = "function" == typeof n2 ? n2 : r2, $c(this), lc(this, t3, i2, e2), Jc(this);
     }
     m() {
-      var t2 = new ls();
-      hs(t2, "image_in"), hs(t2, "norm_rect"), us(t2, "normalized_landmarks"), us(t2, "world_landmarks"), us(t2, "segmentation_masks");
+      var t3 = new ls();
+      hs(t3, "image_in"), hs(t3, "norm_rect"), us(t3, "normalized_landmarks"), us(t3, "world_landmarks"), us(t3, "segmentation_masks");
       const e2 = new Qi();
       xr(e2, Do, this.h);
       const n2 = new is();
-      Rn(n2, 2, "mediapipe.tasks.vision.pose_landmarker.PoseLandmarkerGraph"), ns(n2, "IMAGE:image_in"), ns(n2, "NORM_RECT:norm_rect"), rs(n2, "NORM_LANDMARKS:normalized_landmarks"), rs(n2, "WORLD_LANDMARKS:world_landmarks"), n2.o(e2), cs(t2, n2), la(this, t2), this.g.attachProtoVectorListener("normalized_landmarks", ((t3, e3) => {
+      Rn(n2, 2, "mediapipe.tasks.vision.pose_landmarker.PoseLandmarkerGraph"), ns(n2, "IMAGE:image_in"), ns(n2, "NORM_RECT:norm_rect"), rs(n2, "NORM_LANDMARKS:normalized_landmarks"), rs(n2, "WORLD_LANDMARKS:world_landmarks"), n2.o(e2), cs(t3, n2), la(this, t3), this.g.attachProtoVectorListener("normalized_landmarks", ((t4, e3) => {
         this.landmarks = [];
-        for (const e4 of t3) t3 = ks(e4), this.landmarks.push(Ho(t3));
+        for (const e4 of t4) t4 = ks(e4), this.landmarks.push(Ho(t4));
         ua(this, e3);
-      })), this.g.attachEmptyPacketListener("normalized_landmarks", ((t3) => {
-        this.landmarks = [], ua(this, t3);
-      })), this.g.attachProtoVectorListener("world_landmarks", ((t3, e3) => {
+      })), this.g.attachEmptyPacketListener("normalized_landmarks", ((t4) => {
+        this.landmarks = [], ua(this, t4);
+      })), this.g.attachProtoVectorListener("world_landmarks", ((t4, e3) => {
         this.worldLandmarks = [];
-        for (const e4 of t3) t3 = As(e4), this.worldLandmarks.push(Wo(t3));
+        for (const e4 of t4) t4 = As(e4), this.worldLandmarks.push(Wo(t4));
         ua(this, e3);
-      })), this.g.attachEmptyPacketListener("world_landmarks", ((t3) => {
-        this.worldLandmarks = [], ua(this, t3);
-      })), this.outputSegmentationMasks && (rs(n2, "SEGMENTATION_MASK:segmentation_masks"), fa(this, "segmentation_masks"), this.g.aa("segmentation_masks", ((t3, e3) => {
-        this.segmentationMasks = t3.map(((t4) => fc(this, t4, true, !this.u))), ua(this, e3);
-      })), this.g.attachEmptyPacketListener("segmentation_masks", ((t3) => {
-        this.segmentationMasks = [], ua(this, t3);
-      }))), t2 = t2.g(), this.setGraph(new Uint8Array(t2), true);
+      })), this.g.attachEmptyPacketListener("world_landmarks", ((t4) => {
+        this.worldLandmarks = [], ua(this, t4);
+      })), this.outputSegmentationMasks && (rs(n2, "SEGMENTATION_MASK:segmentation_masks"), fa(this, "segmentation_masks"), this.g.aa("segmentation_masks", ((t4, e3) => {
+        this.segmentationMasks = t4.map(((t5) => fc(this, t5, true, !this.u))), ua(this, e3);
+      })), this.g.attachEmptyPacketListener("segmentation_masks", ((t4) => {
+        this.segmentationMasks = [], ua(this, t4);
+      }))), t3 = t3.g(), this.setGraph(new Uint8Array(t3), true);
     }
   };
-  Zc.prototype.detectForVideo = Zc.prototype.G, Zc.prototype.detect = Zc.prototype.F, Zc.prototype.setOptions = Zc.prototype.o, Zc.createFromModelPath = function(t2, e2) {
-    return cc(Zc, t2, { baseOptions: { modelAssetPath: e2 } });
-  }, Zc.createFromModelBuffer = function(t2, e2) {
-    return cc(Zc, t2, { baseOptions: { modelAssetBuffer: e2 } });
-  }, Zc.createFromOptions = function(t2, e2) {
-    return cc(Zc, t2, e2);
+  Zc.prototype.detectForVideo = Zc.prototype.G, Zc.prototype.detect = Zc.prototype.F, Zc.prototype.setOptions = Zc.prototype.o, Zc.createFromModelPath = function(t3, e2) {
+    return cc(Zc, t3, { baseOptions: { modelAssetPath: e2 } });
+  }, Zc.createFromModelBuffer = function(t3, e2) {
+    return cc(Zc, t3, { baseOptions: { modelAssetBuffer: e2 } });
+  }, Zc.createFromOptions = function(t3, e2) {
+    return cc(Zc, t3, e2);
   }, Zc.POSE_CONNECTIONS = Cc;
 
   // public/js/react/FaceDetectionService.js
@@ -34741,7 +34741,7 @@
         try {
           const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" } });
           if (!active) {
-            stream.getTracks().forEach((t2) => t2.stop());
+            stream.getTracks().forEach((t3) => t3.stop());
             return;
           }
           streamRef.current = stream;
@@ -34873,20 +34873,195 @@
   // public/js/react/MoodResult.jsx
   var import_react28 = __toESM(require_react());
 
+  // public/js/modules/language.js
+  var LANG_KEY = "sf_lang";
+  var SUPPORTED_LANGUAGES = [
+    {
+      code: "en",
+      name: "English",
+      flag: "\u{1F1EC}\u{1F1E7}",
+      tmdb: "en"
+    },
+    {
+      code: "hi",
+      name: "Hindi",
+      flag: "\u{1F1EE}\u{1F1F3}",
+      tmdb: "hi"
+    },
+    {
+      code: "mr",
+      name: "Marathi",
+      flag: "\u{1F1EE}\u{1F1F3}",
+      tmdb: "mr"
+    },
+    {
+      code: "ta",
+      name: "Tamil",
+      flag: "\u{1F1EE}\u{1F1F3}",
+      tmdb: "ta"
+    },
+    {
+      code: "te",
+      name: "Telugu",
+      flag: "\u{1F1EE}\u{1F1F3}",
+      tmdb: "te"
+    },
+    {
+      code: "es",
+      name: "Spanish",
+      flag: "\u{1F1EA}\u{1F1F8}",
+      tmdb: "es"
+    },
+    {
+      code: "fr",
+      name: "French",
+      flag: "\u{1F1EB}\u{1F1F7}",
+      tmdb: "fr"
+    },
+    {
+      code: "de",
+      name: "German",
+      flag: "\u{1F1E9}\u{1F1EA}",
+      tmdb: "de"
+    },
+    {
+      code: "ja",
+      name: "Japanese",
+      flag: "\u{1F1EF}\u{1F1F5}",
+      tmdb: "ja"
+    },
+    {
+      code: "ko",
+      name: "Korean",
+      flag: "\u{1F1F0}\u{1F1F7}",
+      tmdb: "ko"
+    },
+    {
+      code: "pt",
+      name: "Portuguese",
+      flag: "\u{1F1E7}\u{1F1F7}",
+      tmdb: "pt"
+    },
+    {
+      code: "it",
+      name: "Italian",
+      flag: "\u{1F1EE}\u{1F1F9}",
+      tmdb: "it"
+    },
+    {
+      code: "ru",
+      name: "Russian",
+      flag: "\u{1F1F7}\u{1F1FA}",
+      tmdb: "ru"
+    },
+    {
+      code: "zh",
+      name: "Chinese",
+      flag: "\u{1F1E8}\u{1F1F3}",
+      tmdb: "zh"
+    },
+    {
+      code: "ar",
+      name: "Arabic",
+      flag: "\u{1F1F8}\u{1F1E6}",
+      tmdb: "ar"
+    }
+  ];
+  function getPreferredLang() {
+    try {
+      return localStorage.getItem(LANG_KEY) || "en";
+    } catch (_2) {
+      return "en";
+    }
+  }
+  function getLang(code) {
+    return SUPPORTED_LANGUAGES.find((l2) => l2.code === code) || SUPPORTED_LANGUAGES[0];
+  }
+  var SERVERS = {
+    nxsha: "https://web.nxsha.app",
+    server1: "https://vidsrcme.su",
+    server2: "https://web.nxsha.space",
+    vidfast: "https://vidnest.fun"
+  };
+  var NXSHA_LANG = {
+    en: "english",
+    hi: "hindi"
+  };
+  var currentServer = "nxsha";
+  function setServer(server) {
+    if (SERVERS[server]) {
+      currentServer = server;
+    }
+  }
+  function getCurrentServer() {
+    return currentServer;
+  }
+  function buildEmbedUrl(media, langCode, season = 1, episode = 1) {
+    const base = SERVERS[currentServer];
+    const isTV2 = media.media_type === "tv" || !media.title && media.name;
+    const nxshaLang = NXSHA_LANG[langCode] || "english";
+    if (isTV2) {
+      if (currentServer === "nxsha" || currentServer === "server2") {
+        return `${base}/embed/tv/${media.id}/${season}/${episode}?lang=${nxshaLang}`;
+      }
+      if (currentServer === "vidfast") {
+        return `https://vidnest.fun/tv/${media.id}/${season}/${episode}?autoPlay=true`;
+      }
+      return `${base}/embed/tv/${media.id}/${season}/${episode}`;
+    }
+    if (currentServer === "nxsha" || currentServer === "server2") {
+      return `${base}/embed/movie/${media.id}?lang=${nxshaLang}`;
+    }
+    if (currentServer === "vidfast") {
+      return `https://vidnest.fun/movie/${media.id}?autoPlay=true`;
+    }
+    return `${base}/embed/movie/${media.id}`;
+  }
+
   // public/js/modules/api.js
-  var TMDB = "https://api.themoviedb.org/3";
-  var TMDB_KEY = "852b496a6ab5e48324fac3a942903058";
   var IMG = "https://image.tmdb.org/t/p/";
   var genreMap = {};
+  var TMDB_LOCALE = {
+    en: "en-US",
+    hi: "hi-IN",
+    mr: "mr-IN",
+    ta: "ta-IN",
+    te: "te-IN",
+    es: "es-ES",
+    fr: "fr-FR",
+    de: "de-DE",
+    ja: "ja-JP",
+    ko: "ko-KR",
+    zh: "zh-CN",
+    pt: "pt-BR",
+    it: "it-IT",
+    ru: "ru-RU",
+    ar: "ar-SA"
+  };
+  function getTmdbLocale(code) {
+    return TMDB_LOCALE[code] || "en-US";
+  }
   function imgUrl(path, size = "w500") {
     return path ? `${IMG}${size}${path}` : "";
   }
   async function get(endpoint, params = {}) {
-    const url = new URL(`${TMDB}${endpoint}`);
-    url.searchParams.set("api_key", TMDB_KEY);
+    const url = new URL(`/api/tmdb${endpoint}`, window.location.origin);
+    const langCode = getPreferredLang();
+    url.searchParams.set("language", getTmdbLocale(langCode));
     Object.entries(params).forEach(([k2, v2]) => url.searchParams.set(k2, v2));
-    const res = await fetch(url);
-    return res.json();
+    try {
+      const res = await fetch(url);
+      if (!res.ok) throw new Error(`API error: ${res.status}`);
+      const data = await res.json();
+      return data;
+    } catch (e2) {
+      console.warn(`TMDB fetch failed for ${endpoint}:`, e2);
+      const fallback = new URL(`/api/tmdb${endpoint}`, window.location.origin);
+      fallback.searchParams.set("language", "en-US");
+      Object.entries(params).forEach(([k2, v2]) => fallback.searchParams.set(k2, v2));
+      const res2 = await fetch(fallback);
+      return res2.json();
+    }
   }
   async function fetchTrending(type = "all") {
     const data = await get(`/trending/${type}/week`);
@@ -34900,9 +35075,7 @@
     return data.results || [];
   }
   async function fetchSeasons(tvId, numberOfSeasons) {
-    const seasonNumbers = Array.from({
-      length: numberOfSeasons
-    }, (_2, i2) => i2 + 1);
+    const seasonNumbers = Array.from({ length: numberOfSeasons }, (_2, i2) => i2 + 1);
     const seasons = await Promise.all(
       seasonNumbers.map((n2) => get(`/tv/${tvId}/season/${n2}`))
     );
@@ -34976,23 +35149,1295 @@
     }
   };
 
+  // public/js/modules/translations.js
+  var UI_TRANSLATIONS = {
+    /* ---- English ---- */
+    en: {
+      dir: "ltr",
+      lang: "en",
+      // Navbar
+      more: "MORE",
+      moreServices: "MORE SERVICES",
+      explore: "EXPLORE",
+      aiSmartTools: "AI & SMART TOOLS",
+      account: "ACCOUNT",
+      home: "HOME",
+      movies: "MOVIES",
+      tvShows: "TV SHOWS",
+      trending: "TRENDING",
+      topRated: "TOP RATED",
+      genres: "GENRES",
+      favorites: "FAVORITES",
+      watchLater: "WATCH LATER",
+      // Search
+      search: "Search movies, shows\u2026",
+      searchTitle: "SEARCH RESULTS",
+      // Hero
+      watchNow: "Watch Now",
+      trailer: "Trailer",
+      myList: "My List",
+      scanMood: "\u{1F60A} Scan My Mood",
+      trendingBadge: "\u{1F525} Trending Now",
+      qualityBadge: "4K Ultra HD",
+      addedToList: "\u2713 Added",
+      removeFromList: "Remove",
+      // Rows
+      trendingNow: "TRENDING NOW",
+      popularMovies: "POPULAR MOVIES",
+      popularSeries: "POPULAR SERIES",
+      continueWatching: "CONTINUE WATCHING",
+      topRatedMovies: "TOP RATED",
+      recommendations: "YOU MAY ALSO LIKE",
+      // Categories
+      popularCategories: "POPULAR CATEGORIES",
+      action: "ACTION",
+      sciFi: "SCI-FI",
+      drama: "DRAMA",
+      thriller: "THRILLER",
+      comedy: "COMEDY",
+      horror: "HORROR",
+      // Profile / User menu
+      myProfile: "My Profile",
+      settings: "Settings",
+      signOut: "Sign Out",
+      notifications: "Notifications",
+      noNotifications: "No new notifications",
+      // Player / Modal
+      movieDetails: "Movie Details",
+      close: "Close",
+      cinemaMode: "Cinema Mode",
+      exitCinema: "Exit Cinema",
+      seasonShort: "S",
+      season: "",
+      episode: "Episode",
+      episodeN: "Episode",
+      play: "Play",
+      pause: "Pause",
+      stop: "Stop",
+      qualityLabel: "Quality",
+      audioLabel: "Audio",
+      subtitleLabel: "Subtitles",
+      serverLabel: "Server",
+      releaseDate: "Release",
+      runtime: "Runtime",
+      language: "Language",
+      genre: "Genre",
+      rating: "Rating",
+      overview: "Overview",
+      noEpisodes: "No episodes available.",
+      loading: "Loading\u2026",
+      errorLoading: "Failed to load. Please try again.",
+      tvSeries: "TV Series",
+      movie: "Movie",
+      // Download
+      download: "Download",
+      // Watchlist
+      emptyList: "Your list is empty. Add movies and shows to watch later!",
+      emptyFavorites: "No favorites yet. Heart a title to save it here.",
+      // Cinema
+      cinemaTitle: "Cinema Mode",
+      cinemaExit: "Exit Cinema",
+      // Language selector
+      selectLanguage: "\u{1F310} Select Language",
+      // Time
+      min: "min",
+      hrs: "hrs",
+      // Misc
+      imdbRating: "IMDb",
+      addToList: "+ My List"
+    },
+    /* ---- Hindi ---- */
+    hi: {
+      dir: "ltr",
+      lang: "hi",
+      more: "\u0914\u0930",
+      moreServices: "\u0905\u0927\u093F\u0915 \u0938\u0947\u0935\u093E\u090F\u0901",
+      explore: "\u0905\u0928\u094D\u0935\u0947\u0937\u0923 \u0915\u0930\u0947\u0902",
+      aiSmartTools: "\u090F\u0906\u0908 \u0914\u0930 \u0938\u094D\u092E\u093E\u0930\u094D\u091F \u091F\u0942\u0932\u094D\u0938",
+      account: "\u0916\u093E\u0924\u093E",
+      home: "\u0939\u094B\u092E",
+      movies: "\u092B\u093C\u093F\u0932\u094D\u092E\u0947\u0902",
+      tvShows: "\u091F\u0940\u0935\u0940 \u0936\u094B\u091C\u093C",
+      trending: "\u091F\u094D\u0930\u0947\u0902\u0921\u093F\u0902\u0917",
+      topRated: "\u091F\u0949\u092A \u0930\u0947\u091F\u0947\u0921",
+      genres: "\u0936\u0948\u0932\u093F\u092F\u093E\u0901",
+      favorites: "\u092A\u0938\u0902\u0926\u0940\u0926\u093E",
+      watchLater: "\u092C\u093E\u0926 \u092E\u0947\u0902 \u0926\u0947\u0916\u0947\u0902",
+      search: "\u092B\u093C\u093F\u0932\u094D\u092E\u0947\u0902, \u0936\u094B \u0916\u094B\u091C\u0947\u0902\u2026",
+      searchTitle: "\u0916\u094B\u091C \u092A\u0930\u093F\u0923\u093E\u092E",
+      watchNow: "\u0905\u092D\u0940 \u0926\u0947\u0916\u0947\u0902",
+      trailer: "\u091F\u094D\u0930\u0947\u0932\u0930",
+      myList: "\u092E\u0947\u0930\u0940 \u0938\u0942\u091A\u0940",
+      scanMood: "\u{1F60A} \u092E\u0942\u0921 \u0938\u094D\u0915\u0948\u0928",
+      trendingBadge: "\u{1F525} \u0905\u092D\u0940 \u091F\u094D\u0930\u0947\u0902\u0921\u093F\u0902\u0917",
+      qualityBadge: "4K \u0905\u0932\u094D\u091F\u094D\u0930\u093E \u090F\u091A\u0921\u0940",
+      addedToList: "\u2713 \u091C\u094B\u0921\u093C\u093E \u0917\u092F\u093E",
+      removeFromList: "\u0939\u091F\u093E\u090F\u0902",
+      trendingNow: "\u0905\u092D\u0940 \u091F\u094D\u0930\u0947\u0902\u0921\u093F\u0902\u0917",
+      popularMovies: "\u0932\u094B\u0915\u092A\u094D\u0930\u093F\u092F \u092B\u093C\u093F\u0932\u094D\u092E\u0947\u0902",
+      popularSeries: "\u0932\u094B\u0915\u092A\u094D\u0930\u093F\u092F \u0938\u0940\u0930\u0940\u091C\u093C",
+      continueWatching: "\u0926\u0947\u0916\u0928\u093E \u091C\u093E\u0930\u0940 \u0930\u0916\u0947\u0902",
+      topRatedMovies: "\u091F\u0949\u092A \u0930\u0947\u091F\u0947\u0921",
+      recommendations: "\u0906\u092A\u0915\u094B \u092A\u0938\u0902\u0926 \u0906 \u0938\u0915\u0924\u093E \u0939\u0948",
+      popularCategories: "\u0932\u094B\u0915\u092A\u094D\u0930\u093F\u092F \u0936\u094D\u0930\u0947\u0923\u093F\u092F\u093E\u0901",
+      action: "\u090F\u0915\u094D\u0936\u0928",
+      sciFi: "\u0938\u093E\u0907-\u092B\u093E\u0908",
+      drama: "\u0921\u094D\u0930\u093E\u092E\u093E",
+      thriller: "\u0925\u094D\u0930\u093F\u0932\u0930",
+      comedy: "\u0915\u0949\u092E\u0947\u0921\u0940",
+      horror: "\u0939\u0949\u0930\u0930",
+      myProfile: "\u092E\u0947\u0930\u0940 \u092A\u094D\u0930\u094B\u092B\u093C\u093E\u0907\u0932",
+      settings: "\u0938\u0947\u091F\u093F\u0902\u0917\u094D\u0938",
+      signOut: "\u0938\u093E\u0907\u0928 \u0906\u0909\u091F",
+      notifications: "\u0938\u0942\u091A\u0928\u093E\u090F\u0902",
+      noNotifications: "\u0915\u094B\u0908 \u0928\u0908 \u0938\u0942\u091A\u0928\u093E \u0928\u0939\u0940\u0902",
+      movieDetails: "\u092B\u093C\u093F\u0932\u094D\u092E \u0935\u093F\u0935\u0930\u0923",
+      close: "\u092C\u0902\u0926 \u0915\u0930\u0947\u0902",
+      cinemaMode: "\u0938\u093F\u0928\u0947\u092E\u093E \u092E\u094B\u0921",
+      exitCinema: "\u0938\u093F\u0928\u0947\u092E\u093E \u091B\u094B\u0921\u093C\u0947\u0902",
+      seasonShort: "S",
+      season: "",
+      episode: "\u090F\u092A\u093F\u0938\u094B\u0921",
+      episodeN: "\u090F\u092A\u093F\u0938\u094B\u0921",
+      play: "\u091A\u0932\u093E\u090F\u0902",
+      pause: "\u0930\u094B\u0915\u0947\u0902",
+      stop: "\u092C\u0902\u0926",
+      qualityLabel: "\u0917\u0941\u0923\u0935\u0924\u094D\u0924\u093E",
+      audioLabel: "\u0911\u0921\u093F\u092F\u094B",
+      subtitleLabel: "\u0909\u092A\u0936\u0940\u0930\u094D\u0937\u0915",
+      serverLabel: "\u0938\u0930\u094D\u0935\u0930",
+      releaseDate: "\u0930\u093F\u0932\u0940\u091C\u093C",
+      runtime: "\u0905\u0935\u0927\u093F",
+      language: "\u092D\u093E\u0937\u093E",
+      genre: "\u0936\u0948\u0932\u0940",
+      rating: "\u0930\u0947\u091F\u093F\u0902\u0917",
+      overview: "\u0938\u093E\u0930\u093E\u0902\u0936",
+      noEpisodes: "\u0915\u094B\u0908 \u090F\u092A\u093F\u0938\u094B\u0921 \u0909\u092A\u0932\u092C\u094D\u0927 \u0928\u0939\u0940\u0902\u0964",
+      loading: "\u0932\u094B\u0921 \u0939\u094B \u0930\u0939\u093E \u0939\u0948\u2026",
+      errorLoading: "\u0932\u094B\u0921 \u0935\u093F\u092B\u0932\u0964 \u0915\u0943\u092A\u092F\u093E \u092A\u0941\u0928\u0903 \u092A\u094D\u0930\u092F\u093E\u0938 \u0915\u0930\u0947\u0902\u0964",
+      tvSeries: "\u091F\u0940\u0935\u0940 \u0938\u0940\u0930\u0940\u091C\u093C",
+      movie: "\u092B\u093C\u093F\u0932\u094D\u092E",
+      download: "\u0921\u093E\u0909\u0928\u0932\u094B\u0921",
+      emptyList: "\u0938\u0942\u091A\u0940 \u0916\u093E\u0932\u0940 \u0939\u0948\u0964 \u092B\u093C\u093F\u0932\u094D\u092E\u0947\u0902 \u0914\u0930 \u0936\u094B \u091C\u094B\u0921\u093C\u0947\u0902\u0964",
+      emptyFavorites: "\u0905\u092D\u0940 \u0924\u0915 \u0915\u094B\u0908 \u092A\u0938\u0902\u0926\u0940\u0926\u093E \u0928\u0939\u0940\u0902\u0964",
+      cinemaTitle: "\u0938\u093F\u0928\u0947\u092E\u093E \u092E\u094B\u0921",
+      cinemaExit: "\u0938\u093F\u0928\u0947\u092E\u093E \u091B\u094B\u0921\u093C\u0947\u0902",
+      selectLanguage: "\u{1F310} \u092D\u093E\u0937\u093E \u091A\u0941\u0928\u0947\u0902",
+      min: "\u092E\u093F\u0928\u091F",
+      hrs: "\u0918\u0902\u091F\u0947",
+      imdbRating: "IMDb",
+      addToList: "+ \u092E\u0947\u0930\u0940 \u0938\u0942\u091A\u0940"
+    },
+    /* ---- Marathi ---- */
+    mr: {
+      dir: "ltr",
+      lang: "mr",
+      more: "\u0905\u0927\u093F\u0915",
+      moreServices: "\u0905\u0927\u093F\u0915 \u0938\u0947\u0935\u093E",
+      explore: "\u0936\u094B\u0927\u093E",
+      aiSmartTools: "\u090F\u0906\u092F \u0906\u0923\u093F \u0938\u094D\u092E\u093E\u0930\u094D\u091F \u0938\u093E\u0927\u0928\u0947",
+      account: "\u0916\u093E\u0924\u0947",
+      home: "\u092E\u0941\u0916\u092A\u0943\u0937\u094D\u0920",
+      movies: "\u091A\u093F\u0924\u094D\u0930\u092A\u091F",
+      tvShows: "\u091F\u0940\u0935\u094D\u0939\u0940 \u0936\u094B",
+      trending: "\u091F\u094D\u0930\u0947\u0902\u0921\u093F\u0902\u0917",
+      topRated: "\u0938\u0930\u094D\u0935\u094B\u0924\u094D\u0924\u092E",
+      genres: "\u0936\u0948\u0932\u0940",
+      favorites: "\u0906\u0935\u0921\u0924\u0947",
+      watchLater: "\u0928\u0902\u0924\u0930 \u092A\u093E\u0939\u093E",
+      search: "\u091A\u093F\u0924\u094D\u0930\u092A\u091F, \u0936\u094B \u0936\u094B\u0927\u093E\u2026",
+      searchTitle: "\u0936\u094B\u0927 \u0928\u093F\u0915\u093E\u0932",
+      watchNow: "\u0906\u0924\u093E \u092A\u093E\u0939\u093E",
+      trailer: "\u091F\u094D\u0930\u0947\u0932\u0930",
+      myList: "\u092E\u093E\u091D\u0940 \u092F\u093E\u0926\u0940",
+      scanMood: "\u{1F60A} \u092E\u0942\u0921 \u0938\u094D\u0915\u0945\u0928",
+      trendingBadge: "\u{1F525} \u0906\u0924\u094D\u0924\u093E \u091F\u094D\u0930\u0947\u0902\u0921\u093F\u0902\u0917",
+      qualityBadge: "4K \u0905\u0932\u094D\u091F\u094D\u0930\u093E HD",
+      addedToList: "\u2713 \u091C\u094B\u0921\u0932\u0947",
+      removeFromList: "\u0915\u093E\u0922\u093E",
+      trendingNow: "\u0906\u0924\u094D\u0924\u093E \u091F\u094D\u0930\u0947\u0902\u0921\u093F\u0902\u0917",
+      popularMovies: "\u0932\u094B\u0915\u092A\u094D\u0930\u093F\u092F \u091A\u093F\u0924\u094D\u0930\u092A\u091F",
+      popularSeries: "\u0932\u094B\u0915\u092A\u094D\u0930\u093F\u092F \u092E\u093E\u0932\u093F\u0915\u093E",
+      continueWatching: "\u092A\u093E\u0939\u0923\u0947 \u0938\u0941\u0930\u0942 \u0920\u0947\u0935\u093E",
+      topRatedMovies: "\u0938\u0930\u094D\u0935\u094B\u0924\u094D\u0924\u092E",
+      recommendations: "\u0924\u0941\u092E\u094D\u0939\u093E\u0932\u093E \u0906\u0935\u0921\u0942 \u0936\u0915\u0924\u0947",
+      popularCategories: "\u0932\u094B\u0915\u092A\u094D\u0930\u093F\u092F \u0936\u094D\u0930\u0947\u0923\u094D\u092F\u093E",
+      action: "\u0905\u0945\u0915\u094D\u0936\u0928",
+      sciFi: "\u0938\u093E\u092F\u0928\u094D\u0938 \u092B\u093F\u0915\u094D\u0936\u0928",
+      drama: "\u0928\u093E\u091F\u0915",
+      thriller: "\u0925\u094D\u0930\u093F\u0932\u0930",
+      comedy: "\u0935\u093F\u0928\u094B\u0926\u0940",
+      horror: "\u092D\u092F\u092A\u091F",
+      myProfile: "\u092E\u093E\u091D\u0947 \u092A\u094D\u0930\u094B\u092B\u093E\u0907\u0932",
+      settings: "\u0938\u0947\u091F\u093F\u0902\u0917\u094D\u091C",
+      signOut: "\u0938\u093E\u0907\u0928 \u0906\u0909\u091F",
+      notifications: "\u0938\u0942\u091A\u0928\u093E",
+      noNotifications: "\u0915\u094B\u0923\u0924\u094D\u092F\u093E\u0939\u0940 \u0928\u0935\u0940\u0928 \u0938\u0942\u091A\u0928\u093E \u0928\u093E\u0939\u0940\u0924",
+      movieDetails: "\u091A\u093F\u0924\u094D\u0930\u092A\u091F \u092E\u093E\u0939\u093F\u0924\u0940",
+      close: "\u092C\u0902\u0926 \u0915\u0930\u093E",
+      cinemaMode: "\u0938\u093F\u0928\u0947\u092E\u093E \u092E\u094B\u0921",
+      exitCinema: "\u0938\u093F\u0928\u0947\u092E\u093E \u0938\u094B\u0921\u093E",
+      seasonShort: "S",
+      season: "",
+      episode: "\u092D\u093E\u0917",
+      episodeN: "\u092D\u093E\u0917",
+      play: "\u091A\u093E\u0932\u0935\u093E",
+      pause: "\u0925\u093E\u0902\u092C\u0935\u093E",
+      stop: "\u092C\u0902\u0926 \u0915\u0930\u093E",
+      qualityLabel: "\u0917\u0941\u0923\u0935\u0924\u094D\u0924\u093E",
+      audioLabel: "\u0911\u0921\u093F\u0913",
+      subtitleLabel: "\u0909\u092A\u0936\u0940\u0930\u094D\u0937\u0915\u0947",
+      serverLabel: "\u0938\u0930\u094D\u0935\u094D\u0939\u0930",
+      releaseDate: "\u092A\u094D\u0930\u0915\u093E\u0936\u0928",
+      runtime: "\u0915\u093E\u0932\u093E\u0935\u0927\u0940",
+      language: "\u092D\u093E\u0937\u093E",
+      genre: "\u0936\u0948\u0932\u0940",
+      rating: "\u0930\u0947\u091F\u093F\u0902\u0917",
+      overview: "\u0938\u093E\u0930\u093E\u0902\u0936",
+      noEpisodes: "\u0915\u094B\u0923\u0924\u0947 \u092D\u093E\u0917 \u0909\u092A\u0932\u092C\u094D\u0927 \u0928\u093E\u0939\u0940\u0924.",
+      loading: "\u0932\u094B\u0921 \u0939\u094B\u0924 \u0906\u0939\u0947\u2026",
+      errorLoading: "\u0932\u094B\u0921 \u0905\u092F\u0936\u0938\u094D\u0935\u0940. \u092A\u0941\u0928\u094D\u0939\u093E \u092A\u094D\u0930\u092F\u0924\u094D\u0928 \u0915\u0930\u093E.",
+      tvSeries: "\u091F\u0940\u0935\u094D\u0939\u0940 \u092E\u093E\u0932\u093F\u0915\u093E",
+      movie: "\u091A\u093F\u0924\u094D\u0930\u092A\u091F",
+      download: "\u0921\u093E\u0909\u0928\u0932\u094B\u0921",
+      emptyList: "\u092F\u093E\u0926\u0940 \u0930\u093F\u0915\u093E\u092E\u0940 \u0906\u0939\u0947. \u091A\u093F\u0924\u094D\u0930\u092A\u091F \u0906\u0923\u093F \u0936\u094B \u091C\u094B\u0921\u093E.",
+      emptyFavorites: "\u0905\u0926\u094D\u092F\u093E\u092A \u0915\u094B\u0923\u0924\u0947\u0939\u0940 \u0906\u0935\u0921\u0924\u0947 \u0928\u093E\u0939\u0940\u0924.",
+      cinemaTitle: "\u0938\u093F\u0928\u0947\u092E\u093E \u092E\u094B\u0921",
+      cinemaExit: "\u0938\u093F\u0928\u0947\u092E\u093E \u0938\u094B\u0921\u093E",
+      selectLanguage: "\u{1F310} \u092D\u093E\u0937\u093E \u0928\u093F\u0935\u0921\u093E",
+      min: "\u092E\u093F\u0928\u093F\u091F",
+      hrs: "\u0924\u093E\u0938",
+      imdbRating: "IMDb",
+      addToList: "+ \u092E\u093E\u091D\u0940 \u092F\u093E\u0926\u0940"
+    },
+    /* ---- Tamil ---- */
+    ta: {
+      dir: "ltr",
+      lang: "ta",
+      more: "\u0BAE\u0BC7\u0BB2\u0BC1\u0BAE\u0BCD",
+      moreServices: "\u0B95\u0BC2\u0B9F\u0BC1\u0BA4\u0BB2\u0BCD \u0B9A\u0BC7\u0BB5\u0BC8\u0B95\u0BB3\u0BCD",
+      explore: "\u0B86\u0BB0\u0BBE\u0BAF\u0BC1\u0B99\u0BCD\u0B95\u0BB3\u0BCD",
+      aiSmartTools: "AI & \u0BB8\u0BCD\u0BAE\u0BBE\u0BB0\u0BCD\u0B9F\u0BCD \u0B95\u0BB0\u0BC1\u0BB5\u0BBF\u0B95\u0BB3\u0BCD",
+      account: "\u0B95\u0BA3\u0B95\u0BCD\u0B95\u0BC1",
+      home: "\u0BAE\u0BC1\u0B95\u0BAA\u0BCD\u0BAA\u0BC1",
+      movies: "\u0BA4\u0BBF\u0BB0\u0BC8\u0BAA\u0BCD\u0BAA\u0B9F\u0B99\u0BCD\u0B95\u0BB3\u0BCD",
+      tvShows: "\u0BA4\u0BCA\u0BB2\u0BC8\u0B95\u0BCD\u0B95\u0BBE\u0B9F\u0BCD\u0B9A\u0BBF",
+      trending: "\u0B9F\u0BBF\u0BB0\u0BC6\u0BA3\u0BCD\u0B9F\u0BBF\u0B99\u0BCD",
+      topRated: "\u0B9A\u0BBF\u0BB1\u0BA8\u0BCD\u0BA4\u0BB5\u0BC8",
+      genres: "\u0BB5\u0B95\u0BC8\u0B95\u0BB3\u0BCD",
+      favorites: "\u0BAA\u0BBF\u0B9F\u0BBF\u0BA4\u0BCD\u0BA4\u0BB5\u0BC8",
+      watchLater: "\u0BAA\u0BBF\u0BB1\u0B95\u0BC1 \u0BAA\u0BBE\u0BB0\u0BCD",
+      search: "\u0BA4\u0BC7\u0B9F\u0BC1\u2026",
+      searchTitle: "\u0BA4\u0BC7\u0B9F\u0BB2\u0BCD \u0BAE\u0BC1\u0B9F\u0BBF\u0BB5\u0BC1\u0B95\u0BB3\u0BCD",
+      watchNow: "\u0B87\u0BAA\u0BCD\u0BAA\u0BCB\u0BA4\u0BC1 \u0BAA\u0BBE\u0BB0\u0BCD",
+      trailer: "\u0B9F\u0BBF\u0BB0\u0BC6\u0BAF\u0BCD\u0BB2\u0BB0\u0BCD",
+      myList: "\u0B8E\u0BA9\u0BCD \u0BAA\u0B9F\u0BCD\u0B9F\u0BBF\u0BAF\u0BB2\u0BCD",
+      scanMood: "\u{1F60A} \u0BAE\u0BA9\u0BA8\u0BBF\u0BB2\u0BC8 \u0BB8\u0BCD\u0B95\u0BC7\u0BA9\u0BCD",
+      trendingBadge: "\u{1F525} \u0B87\u0BAA\u0BCD\u0BAA\u0BCB\u0BA4\u0BC1 \u0B9F\u0BBF\u0BB0\u0BC6\u0BA3\u0BCD\u0B9F\u0BBF\u0B99\u0BCD",
+      qualityBadge: "4K Ultra HD",
+      addedToList: "\u2713 \u0B9A\u0BC7\u0BB0\u0BCD\u0B95\u0BCD\u0B95\u0BAA\u0BCD\u0BAA\u0B9F\u0BCD\u0B9F\u0BA4\u0BC1",
+      removeFromList: "\u0B85\u0B95\u0BB1\u0BCD\u0BB1\u0BC1",
+      trendingNow: "\u0B87\u0BAA\u0BCD\u0BAA\u0BCB\u0BA4\u0BC1 \u0B9F\u0BBF\u0BB0\u0BC6\u0BA3\u0BCD\u0B9F\u0BBF\u0B99\u0BCD",
+      popularMovies: "\u0BAA\u0BBF\u0BB0\u0BAA\u0BB2\u0BAE\u0BBE\u0BA9 \u0BA4\u0BBF\u0BB0\u0BC8\u0BAA\u0BCD\u0BAA\u0B9F\u0B99\u0BCD\u0B95\u0BB3\u0BCD",
+      popularSeries: "\u0BAA\u0BBF\u0BB0\u0BAA\u0BB2\u0BAE\u0BBE\u0BA9 \u0BA4\u0BCA\u0B9F\u0BB0\u0BCD\u0B95\u0BB3\u0BCD",
+      continueWatching: "\u0BAA\u0BBE\u0BB0\u0BCD\u0BAA\u0BCD\u0BAA\u0BA4\u0BC8 \u0BA4\u0BCA\u0B9F\u0BB0\u0BCD",
+      topRatedMovies: "\u0B9A\u0BBF\u0BB1\u0BA8\u0BCD\u0BA4\u0BB5\u0BC8",
+      recommendations: "\u0B89\u0B99\u0BCD\u0B95\u0BB3\u0BC1\u0B95\u0BCD\u0B95\u0BC1 \u0BAA\u0BBF\u0B9F\u0BBF\u0B95\u0BCD\u0B95\u0BB2\u0BBE\u0BAE\u0BCD",
+      popularCategories: "\u0BAA\u0BBF\u0BB0\u0BAA\u0BB2\u0BAE\u0BBE\u0BA9 \u0BB5\u0B95\u0BC8\u0B95\u0BB3\u0BCD",
+      action: "\u0B9A\u0BBE\u0B95\u0B9A\u0BAE\u0BCD",
+      sciFi: "\u0B85\u0BB1\u0BBF\u0BB5\u0BBF\u0BAF\u0BB2\u0BCD \u0BAA\u0BC1\u0BA9\u0BC8\u0BB5\u0BC1",
+      drama: "\u0BA8\u0BBE\u0B9F\u0B95\u0BAE\u0BCD",
+      thriller: "\u0BA4\u0BCD\u0BB0\u0BBF\u0BB2\u0BCD\u0BB2\u0BB0\u0BCD",
+      comedy: "\u0BA8\u0B95\u0BC8\u0B9A\u0BCD\u0B9A\u0BC1\u0BB5\u0BC8",
+      horror: "\u0BA4\u0BBF\u0B95\u0BBF\u0BB2\u0BCD",
+      myProfile: "\u0B8E\u0BA9\u0BCD \u0B9A\u0BC1\u0BAF\u0BB5\u0BBF\u0BB5\u0BB0\u0BAE\u0BCD",
+      settings: "\u0B85\u0BAE\u0BC8\u0BAA\u0BCD\u0BAA\u0BC1\u0B95\u0BB3\u0BCD",
+      signOut: "\u0BB5\u0BC6\u0BB3\u0BBF\u0BAF\u0BC7\u0BB1\u0BC1",
+      notifications: "\u0B85\u0BB1\u0BBF\u0BB5\u0BBF\u0BAA\u0BCD\u0BAA\u0BC1\u0B95\u0BB3\u0BCD",
+      noNotifications: "\u0BAA\u0BC1\u0BA4\u0BBF\u0BAF \u0B85\u0BB1\u0BBF\u0BB5\u0BBF\u0BAA\u0BCD\u0BAA\u0BC1\u0B95\u0BB3\u0BCD \u0B87\u0BB2\u0BCD\u0BB2\u0BC8",
+      movieDetails: "\u0BAA\u0B9F\u0BAE\u0BCD \u0BB5\u0BBF\u0BB5\u0BB0\u0B99\u0BCD\u0B95\u0BB3\u0BCD",
+      close: "\u0BAE\u0BC2\u0B9F\u0BC1",
+      cinemaMode: "\u0B9A\u0BBF\u0BA9\u0BBF\u0BAE\u0BBE \u0BAE\u0BC1\u0BB1\u0BC8",
+      exitCinema: "\u0B9A\u0BBF\u0BA9\u0BBF\u0BAE\u0BBE\u0BB5\u0BBF\u0BB2\u0BBF\u0BB0\u0BC1\u0BA8\u0BCD\u0BA4\u0BC1 \u0BB5\u0BC6\u0BB3\u0BBF\u0BAF\u0BC7\u0BB1\u0BC1",
+      seasonShort: "S",
+      season: "",
+      episode: "\u0B8E\u0BAA\u0BBF\u0B9A\u0BCB\u0B9F\u0BCD",
+      episodeN: "\u0B8E\u0BAA\u0BBF\u0B9A\u0BCB\u0B9F\u0BCD",
+      play: "\u0B87\u0BAF\u0B95\u0BCD\u0B95\u0BC1",
+      pause: "\u0BA8\u0BBF\u0BB1\u0BC1\u0BA4\u0BCD\u0BA4\u0BC1",
+      stop: "\u0BA8\u0BBF\u0BB1\u0BC1\u0BA4\u0BCD\u0BA4\u0BC1",
+      qualityLabel: "\u0BA4\u0BB0\u0BAE\u0BCD",
+      audioLabel: "\u0B92\u0BB2\u0BBF",
+      subtitleLabel: "\u0BB5\u0B9A\u0BA9 \u0BB5\u0BB0\u0BBF\u0B95\u0BB3\u0BCD",
+      serverLabel: "\u0B9A\u0BB0\u0BCD\u0BB5\u0BB0\u0BCD",
+      releaseDate: "\u0BB5\u0BC6\u0BB3\u0BBF\u0BAF\u0BC0\u0B9F\u0BC1",
+      runtime: "\u0BA8\u0BC7\u0BB0\u0BAE\u0BCD",
+      language: "\u0BAE\u0BCA\u0BB4\u0BBF",
+      genre: "\u0BB5\u0B95\u0BC8",
+      rating: "\u0BAE\u0BA4\u0BBF\u0BAA\u0BCD\u0BAA\u0BC0\u0B9F\u0BC1",
+      overview: "\u0B9A\u0BC1\u0BB0\u0BC1\u0B95\u0BCD\u0B95\u0BAE\u0BCD",
+      noEpisodes: "\u0B8E\u0BAA\u0BBF\u0B9A\u0BCB\u0B9F\u0BCD\u0B95\u0BB3\u0BCD \u0B87\u0BB2\u0BCD\u0BB2\u0BC8.",
+      loading: "\u0B8F\u0BB1\u0BCD\u0BB1\u0BC1\u0B95\u0BBF\u0BB1\u0BA4\u0BC1\u2026",
+      errorLoading: "\u0B8F\u0BB1\u0BCD\u0BB1\u0BC1\u0BB5\u0BA4\u0BBF\u0BB2\u0BCD \u0BA4\u0BCB\u0BB2\u0BCD\u0BB5\u0BBF.",
+      tvSeries: "\u0BA4\u0BCA\u0BB2\u0BC8\u0B95\u0BCD\u0B95\u0BBE\u0B9F\u0BCD\u0B9A\u0BBF \u0BA4\u0BCA\u0B9F\u0BB0\u0BCD",
+      movie: "\u0BA4\u0BBF\u0BB0\u0BC8\u0BAA\u0BCD\u0BAA\u0B9F\u0BAE\u0BCD",
+      download: "\u0BAA\u0BA4\u0BBF\u0BB5\u0BBF\u0BB1\u0B95\u0BCD\u0B95\u0BC1",
+      emptyList: "\u0BAA\u0B9F\u0BCD\u0B9F\u0BBF\u0BAF\u0BB2\u0BCD \u0B95\u0BBE\u0BB2\u0BBF\u0BAF\u0BBE\u0B95 \u0B89\u0BB3\u0BCD\u0BB3\u0BA4\u0BC1.",
+      emptyFavorites: "\u0B87\u0BA4\u0BC1\u0BB5\u0BB0\u0BC8 \u0BAA\u0BBF\u0B9F\u0BBF\u0BA4\u0BCD\u0BA4\u0BB5\u0BC8 \u0B8E\u0BA4\u0BC1\u0BB5\u0BC1\u0BAE\u0BCD \u0B87\u0BB2\u0BCD\u0BB2\u0BC8.",
+      cinemaTitle: "\u0B9A\u0BBF\u0BA9\u0BBF\u0BAE\u0BBE \u0BAE\u0BC1\u0BB1\u0BC8",
+      cinemaExit: "\u0BB5\u0BC6\u0BB3\u0BBF\u0BAF\u0BC7\u0BB1\u0BC1",
+      selectLanguage: "\u{1F310} \u0BAE\u0BCA\u0BB4\u0BBF\u0BAF\u0BC8\u0BA4\u0BCD \u0BA4\u0BC7\u0BB0\u0BCD\u0BA8\u0BCD\u0BA4\u0BC6\u0B9F\u0BC1",
+      min: "\u0BA8\u0BBF\u0BAE\u0BBF\u0B9F\u0BAE\u0BCD",
+      hrs: "\u0BAE\u0BA3\u0BBF",
+      imdbRating: "IMDb",
+      addToList: "+ \u0B8E\u0BA9\u0BCD \u0BAA\u0B9F\u0BCD\u0B9F\u0BBF\u0BAF\u0BB2\u0BCD"
+    },
+    /* ---- Telugu ---- */
+    te: {
+      dir: "ltr",
+      lang: "te",
+      more: "\u0C2E\u0C30\u0C3F\u0C02\u0C24",
+      moreServices: "\u0C2E\u0C30\u0C3F\u0C28\u0C4D\u0C28\u0C3F \u0C38\u0C47\u0C35\u0C32\u0C41",
+      explore: "\u0C05\u0C28\u0C4D\u0C35\u0C47\u0C37\u0C3F\u0C02\u0C1A\u0C02\u0C21\u0C3F",
+      aiSmartTools: "AI & \u0C38\u0C4D\u0C2E\u0C3E\u0C30\u0C4D\u0C1F\u0C4D \u0C1F\u0C42\u0C32\u0C4D\u0C38\u0C4D",
+      account: "\u0C16\u0C3E\u0C24\u0C3E",
+      home: "\u0C39\u0C4B\u0C2E\u0C4D",
+      movies: "\u0C38\u0C3F\u0C28\u0C3F\u0C2E\u0C3E\u0C32\u0C41",
+      tvShows: "\u0C1F\u0C40\u0C35\u0C40 \u0C37\u0C4B\u0C32\u0C41",
+      trending: "\u0C1F\u0C4D\u0C30\u0C46\u0C02\u0C21\u0C3F\u0C02\u0C17\u0C4D",
+      topRated: "\u0C05\u0C24\u0C4D\u0C2F\u0C41\u0C24\u0C4D\u0C24\u0C2E",
+      genres: "\u0C36\u0C48\u0C32\u0C41\u0C32\u0C41",
+      favorites: "\u0C07\u0C37\u0C4D\u0C1F\u0C2E\u0C48\u0C28\u0C35\u0C3F",
+      watchLater: "\u0C24\u0C30\u0C4D\u0C35\u0C3E\u0C24 \u0C1A\u0C42\u0C21\u0C41",
+      search: "\u0C38\u0C3F\u0C28\u0C3F\u0C2E\u0C3E\u0C32\u0C41, \u0C37\u0C4B\u0C32\u0C41 \u0C35\u0C46\u0C24\u0C15\u0C02\u0C21\u0C3F\u2026",
+      searchTitle: "\u0C36\u0C4B\u0C27\u0C28 \u0C2B\u0C32\u0C3F\u0C24\u0C3E\u0C32\u0C41",
+      watchNow: "\u0C07\u0C2A\u0C4D\u0C2A\u0C41\u0C21\u0C41 \u0C1A\u0C42\u0C21\u0C41",
+      trailer: "\u0C1F\u0C4D\u0C30\u0C48\u0C32\u0C30\u0C4D",
+      myList: "\u0C28\u0C3E \u0C1C\u0C3E\u0C2C\u0C3F\u0C24\u0C3E",
+      scanMood: "\u{1F60A} \u0C2E\u0C42\u0C21\u0C4D \u0C38\u0C4D\u0C15\u0C3E\u0C28\u0C4D",
+      trendingBadge: "\u{1F525} \u0C07\u0C2A\u0C4D\u0C2A\u0C41\u0C21\u0C41 \u0C1F\u0C4D\u0C30\u0C46\u0C02\u0C21\u0C3F\u0C02\u0C17\u0C4D",
+      qualityBadge: "4K Ultra HD",
+      addedToList: "\u2713 \u0C1C\u0C4B\u0C21\u0C3F\u0C02\u0C1A\u0C2C\u0C21\u0C3F\u0C02\u0C26\u0C3F",
+      removeFromList: "\u0C24\u0C4A\u0C32\u0C17\u0C3F\u0C02\u0C1A\u0C41",
+      trendingNow: "\u0C07\u0C2A\u0C4D\u0C2A\u0C41\u0C21\u0C41 \u0C1F\u0C4D\u0C30\u0C46\u0C02\u0C21\u0C3F\u0C02\u0C17\u0C4D",
+      popularMovies: "\u0C2A\u0C4D\u0C30\u0C2E\u0C41\u0C16 \u0C38\u0C3F\u0C28\u0C3F\u0C2E\u0C3E\u0C32\u0C41",
+      popularSeries: "\u0C2A\u0C4D\u0C30\u0C2E\u0C41\u0C16 \u0C38\u0C40\u0C30\u0C40\u0C32\u0C41",
+      continueWatching: "\u0C1A\u0C42\u0C21\u0C21\u0C02 \u0C15\u0C4A\u0C28\u0C38\u0C3E\u0C17\u0C3F\u0C02\u0C1A\u0C41",
+      topRatedMovies: "\u0C05\u0C24\u0C4D\u0C2F\u0C41\u0C24\u0C4D\u0C24\u0C2E",
+      recommendations: "\u0C2E\u0C40\u0C15\u0C41 \u0C28\u0C1A\u0C4D\u0C1A\u0C35\u0C1A\u0C4D\u0C1A\u0C41",
+      popularCategories: "\u0C2A\u0C4D\u0C30\u0C2E\u0C41\u0C16 \u0C35\u0C30\u0C4D\u0C17\u0C3E\u0C32\u0C41",
+      action: "\u0C2F\u0C3E\u0C15\u0C4D\u0C37\u0C28\u0C4D",
+      sciFi: "\u0C38\u0C48\u0C28\u0C4D\u0C38\u0C4D \u0C2B\u0C3F\u0C15\u0C4D\u0C37\u0C28\u0C4D",
+      drama: "\u0C21\u0C4D\u0C30\u0C3E\u0C2E\u0C3E",
+      thriller: "\u0C25\u0C4D\u0C30\u0C3F\u0C32\u0C4D\u0C32\u0C30\u0C4D",
+      comedy: "\u0C15\u0C3E\u0C2E\u0C46\u0C21\u0C40",
+      horror: "\u0C39\u0C3E\u0C30\u0C30\u0C4D",
+      myProfile: "\u0C28\u0C3E \u0C2A\u0C4D\u0C30\u0C4A\u0C2B\u0C48\u0C32\u0C4D",
+      settings: "\u0C38\u0C46\u0C1F\u0C4D\u0C1F\u0C3F\u0C02\u0C17\u0C4D\u200C\u0C32\u0C41",
+      signOut: "\u0C38\u0C48\u0C28\u0C4D \u0C05\u0C35\u0C41\u0C1F\u0C4D",
+      notifications: "\u0C28\u0C4B\u0C1F\u0C3F\u0C2B\u0C3F\u0C15\u0C47\u0C37\u0C28\u0C4D\u0C32\u0C41",
+      noNotifications: "\u0C15\u0C4A\u0C24\u0C4D\u0C24 \u0C28\u0C4B\u0C1F\u0C3F\u0C2B\u0C3F\u0C15\u0C47\u0C37\u0C28\u0C4D\u0C32\u0C41 \u0C32\u0C47\u0C35\u0C41",
+      movieDetails: "\u0C38\u0C3F\u0C28\u0C3F\u0C2E\u0C3E \u0C35\u0C3F\u0C35\u0C30\u0C3E\u0C32\u0C41",
+      close: "\u0C2E\u0C42\u0C38\u0C3F\u0C35\u0C47\u0C2F\u0C3F",
+      cinemaMode: "\u0C38\u0C3F\u0C28\u0C3F\u0C2E\u0C3E \u0C2E\u0C4B\u0C21\u0C4D",
+      exitCinema: "\u0C38\u0C3F\u0C28\u0C3F\u0C2E\u0C3E \u0C35\u0C26\u0C3F\u0C32\u0C3F \u0C35\u0C46\u0C33\u0C4D\u0C33\u0C41",
+      seasonShort: "S",
+      season: "",
+      episode: "\u0C0E\u0C2A\u0C3F\u0C38\u0C4B\u0C21\u0C4D",
+      episodeN: "\u0C0E\u0C2A\u0C3F\u0C38\u0C4B\u0C21\u0C4D",
+      play: "\u0C2A\u0C4D\u0C32\u0C47",
+      pause: "\u0C2A\u0C3E\u0C1C\u0C4D",
+      stop: "\u0C38\u0C4D\u0C1F\u0C3E\u0C2A\u0C4D",
+      qualityLabel: "\u0C28\u0C3E\u0C23\u0C4D\u0C2F\u0C24",
+      audioLabel: "\u0C06\u0C21\u0C3F\u0C2F\u0C4B",
+      subtitleLabel: "\u0C38\u0C2C\u0C4D\u200C\u0C1F\u0C48\u0C1F\u0C3F\u0C32\u0C4D\u0C38\u0C4D",
+      serverLabel: "\u0C38\u0C30\u0C4D\u0C35\u0C30\u0C4D",
+      releaseDate: "\u0C35\u0C3F\u0C21\u0C41\u0C26\u0C32",
+      runtime: "\u0C28\u0C3F\u0C21\u0C3F\u0C35\u0C3F",
+      language: "\u0C2D\u0C3E\u0C37",
+      genre: "\u0C36\u0C48\u0C32\u0C3F",
+      rating: "\u0C30\u0C47\u0C1F\u0C3F\u0C02\u0C17\u0C4D",
+      overview: "\u0C38\u0C3E\u0C30\u0C3E\u0C02\u0C36\u0C02",
+      noEpisodes: "\u0C0E\u0C2A\u0C3F\u0C38\u0C4B\u0C21\u0C4D\u0C32\u0C41 \u0C05\u0C02\u0C26\u0C41\u0C2C\u0C3E\u0C1F\u0C41\u0C32\u0C4B \u0C32\u0C47\u0C35\u0C41.",
+      loading: "\u0C32\u0C4B\u0C21\u0C4D \u0C05\u0C35\u0C41\u0C24\u0C4B\u0C02\u0C26\u0C3F\u2026",
+      errorLoading: "\u0C32\u0C4B\u0C21\u0C4D \u0C35\u0C3F\u0C2B\u0C32\u0C2E\u0C48\u0C02\u0C26\u0C3F.",
+      tvSeries: "\u0C1F\u0C40\u0C35\u0C40 \u0C38\u0C40\u0C30\u0C40\u0C38\u0C4D",
+      movie: "\u0C38\u0C3F\u0C28\u0C3F\u0C2E\u0C3E",
+      download: "\u0C21\u0C4C\u0C28\u0C4D\u200C\u0C32\u0C4B\u0C21\u0C4D",
+      emptyList: "\u0C1C\u0C3E\u0C2C\u0C3F\u0C24\u0C3E \u0C16\u0C3E\u0C33\u0C40\u0C17\u0C3E \u0C09\u0C02\u0C26\u0C3F.",
+      emptyFavorites: "\u0C07\u0C02\u0C15\u0C3E \u0C07\u0C37\u0C4D\u0C1F\u0C2E\u0C48\u0C28\u0C35\u0C3F \u0C0F\u0C2E\u0C40 \u0C32\u0C47\u0C35\u0C41.",
+      cinemaTitle: "\u0C38\u0C3F\u0C28\u0C3F\u0C2E\u0C3E \u0C2E\u0C4B\u0C21\u0C4D",
+      cinemaExit: "\u0C35\u0C26\u0C3F\u0C32\u0C3F \u0C35\u0C46\u0C33\u0C4D\u0C33\u0C41",
+      selectLanguage: "\u{1F310} \u0C2D\u0C3E\u0C37 \u0C0E\u0C02\u0C1A\u0C41\u0C15\u0C4B\u0C02\u0C21\u0C3F",
+      min: "\u0C28\u0C3F\u0C2E\u0C3F",
+      hrs: "\u0C17\u0C02\u0C1F\u0C32\u0C41",
+      imdbRating: "IMDb",
+      addToList: "+ \u0C28\u0C3E \u0C1C\u0C3E\u0C2C\u0C3F\u0C24\u0C3E"
+    },
+    /* ---- Spanish ---- */
+    es: {
+      dir: "ltr",
+      lang: "es",
+      more: "M\xC1S",
+      moreServices: "M\xC1S SERVICIOS",
+      explore: "EXPLORAR",
+      aiSmartTools: "HERRAMIENTAS IA",
+      account: "CUENTA",
+      home: "INICIO",
+      movies: "PEL\xCDCULAS",
+      tvShows: "SERIES",
+      trending: "TENDENCIAS",
+      topRated: "LO MEJOR",
+      genres: "G\xC9NEROS",
+      favorites: "FAVORITOS",
+      watchLater: "VER DESPU\xC9S",
+      search: "Buscar pel\xEDculas, series\u2026",
+      searchTitle: "RESULTADOS",
+      watchNow: "Ver ahora",
+      trailer: "Tr\xE1iler",
+      myList: "Mi lista",
+      scanMood: "\u{1F60A} Escanear estado",
+      trendingBadge: "\u{1F525} En tendencia",
+      qualityBadge: "4K Ultra HD",
+      addedToList: "\u2713 A\xF1adido",
+      removeFromList: "Quitar",
+      trendingNow: "EN TENDENCIA",
+      popularMovies: "PEL\xCDCULAS POPULARES",
+      popularSeries: "SERIES POPULARES",
+      continueWatching: "CONTINUAR VIENDO",
+      topRatedMovies: "LO MEJOR",
+      recommendations: "TAMBI\xC9N TE PUEDE GUSTAR",
+      popularCategories: "CATEGOR\xCDAS POPULARES",
+      action: "ACCI\xD3N",
+      sciFi: "CIENCIA FICCI\xD3N",
+      drama: "DRAMA",
+      thriller: "THRILLER",
+      comedy: "COMEDIA",
+      horror: "TERROR",
+      myProfile: "Mi perfil",
+      settings: "Ajustes",
+      signOut: "Cerrar sesi\xF3n",
+      notifications: "Notificaciones",
+      noNotifications: "Sin nuevas notificaciones",
+      movieDetails: "Detalles",
+      close: "Cerrar",
+      cinemaMode: "Modo Cine",
+      exitCinema: "Salir del cine",
+      seasonShort: "S",
+      season: "",
+      episode: "Episodio",
+      episodeN: "Ep.",
+      play: "Reproducir",
+      pause: "Pausar",
+      stop: "Detener",
+      qualityLabel: "Calidad",
+      audioLabel: "Audio",
+      subtitleLabel: "Subt\xEDtulos",
+      serverLabel: "Servidor",
+      releaseDate: "Estreno",
+      runtime: "Duraci\xF3n",
+      language: "Idioma",
+      genre: "G\xE9nero",
+      rating: "Valoraci\xF3n",
+      overview: "Sinopsis",
+      noEpisodes: "No hay episodios disponibles.",
+      loading: "Cargando\u2026",
+      errorLoading: "Error al cargar. Int\xE9ntalo de nuevo.",
+      tvSeries: "Serie de TV",
+      movie: "Pel\xEDcula",
+      download: "Descargar",
+      emptyList: "Tu lista est\xE1 vac\xEDa.",
+      emptyFavorites: "A\xFAn no tienes favoritos.",
+      cinemaTitle: "Modo Cine",
+      cinemaExit: "Salir del Cine",
+      selectLanguage: "\u{1F310} Seleccionar idioma",
+      min: "min",
+      hrs: "hrs",
+      imdbRating: "IMDb",
+      addToList: "+ Mi lista"
+    },
+    /* ---- French ---- */
+    fr: {
+      dir: "ltr",
+      lang: "fr",
+      more: "PLUS",
+      moreServices: "PLUS DE SERVICES",
+      explore: "EXPLORER",
+      aiSmartTools: "OUTILS IA",
+      account: "COMPTE",
+      home: "ACCUEIL",
+      movies: "FILMS",
+      tvShows: "S\xC9RIES",
+      trending: "TENDANCES",
+      topRated: "LES MIEUX NOT\xC9S",
+      genres: "GENRES",
+      favorites: "FAVORIS",
+      watchLater: "\xC0 REGARDER",
+      search: "Rechercher films, s\xE9ries\u2026",
+      searchTitle: "R\xC9SULTATS",
+      watchNow: "Regarder",
+      trailer: "Bande-annonce",
+      myList: "Ma liste",
+      scanMood: "\u{1F60A} Scanner humeur",
+      trendingBadge: "\u{1F525} Tendance",
+      qualityBadge: "4K Ultra HD",
+      addedToList: "\u2713 Ajout\xE9",
+      removeFromList: "Retirer",
+      trendingNow: "TENDANCES",
+      popularMovies: "FILMS POPULAIRES",
+      popularSeries: "S\xC9RIES POPULAIRES",
+      continueWatching: "CONTINUER \xC0 REGARDER",
+      topRatedMovies: "LES MIEUX NOT\xC9S",
+      recommendations: "VOUS AIMEREZ PEUT-\xCATRE",
+      popularCategories: "CAT\xC9GORIES POPULAIRES",
+      action: "ACTION",
+      sciFi: "SCI-FI",
+      drama: "DRAME",
+      thriller: "THRILLER",
+      comedy: "COM\xC9DIE",
+      horror: "HORREUR",
+      myProfile: "Mon profil",
+      settings: "Param\xE8tres",
+      signOut: "Se d\xE9connecter",
+      notifications: "Notifications",
+      noNotifications: "Aucune nouvelle notification",
+      movieDetails: "D\xE9tails",
+      close: "Fermer",
+      cinemaMode: "Mode Cin\xE9ma",
+      exitCinema: "Quitter le cin\xE9ma",
+      seasonShort: "S",
+      season: "",
+      episode: "\xC9pisode",
+      episodeN: "\xC9p.",
+      play: "Lire",
+      pause: "Pause",
+      stop: "Arr\xEAter",
+      qualityLabel: "Qualit\xE9",
+      audioLabel: "Audio",
+      subtitleLabel: "Sous-titres",
+      serverLabel: "Serveur",
+      releaseDate: "Sortie",
+      runtime: "Dur\xE9e",
+      language: "Langue",
+      genre: "Genre",
+      rating: "Note",
+      overview: "Synopsis",
+      noEpisodes: "Aucun \xE9pisode disponible.",
+      loading: "Chargement\u2026",
+      errorLoading: "\xC9chec du chargement.",
+      tvSeries: "S\xE9rie TV",
+      movie: "Film",
+      download: "T\xE9l\xE9charger",
+      emptyList: "Votre liste est vide.",
+      emptyFavorites: "Pas encore de favoris.",
+      cinemaTitle: "Mode Cin\xE9ma",
+      cinemaExit: "Quitter le Cin\xE9ma",
+      selectLanguage: "\u{1F310} Choisir la langue",
+      min: "min",
+      hrs: "h",
+      imdbRating: "IMDb",
+      addToList: "+ Ma liste"
+    },
+    /* ---- German ---- */
+    de: {
+      dir: "ltr",
+      lang: "de",
+      more: "MEHR",
+      moreServices: "WEITERE DIENSTE",
+      explore: "ENTDECKEN",
+      aiSmartTools: "KI-TOOLS",
+      account: "KONTO",
+      home: "START",
+      movies: "FILME",
+      tvShows: "SERIEN",
+      trending: "TRENDS",
+      topRated: "BESTBEWERTET",
+      genres: "GENRES",
+      favorites: "FAVORITEN",
+      watchLater: "SP\xC4TER ANSEHEN",
+      search: "Filme, Serien suchen\u2026",
+      searchTitle: "SUCHERGEBNISSE",
+      watchNow: "Jetzt ansehen",
+      trailer: "Trailer",
+      myList: "Meine Liste",
+      scanMood: "\u{1F60A} Stimmung scannen",
+      trendingBadge: "\u{1F525} Im Trend",
+      qualityBadge: "4K Ultra HD",
+      addedToList: "\u2713 Hinzugef\xFCgt",
+      removeFromList: "Entfernen",
+      trendingNow: "IM TREND",
+      popularMovies: "BELIEBTE FILME",
+      popularSeries: "BELIEBTE SERIEN",
+      continueWatching: "WEITERSCHAUEN",
+      topRatedMovies: "BESTBEWERTET",
+      recommendations: "DAS K\xD6NNTE DIR GEFALLEN",
+      popularCategories: "BELIEBTE KATEGORIEN",
+      action: "ACTION",
+      sciFi: "SCI-FI",
+      drama: "DRAMA",
+      thriller: "THRILLER",
+      comedy: "KOM\xD6DIE",
+      horror: "HORROR",
+      myProfile: "Mein Profil",
+      settings: "Einstellungen",
+      signOut: "Abmelden",
+      notifications: "Benachrichtigungen",
+      noNotifications: "Keine neuen Benachrichtigungen",
+      movieDetails: "Details",
+      close: "Schlie\xDFen",
+      cinemaMode: "Kino-Modus",
+      exitCinema: "Kino verlassen",
+      seasonShort: "S",
+      season: "",
+      episode: "Episode",
+      episodeN: "Ep.",
+      play: "Abspielen",
+      pause: "Pause",
+      stop: "Stopp",
+      qualityLabel: "Qualit\xE4t",
+      audioLabel: "Audio",
+      subtitleLabel: "Untertitel",
+      serverLabel: "Server",
+      releaseDate: "Erscheinungsdatum",
+      runtime: "Laufzeit",
+      language: "Sprache",
+      genre: "Genre",
+      rating: "Bewertung",
+      overview: "Handlung",
+      noEpisodes: "Keine Episoden verf\xFCgbar.",
+      loading: "L\xE4dt\u2026",
+      errorLoading: "Laden fehlgeschlagen.",
+      tvSeries: "TV-Serie",
+      movie: "Film",
+      download: "Herunterladen",
+      emptyList: "Deine Liste ist leer.",
+      emptyFavorites: "Noch keine Favoriten.",
+      cinemaTitle: "Kino-Modus",
+      cinemaExit: "Kino verlassen",
+      selectLanguage: "\u{1F310} Sprache w\xE4hlen",
+      min: "Min",
+      hrs: "Std",
+      imdbRating: "IMDb",
+      addToList: "+ Meine Liste"
+    },
+    /* ---- Japanese ---- */
+    ja: {
+      dir: "ltr",
+      lang: "ja",
+      more: "\u3082\u3063\u3068\u898B\u308B",
+      moreServices: "\u305D\u306E\u4ED6\u306E\u30B5\u30FC\u30D3\u30B9",
+      explore: "\u63A2\u7D22\u3059\u308B",
+      aiSmartTools: "AI\u30C4\u30FC\u30EB",
+      account: "\u30A2\u30AB\u30A6\u30F3\u30C8",
+      home: "\u30DB\u30FC\u30E0",
+      movies: "\u6620\u753B",
+      tvShows: "\u30C6\u30EC\u30D3\u756A\u7D44",
+      trending: "\u30C8\u30EC\u30F3\u30C9",
+      topRated: "\u9AD8\u8A55\u4FA1",
+      genres: "\u30B8\u30E3\u30F3\u30EB",
+      favorites: "\u304A\u6C17\u306B\u5165\u308A",
+      watchLater: "\u5F8C\u3067\u898B\u308B",
+      search: "\u6620\u753B\u30FB\u756A\u7D44\u3092\u691C\u7D22\u2026",
+      searchTitle: "\u691C\u7D22\u7D50\u679C",
+      watchNow: "\u4ECA\u3059\u3050\u898B\u308B",
+      trailer: "\u30C8\u30EC\u30FC\u30E9\u30FC",
+      myList: "\u30DE\u30A4\u30EA\u30B9\u30C8",
+      scanMood: "\u{1F60A} \u6C17\u5206\u30B9\u30AD\u30E3\u30F3",
+      trendingBadge: "\u{1F525} \u30C8\u30EC\u30F3\u30C9\u4E2D",
+      qualityBadge: "4K \u30A6\u30EB\u30C8\u30E9HD",
+      addedToList: "\u2713 \u8FFD\u52A0\u6E08\u307F",
+      removeFromList: "\u524A\u9664",
+      trendingNow: "\u4ECA\u306E\u30C8\u30EC\u30F3\u30C9",
+      popularMovies: "\u4EBA\u6C17\u6620\u753B",
+      popularSeries: "\u4EBA\u6C17\u30B7\u30EA\u30FC\u30BA",
+      continueWatching: "\u8996\u8074\u3092\u7D9A\u3051\u308B",
+      topRatedMovies: "\u9AD8\u8A55\u4FA1",
+      recommendations: "\u304A\u3059\u3059\u3081",
+      popularCategories: "\u4EBA\u6C17\u30AB\u30C6\u30B4\u30EA",
+      action: "\u30A2\u30AF\u30B7\u30E7\u30F3",
+      sciFi: "SF",
+      drama: "\u30C9\u30E9\u30DE",
+      thriller: "\u30B9\u30EA\u30E9\u30FC",
+      comedy: "\u30B3\u30E1\u30C7\u30A3",
+      horror: "\u30DB\u30E9\u30FC",
+      myProfile: "\u30D7\u30ED\u30D5\u30A3\u30FC\u30EB",
+      settings: "\u8A2D\u5B9A",
+      signOut: "\u30B5\u30A4\u30F3\u30A2\u30A6\u30C8",
+      notifications: "\u901A\u77E5",
+      noNotifications: "\u65B0\u3057\u3044\u901A\u77E5\u306F\u3042\u308A\u307E\u305B\u3093",
+      movieDetails: "\u6620\u753B\u306E\u8A73\u7D30",
+      close: "\u9589\u3058\u308B",
+      cinemaMode: "\u30B7\u30CD\u30DE\u30E2\u30FC\u30C9",
+      exitCinema: "\u30B7\u30CD\u30DE\u3092\u7D42\u4E86",
+      seasonShort: "S",
+      season: "",
+      episode: "\u30A8\u30D4\u30BD\u30FC\u30C9",
+      episodeN: "Ep.",
+      play: "\u518D\u751F",
+      pause: "\u4E00\u6642\u505C\u6B62",
+      stop: "\u505C\u6B62",
+      qualityLabel: "\u753B\u8CEA",
+      audioLabel: "\u97F3\u58F0",
+      subtitleLabel: "\u5B57\u5E55",
+      serverLabel: "\u30B5\u30FC\u30D0\u30FC",
+      releaseDate: "\u516C\u958B\u65E5",
+      runtime: "\u4E0A\u6620\u6642\u9593",
+      language: "\u8A00\u8A9E",
+      genre: "\u30B8\u30E3\u30F3\u30EB",
+      rating: "\u8A55\u4FA1",
+      overview: "\u3042\u3089\u3059\u3058",
+      noEpisodes: "\u30A8\u30D4\u30BD\u30FC\u30C9\u304C\u3042\u308A\u307E\u305B\u3093\u3002",
+      loading: "\u8AAD\u307F\u8FBC\u307F\u4E2D\u2026",
+      errorLoading: "\u8AAD\u307F\u8FBC\u307F\u306B\u5931\u6557\u3057\u307E\u3057\u305F\u3002",
+      tvSeries: "\u30C6\u30EC\u30D3\u30B7\u30EA\u30FC\u30BA",
+      movie: "\u6620\u753B",
+      download: "\u30C0\u30A6\u30F3\u30ED\u30FC\u30C9",
+      emptyList: "\u30EA\u30B9\u30C8\u306F\u7A7A\u3067\u3059\u3002",
+      emptyFavorites: "\u307E\u3060\u304A\u6C17\u306B\u5165\u308A\u304C\u3042\u308A\u307E\u305B\u3093\u3002",
+      cinemaTitle: "\u30B7\u30CD\u30DE\u30E2\u30FC\u30C9",
+      cinemaExit: "\u7D42\u4E86",
+      selectLanguage: "\u{1F310} \u8A00\u8A9E\u3092\u9078\u629E",
+      min: "\u5206",
+      hrs: "\u6642\u9593",
+      imdbRating: "IMDb",
+      addToList: "+ \u30DE\u30A4\u30EA\u30B9\u30C8"
+    },
+    /* ---- Korean ---- */
+    ko: {
+      dir: "ltr",
+      lang: "ko",
+      more: "\uB354 \uBCF4\uAE30",
+      moreServices: "\uAE30\uD0C0 \uC11C\uBE44\uC2A4",
+      explore: "\uD0D0\uC0C9",
+      aiSmartTools: "AI \uC2A4\uB9C8\uD2B8 \uB3C4\uAD6C",
+      account: "\uACC4\uC815",
+      home: "\uD648",
+      movies: "\uC601\uD654",
+      tvShows: "TV \uD504\uB85C\uADF8\uB7A8",
+      trending: "\uD2B8\uB80C\uB529",
+      topRated: "\uCD5C\uACE0 \uD3C9\uC810",
+      genres: "\uC7A5\uB974",
+      favorites: "\uC990\uACA8\uCC3E\uAE30",
+      watchLater: "\uB098\uC911\uC5D0 \uBCF4\uAE30",
+      search: "\uC601\uD654, \uD504\uB85C\uADF8\uB7A8 \uAC80\uC0C9\u2026",
+      searchTitle: "\uAC80\uC0C9 \uACB0\uACFC",
+      watchNow: "\uC9C0\uAE08 \uBCF4\uAE30",
+      trailer: "\uC608\uACE0\uD3B8",
+      myList: "\uB0B4 \uBAA9\uB85D",
+      scanMood: "\u{1F60A} \uAE30\uBD84 \uC2A4\uCE94",
+      trendingBadge: "\u{1F525} \uC9C0\uAE08 \uD2B8\uB80C\uB529",
+      qualityBadge: "4K \uC6B8\uD2B8\uB77CHD",
+      addedToList: "\u2713 \uCD94\uAC00\uB428",
+      removeFromList: "\uC81C\uAC70",
+      trendingNow: "\uC9C0\uAE08 \uD2B8\uB80C\uB529",
+      popularMovies: "\uC778\uAE30 \uC601\uD654",
+      popularSeries: "\uC778\uAE30 \uC2DC\uB9AC\uC988",
+      continueWatching: "\uACC4\uC18D \uC2DC\uCCAD",
+      topRatedMovies: "\uCD5C\uACE0 \uD3C9\uC810",
+      recommendations: "\uCD94\uCC9C \uCF58\uD150\uCE20",
+      popularCategories: "\uC778\uAE30 \uCE74\uD14C\uACE0\uB9AC",
+      action: "\uC561\uC158",
+      sciFi: "SF",
+      drama: "\uB4DC\uB77C\uB9C8",
+      thriller: "\uC2A4\uB9B4\uB7EC",
+      comedy: "\uCF54\uBBF8\uB514",
+      horror: "\uACF5\uD3EC",
+      myProfile: "\uB0B4 \uD504\uB85C\uD544",
+      settings: "\uC124\uC815",
+      signOut: "\uB85C\uADF8\uC544\uC6C3",
+      notifications: "\uC54C\uB9BC",
+      noNotifications: "\uC0C8\uB85C\uC6B4 \uC54C\uB9BC\uC774 \uC5C6\uC2B5\uB2C8\uB2E4",
+      movieDetails: "\uC601\uD654 \uC138\uBD80\uC815\uBCF4",
+      close: "\uB2EB\uAE30",
+      cinemaMode: "\uC2DC\uB124\uB9C8 \uBAA8\uB4DC",
+      exitCinema: "\uC2DC\uB124\uB9C8 \uC885\uB8CC",
+      seasonShort: "S",
+      season: "",
+      episode: "\uC5D0\uD53C\uC18C\uB4DC",
+      episodeN: "Ep.",
+      play: "\uC7AC\uC0DD",
+      pause: "\uC77C\uC2DC\uC815\uC9C0",
+      stop: "\uC815\uC9C0",
+      qualityLabel: "\uD654\uC9C8",
+      audioLabel: "\uC624\uB514\uC624",
+      subtitleLabel: "\uC790\uB9C9",
+      serverLabel: "\uC11C\uBC84",
+      releaseDate: "\uCD9C\uC2DC\uC77C",
+      runtime: "\uC0C1\uC601 \uC2DC\uAC04",
+      language: "\uC5B8\uC5B4",
+      genre: "\uC7A5\uB974",
+      rating: "\uD3C9\uC810",
+      overview: "\uC904\uAC70\uB9AC",
+      noEpisodes: "\uC5D0\uD53C\uC18C\uB4DC\uAC00 \uC5C6\uC2B5\uB2C8\uB2E4.",
+      loading: "\uB85C\uB529 \uC911\u2026",
+      errorLoading: "\uB85C\uB4DC \uC2E4\uD328.",
+      tvSeries: "TV \uC2DC\uB9AC\uC988",
+      movie: "\uC601\uD654",
+      download: "\uB2E4\uC6B4\uB85C\uB4DC",
+      emptyList: "\uBAA9\uB85D\uC774 \uBE44\uC5B4 \uC788\uC2B5\uB2C8\uB2E4.",
+      emptyFavorites: "\uC544\uC9C1 \uC990\uACA8\uCC3E\uAE30\uAC00 \uC5C6\uC2B5\uB2C8\uB2E4.",
+      cinemaTitle: "\uC2DC\uB124\uB9C8 \uBAA8\uB4DC",
+      cinemaExit: "\uC885\uB8CC",
+      selectLanguage: "\u{1F310} \uC5B8\uC5B4 \uC120\uD0DD",
+      min: "\uBD84",
+      hrs: "\uC2DC\uAC04",
+      imdbRating: "IMDb",
+      addToList: "+ \uB0B4 \uBAA9\uB85D"
+    },
+    /* ---- Chinese (Simplified) ---- */
+    zh: {
+      dir: "ltr",
+      lang: "zh",
+      more: "\u66F4\u591A",
+      moreServices: "\u66F4\u591A\u670D\u52A1",
+      explore: "\u63A2\u7D22",
+      aiSmartTools: "AI\u4E0E\u667A\u80FD\u5DE5\u5177",
+      account: "\u8D26\u6237",
+      home: "\u4E3B\u9875",
+      movies: "\u7535\u5F71",
+      tvShows: "\u7535\u89C6\u5267",
+      trending: "\u70ED\u95E8",
+      topRated: "\u9AD8\u5206",
+      genres: "\u7C7B\u578B",
+      favorites: "\u6536\u85CF",
+      watchLater: "\u7A0D\u540E\u89C2\u770B",
+      search: "\u641C\u7D22\u7535\u5F71\u3001\u5267\u96C6\u2026",
+      searchTitle: "\u641C\u7D22\u7ED3\u679C",
+      watchNow: "\u7ACB\u5373\u64AD\u653E",
+      trailer: "\u9884\u544A\u7247",
+      myList: "\u6211\u7684\u5217\u8868",
+      scanMood: "\u{1F60A} \u60C5\u7EEA\u626B\u63CF",
+      trendingBadge: "\u{1F525} \u70ED\u95E8\u5185\u5BB9",
+      qualityBadge: "4K \u8D85\u9AD8\u6E05",
+      addedToList: "\u2713 \u5DF2\u6DFB\u52A0",
+      removeFromList: "\u79FB\u9664",
+      trendingNow: "\u70ED\u95E8\u5185\u5BB9",
+      popularMovies: "\u70ED\u95E8\u7535\u5F71",
+      popularSeries: "\u70ED\u95E8\u5267\u96C6",
+      continueWatching: "\u7EE7\u7EED\u89C2\u770B",
+      topRatedMovies: "\u9AD8\u5206\u5185\u5BB9",
+      recommendations: "\u731C\u4F60\u559C\u6B22",
+      popularCategories: "\u70ED\u95E8\u5206\u7C7B",
+      action: "\u52A8\u4F5C",
+      sciFi: "\u79D1\u5E7B",
+      drama: "\u5267\u60C5",
+      thriller: "\u60AC\u7591",
+      comedy: "\u559C\u5267",
+      horror: "\u6050\u6016",
+      myProfile: "\u6211\u7684\u4E2A\u4EBA\u8D44\u6599",
+      settings: "\u8BBE\u7F6E",
+      signOut: "\u9000\u51FA",
+      notifications: "\u901A\u77E5",
+      noNotifications: "\u6CA1\u6709\u65B0\u901A\u77E5",
+      movieDetails: "\u5F71\u7247\u8BE6\u60C5",
+      close: "\u5173\u95ED",
+      cinemaMode: "\u5F71\u9662\u6A21\u5F0F",
+      exitCinema: "\u9000\u51FA\u5F71\u9662",
+      seasonShort: "S",
+      season: "",
+      episode: "\u96C6",
+      episodeN: "\u7B2C",
+      play: "\u64AD\u653E",
+      pause: "\u6682\u505C",
+      stop: "\u505C\u6B62",
+      qualityLabel: "\u753B\u8D28",
+      audioLabel: "\u97F3\u9891",
+      subtitleLabel: "\u5B57\u5E55",
+      serverLabel: "\u670D\u52A1\u5668",
+      releaseDate: "\u4E0A\u6620\u65E5\u671F",
+      runtime: "\u7247\u957F",
+      language: "\u8BED\u8A00",
+      genre: "\u7C7B\u578B",
+      rating: "\u8BC4\u5206",
+      overview: "\u7B80\u4ECB",
+      noEpisodes: "\u6CA1\u6709\u53EF\u7528\u7684\u5267\u96C6\u3002",
+      loading: "\u52A0\u8F7D\u4E2D\u2026",
+      errorLoading: "\u52A0\u8F7D\u5931\u8D25\uFF0C\u8BF7\u91CD\u8BD5\u3002",
+      tvSeries: "\u7535\u89C6\u5267",
+      movie: "\u7535\u5F71",
+      download: "\u4E0B\u8F7D",
+      emptyList: "\u5217\u8868\u4E3A\u7A7A\u3002",
+      emptyFavorites: "\u6682\u65E0\u6536\u85CF\u3002",
+      cinemaTitle: "\u5F71\u9662\u6A21\u5F0F",
+      cinemaExit: "\u9000\u51FA",
+      selectLanguage: "\u{1F310} \u9009\u62E9\u8BED\u8A00",
+      min: "\u5206\u949F",
+      hrs: "\u5C0F\u65F6",
+      imdbRating: "IMDb",
+      addToList: "+ \u6211\u7684\u5217\u8868"
+    },
+    /* ---- Portuguese ---- */
+    pt: {
+      dir: "ltr",
+      lang: "pt",
+      more: "MAIS",
+      moreServices: "MAIS SERVI\xC7OS",
+      explore: "EXPLORAR",
+      aiSmartTools: "FERRAMENTAS IA",
+      account: "CONTA",
+      home: "IN\xCDCIO",
+      movies: "FILMES",
+      tvShows: "S\xC9RIES",
+      trending: "TEND\xCANCIAS",
+      topRated: "MAIS VOTADOS",
+      genres: "G\xCANEROS",
+      favorites: "FAVORITOS",
+      watchLater: "VER DEPOIS",
+      search: "Pesquisar filmes, s\xE9ries\u2026",
+      searchTitle: "RESULTADOS",
+      watchNow: "Assistir agora",
+      trailer: "Trailer",
+      myList: "Minha lista",
+      scanMood: "\u{1F60A} Escanear humor",
+      trendingBadge: "\u{1F525} Em alta",
+      qualityBadge: "4K Ultra HD",
+      addedToList: "\u2713 Adicionado",
+      removeFromList: "Remover",
+      trendingNow: "EM ALTA",
+      popularMovies: "FILMES POPULARES",
+      popularSeries: "S\xC9RIES POPULARES",
+      continueWatching: "CONTINUAR ASSISTINDO",
+      topRatedMovies: "MAIS VOTADOS",
+      recommendations: "VOC\xCA TAMB\xC9M PODE GOSTAR",
+      popularCategories: "CATEGORIAS POPULARES",
+      action: "A\xC7\xC3O",
+      sciFi: "FIC\xC7\xC3O CIENT\xCDFICA",
+      drama: "DRAMA",
+      thriller: "THRILLER",
+      comedy: "COM\xC9DIA",
+      horror: "TERROR",
+      myProfile: "Meu perfil",
+      settings: "Configura\xE7\xF5es",
+      signOut: "Sair",
+      notifications: "Notifica\xE7\xF5es",
+      noNotifications: "Sem novas notifica\xE7\xF5es",
+      movieDetails: "Detalhes",
+      close: "Fechar",
+      cinemaMode: "Modo Cinema",
+      exitCinema: "Sair do Cinema",
+      seasonShort: "S",
+      season: "",
+      episode: "Epis\xF3dio",
+      episodeN: "Ep.",
+      play: "Assistir",
+      pause: "Pausar",
+      stop: "Parar",
+      qualityLabel: "Qualidade",
+      audioLabel: "\xC1udio",
+      subtitleLabel: "Legendas",
+      serverLabel: "Servidor",
+      releaseDate: "Lan\xE7amento",
+      runtime: "Dura\xE7\xE3o",
+      language: "Idioma",
+      genre: "G\xEAnero",
+      rating: "Avalia\xE7\xE3o",
+      overview: "Sinopse",
+      noEpisodes: "Nenhum epis\xF3dio dispon\xEDvel.",
+      loading: "Carregando\u2026",
+      errorLoading: "Falha ao carregar.",
+      tvSeries: "S\xE9rie de TV",
+      movie: "Filme",
+      download: "Baixar",
+      emptyList: "Sua lista est\xE1 vazia.",
+      emptyFavorites: "Nenhum favorito ainda.",
+      cinemaTitle: "Modo Cinema",
+      cinemaExit: "Sair do Cinema",
+      selectLanguage: "\u{1F310} Selecionar idioma",
+      min: "min",
+      hrs: "h",
+      imdbRating: "IMDb",
+      addToList: "+ Minha lista"
+    },
+    /* ---- Italian ---- */
+    it: {
+      dir: "ltr",
+      lang: "it",
+      more: "ALTRO",
+      moreServices: "ALTRI SERVIZI",
+      explore: "ESPLORA",
+      aiSmartTools: "STRUMENTI IA",
+      account: "ACCOUNT",
+      home: "HOME",
+      movies: "FILM",
+      tvShows: "SERIE TV",
+      trending: "TENDENZE",
+      topRated: "TOP VALUTATI",
+      genres: "GENERI",
+      favorites: "PREFERITI",
+      watchLater: "DA VEDERE",
+      search: "Cerca film, serie\u2026",
+      searchTitle: "RISULTATI",
+      watchNow: "Guarda ora",
+      trailer: "Trailer",
+      myList: "La mia lista",
+      scanMood: "\u{1F60A} Scansiona umore",
+      trendingBadge: "\u{1F525} Di tendenza",
+      qualityBadge: "4K Ultra HD",
+      addedToList: "\u2713 Aggiunto",
+      removeFromList: "Rimuovi",
+      trendingNow: "DI TENDENZA",
+      popularMovies: "FILM POPOLARI",
+      popularSeries: "SERIE POPOLARI",
+      continueWatching: "CONTINUA A GUARDARE",
+      topRatedMovies: "TOP VALUTATI",
+      recommendations: "POTREBBE PIACERTI",
+      popularCategories: "CATEGORIE POPOLARI",
+      action: "AZIONE",
+      sciFi: "FANTASCIENZA",
+      drama: "DRAMMA",
+      thriller: "THRILLER",
+      comedy: "COMMEDIA",
+      horror: "HORROR",
+      myProfile: "Il mio profilo",
+      settings: "Impostazioni",
+      signOut: "Esci",
+      notifications: "Notifiche",
+      noNotifications: "Nessuna nuova notifica",
+      movieDetails: "Dettagli",
+      close: "Chiudi",
+      cinemaMode: "Modalit\xE0 Cinema",
+      exitCinema: "Esci dal Cinema",
+      seasonShort: "S",
+      season: "",
+      episode: "Episodio",
+      episodeN: "Ep.",
+      play: "Riproduci",
+      pause: "Pausa",
+      stop: "Stop",
+      qualityLabel: "Qualit\xE0",
+      audioLabel: "Audio",
+      subtitleLabel: "Sottotitoli",
+      serverLabel: "Server",
+      releaseDate: "Uscita",
+      runtime: "Durata",
+      language: "Lingua",
+      genre: "Genere",
+      rating: "Valutazione",
+      overview: "Trama",
+      noEpisodes: "Nessun episodio disponibile.",
+      loading: "Caricamento\u2026",
+      errorLoading: "Caricamento fallito.",
+      tvSeries: "Serie TV",
+      movie: "Film",
+      download: "Scarica",
+      emptyList: "La tua lista \xE8 vuota.",
+      emptyFavorites: "Nessun preferito ancora.",
+      cinemaTitle: "Modalit\xE0 Cinema",
+      cinemaExit: "Esci dal Cinema",
+      selectLanguage: "\u{1F310} Seleziona lingua",
+      min: "min",
+      hrs: "ore",
+      imdbRating: "IMDb",
+      addToList: "+ La mia lista"
+    },
+    /* ---- Russian ---- */
+    ru: {
+      dir: "ltr",
+      lang: "ru",
+      more: "\u0415\u0429\u0415",
+      moreServices: "\u0414\u0420\u0423\u0413\u0418\u0415 \u0421\u041B\u0423\u0416\u0411\u042B",
+      explore: "\u041E\u0411\u0417\u041E\u0420",
+      aiSmartTools: "\u041A\u0418-\u0418\u041D\u0421\u0422\u0420\u0423\u041C\u0415\u041D\u0422\u042B",
+      account: "\u0410\u041A\u041A\u0410\u0423\u041D\u0422",
+      home: "\u0413\u041B\u0410\u0412\u041D\u0410\u042F",
+      movies: "\u0424\u0418\u041B\u042C\u041C\u042B",
+      tvShows: "\u0421\u0415\u0420\u0418\u0410\u041B\u042B",
+      trending: "\u0422\u0420\u0415\u041D\u0414\u042B",
+      topRated: "\u041B\u0423\u0427\u0428\u0418\u0415",
+      genres: "\u0416\u0410\u041D\u0420\u042B",
+      favorites: "\u0418\u0417\u0411\u0420\u0410\u041D\u041D\u041E\u0415",
+      watchLater: "\u0421\u041C\u041E\u0422\u0420\u0415\u0422\u042C \u041F\u041E\u0417\u0416\u0415",
+      search: "\u041F\u043E\u0438\u0441\u043A \u0444\u0438\u043B\u044C\u043C\u043E\u0432, \u0441\u0435\u0440\u0438\u0430\u043B\u043E\u0432\u2026",
+      searchTitle: "\u0420\u0415\u0417\u0423\u041B\u042C\u0422\u0410\u0422\u042B",
+      watchNow: "\u0421\u043C\u043E\u0442\u0440\u0435\u0442\u044C",
+      trailer: "\u0422\u0440\u0435\u0439\u043B\u0435\u0440",
+      myList: "\u041C\u043E\u0439 \u0441\u043F\u0438\u0441\u043E\u043A",
+      scanMood: "\u{1F60A} \u0421\u043A\u0430\u043D\u0438\u0440\u043E\u0432\u0430\u0442\u044C \u043D\u0430\u0441\u0442\u0440\u043E\u0435\u043D\u0438\u0435",
+      trendingBadge: "\u{1F525} \u0412 \u0442\u0440\u0435\u043D\u0434\u0435",
+      qualityBadge: "4K Ultra HD",
+      addedToList: "\u2713 \u0414\u043E\u0431\u0430\u0432\u043B\u0435\u043D\u043E",
+      removeFromList: "\u0423\u0431\u0440\u0430\u0442\u044C",
+      trendingNow: "\u0412 \u0422\u0420\u0415\u041D\u0414\u0415",
+      popularMovies: "\u041F\u041E\u041F\u0423\u041B\u042F\u0420\u041D\u042B\u0415 \u0424\u0418\u041B\u042C\u041C\u042B",
+      popularSeries: "\u041F\u041E\u041F\u0423\u041B\u042F\u0420\u041D\u042B\u0415 \u0421\u0415\u0420\u0418\u0410\u041B\u042B",
+      continueWatching: "\u041F\u0420\u041E\u0414\u041E\u041B\u0416\u0418\u0422\u042C \u041F\u0420\u041E\u0421\u041C\u041E\u0422\u0420",
+      topRatedMovies: "\u041B\u0423\u0427\u0428\u0418\u0415",
+      recommendations: "\u0412\u0410\u041C \u041C\u041E\u0416\u0415\u0422 \u041F\u041E\u041D\u0420\u0410\u0412\u0418\u0422\u042C\u0421\u042F",
+      popularCategories: "\u041F\u041E\u041F\u0423\u041B\u042F\u0420\u041D\u042B\u0415 \u041A\u0410\u0422\u0415\u0413\u041E\u0420\u0418\u0418",
+      action: "\u042D\u041A\u0428\u041D",
+      sciFi: "\u0424\u0410\u041D\u0422\u0410\u0421\u0422\u0418\u041A\u0410",
+      drama: "\u0414\u0420\u0410\u041C\u0410",
+      thriller: "\u0422\u0420\u0418\u041B\u041B\u0415\u0420",
+      comedy: "\u041A\u041E\u041C\u0415\u0414\u0418\u042F",
+      horror: "\u0423\u0416\u0410\u0421\u042B",
+      myProfile: "\u041C\u043E\u0439 \u043F\u0440\u043E\u0444\u0438\u043B\u044C",
+      settings: "\u041D\u0430\u0441\u0442\u0440\u043E\u0439\u043A\u0438",
+      signOut: "\u0412\u044B\u0439\u0442\u0438",
+      notifications: "\u0423\u0432\u0435\u0434\u043E\u043C\u043B\u0435\u043D\u0438\u044F",
+      noNotifications: "\u041D\u0435\u0442 \u043D\u043E\u0432\u044B\u0445 \u0443\u0432\u0435\u0434\u043E\u043C\u043B\u0435\u043D\u0438\u0439",
+      movieDetails: "\u0414\u0435\u0442\u0430\u043B\u0438",
+      close: "\u0417\u0430\u043A\u0440\u044B\u0442\u044C",
+      cinemaMode: "\u0420\u0435\u0436\u0438\u043C \u043A\u0438\u043D\u043E\u0442\u0435\u0430\u0442\u0440\u0430",
+      exitCinema: "\u0412\u044B\u0439\u0442\u0438 \u0438\u0437 \u043A\u0438\u043D\u043E\u0442\u0435\u0430\u0442\u0440\u0430",
+      seasonShort: "S",
+      season: "",
+      episode: "\u042D\u043F\u0438\u0437\u043E\u0434",
+      episodeN: "\u042D\u043F.",
+      play: "\u0412\u043E\u0441\u043F\u0440\u043E\u0438\u0437\u0432\u0435\u0441\u0442\u0438",
+      pause: "\u041F\u0430\u0443\u0437\u0430",
+      stop: "\u0421\u0442\u043E\u043F",
+      qualityLabel: "\u041A\u0430\u0447\u0435\u0441\u0442\u0432\u043E",
+      audioLabel: "\u0410\u0443\u0434\u0438\u043E",
+      subtitleLabel: "\u0421\u0443\u0431\u0442\u0438\u0442\u0440\u044B",
+      serverLabel: "\u0421\u0435\u0440\u0432\u0435\u0440",
+      releaseDate: "\u0414\u0430\u0442\u0430 \u0432\u044B\u0445\u043E\u0434\u0430",
+      runtime: "\u041F\u0440\u043E\u0434\u043E\u043B\u0436\u0438\u0442\u0435\u043B\u044C\u043D\u043E\u0441\u0442\u044C",
+      language: "\u042F\u0437\u044B\u043A",
+      genre: "\u0416\u0430\u043D\u0440",
+      rating: "\u041E\u0446\u0435\u043D\u043A\u0430",
+      overview: "\u041E\u043F\u0438\u0441\u0430\u043D\u0438\u0435",
+      noEpisodes: "\u042D\u043F\u0438\u0437\u043E\u0434\u044B \u043D\u0435\u0434\u043E\u0441\u0442\u0443\u043F\u043D\u044B.",
+      loading: "\u0417\u0430\u0433\u0440\u0443\u0437\u043A\u0430\u2026",
+      errorLoading: "\u041E\u0448\u0438\u0431\u043A\u0430 \u0437\u0430\u0433\u0440\u0443\u0437\u043A\u0438.",
+      tvSeries: "\u0422\u0412-\u0441\u0435\u0440\u0438\u0430\u043B",
+      movie: "\u0424\u0438\u043B\u044C\u043C",
+      download: "\u0421\u043A\u0430\u0447\u0430\u0442\u044C",
+      emptyList: "\u0412\u0430\u0448 \u0441\u043F\u0438\u0441\u043E\u043A \u043F\u0443\u0441\u0442.",
+      emptyFavorites: "\u041D\u0435\u0442 \u0438\u0437\u0431\u0440\u0430\u043D\u043D\u043E\u0433\u043E.",
+      cinemaTitle: "\u0420\u0435\u0436\u0438\u043C \u043A\u0438\u043D\u043E\u0442\u0435\u0430\u0442\u0440\u0430",
+      cinemaExit: "\u0412\u044B\u0439\u0442\u0438",
+      selectLanguage: "\u{1F310} \u0412\u044B\u0431\u0440\u0430\u0442\u044C \u044F\u0437\u044B\u043A",
+      min: "\u043C\u0438\u043D",
+      hrs: "\u0447",
+      imdbRating: "IMDb",
+      addToList: "+ \u041C\u043E\u0439 \u0441\u043F\u0438\u0441\u043E\u043A"
+    },
+    /* ---- Arabic ---- */
+    ar: {
+      dir: "rtl",
+      lang: "ar",
+      more: "\u0627\u0644\u0645\u0632\u064A\u062F",
+      moreServices: "\u0627\u0644\u0645\u0632\u064A\u062F \u0645\u0646 \u0627\u0644\u062E\u062F\u0645\u0627\u062A",
+      explore: "\u0627\u0633\u062A\u0643\u0634\u0627\u0641",
+      aiSmartTools: "\u0623\u062F\u0648\u0627\u062A \u0627\u0644\u0630\u0643\u0627\u0621 \u0627\u0644\u0627\u0635\u0637\u0646\u0627\u0639\u064A",
+      account: "\u0627\u0644\u062D\u0633\u0627\u0628",
+      home: "\u0627\u0644\u0631\u0626\u064A\u0633\u064A\u0629",
+      movies: "\u0623\u0641\u0644\u0627\u0645",
+      tvShows: "\u0645\u0633\u0644\u0633\u0644\u0627\u062A",
+      trending: "\u0627\u0644\u0631\u0627\u0626\u062C",
+      topRated: "\u0627\u0644\u0623\u0639\u0644\u0649 \u062A\u0642\u064A\u064A\u0645\u0627\u064B",
+      genres: "\u0627\u0644\u0623\u0646\u0648\u0627\u0639",
+      favorites: "\u0627\u0644\u0645\u0641\u0636\u0644\u0629",
+      watchLater: "\u0634\u0627\u0647\u062F \u0644\u0627\u062D\u0642\u0627\u064B",
+      search: "\u0627\u0628\u062D\u062B \u0639\u0646 \u0623\u0641\u0644\u0627\u0645\u060C \u0645\u0633\u0644\u0633\u0644\u0627\u062A\u2026",
+      searchTitle: "\u0646\u062A\u0627\u0626\u062C \u0627\u0644\u0628\u062D\u062B",
+      watchNow: "\u0634\u0627\u0647\u062F \u0627\u0644\u0622\u0646",
+      trailer: "\u0645\u0642\u0637\u0639 \u062F\u0639\u0627\u0626\u064A",
+      myList: "\u0642\u0627\u0626\u0645\u062A\u064A",
+      scanMood: "\u{1F60A} \u0645\u0633\u062D \u0627\u0644\u0645\u0632\u0627\u062C",
+      trendingBadge: "\u{1F525} \u0627\u0644\u0623\u0643\u062B\u0631 \u0631\u0648\u0627\u062C\u0627\u064B",
+      qualityBadge: "4K \u0641\u0627\u0626\u0642 \u0627\u0644\u062C\u0648\u062F\u0629",
+      addedToList: "\u2713 \u062A\u0645\u062A \u0627\u0644\u0625\u0636\u0627\u0641\u0629",
+      removeFromList: "\u0625\u0632\u0627\u0644\u0629",
+      trendingNow: "\u0627\u0644\u0623\u0643\u062B\u0631 \u0631\u0648\u0627\u062C\u0627\u064B",
+      popularMovies: "\u0623\u0641\u0644\u0627\u0645 \u0634\u0627\u0626\u0639\u0629",
+      popularSeries: "\u0645\u0633\u0644\u0633\u0644\u0627\u062A \u0634\u0627\u0626\u0639\u0629",
+      continueWatching: "\u0645\u062A\u0627\u0628\u0639\u0629 \u0627\u0644\u0645\u0634\u0627\u0647\u062F\u0629",
+      topRatedMovies: "\u0627\u0644\u0623\u0639\u0644\u0649 \u062A\u0642\u064A\u064A\u0645\u0627\u064B",
+      recommendations: "\u0642\u062F \u064A\u0639\u062C\u0628\u0643 \u0623\u064A\u0636\u0627\u064B",
+      popularCategories: "\u0627\u0644\u0641\u0626\u0627\u062A \u0627\u0644\u0634\u0627\u0626\u0639\u0629",
+      action: "\u0623\u0643\u0634\u0646",
+      sciFi: "\u062E\u064A\u0627\u0644 \u0639\u0644\u0645\u064A",
+      drama: "\u062F\u0631\u0627\u0645\u0627",
+      thriller: "\u0625\u062B\u0627\u0631\u0629",
+      comedy: "\u0643\u0648\u0645\u064A\u062F\u064A\u0627",
+      horror: "\u0631\u0639\u0628",
+      myProfile: "\u0645\u0644\u0641\u064A \u0627\u0644\u0634\u062E\u0635\u064A",
+      settings: "\u0627\u0644\u0625\u0639\u062F\u0627\u062F\u0627\u062A",
+      signOut: "\u062A\u0633\u062C\u064A\u0644 \u0627\u0644\u062E\u0631\u0648\u062C",
+      notifications: "\u0627\u0644\u0625\u0634\u0639\u0627\u0631\u0627\u062A",
+      noNotifications: "\u0644\u0627 \u062A\u0648\u062C\u062F \u0625\u0634\u0639\u0627\u0631\u0627\u062A \u062C\u062F\u064A\u062F\u0629",
+      movieDetails: "\u062A\u0641\u0627\u0635\u064A\u0644 \u0627\u0644\u0641\u064A\u0644\u0645",
+      close: "\u0625\u063A\u0644\u0627\u0642",
+      cinemaMode: "\u0648\u0636\u0639 \u0627\u0644\u0633\u064A\u0646\u0645\u0627",
+      exitCinema: "\u0627\u0644\u062E\u0631\u0648\u062C \u0645\u0646 \u0627\u0644\u0633\u064A\u0646\u0645\u0627",
+      seasonShort: "S",
+      season: "",
+      episode: "\u062D\u0644\u0642\u0629",
+      episodeN: "\u062D\u0644\u0642\u0629",
+      play: "\u062A\u0634\u063A\u064A\u0644",
+      pause: "\u0625\u064A\u0642\u0627\u0641 \u0645\u0624\u0642\u062A",
+      stop: "\u0625\u064A\u0642\u0627\u0641",
+      qualityLabel: "\u0627\u0644\u062C\u0648\u062F\u0629",
+      audioLabel: "\u0627\u0644\u0635\u0648\u062A",
+      subtitleLabel: "\u0627\u0644\u062A\u0631\u062C\u0645\u0629",
+      serverLabel: "\u0627\u0644\u062E\u0627\u062F\u0645",
+      releaseDate: "\u062A\u0627\u0631\u064A\u062E \u0627\u0644\u0625\u0635\u062F\u0627\u0631",
+      runtime: "\u0627\u0644\u0645\u062F\u0629",
+      language: "\u0627\u0644\u0644\u063A\u0629",
+      genre: "\u0627\u0644\u0646\u0648\u0639",
+      rating: "\u0627\u0644\u062A\u0642\u064A\u064A\u0645",
+      overview: "\u0627\u0644\u0642\u0635\u0629",
+      noEpisodes: "\u0644\u0627 \u062A\u0648\u062C\u062F \u062D\u0644\u0642\u0627\u062A \u0645\u062A\u0627\u062D\u0629.",
+      loading: "\u062C\u0627\u0631\u064D \u0627\u0644\u062A\u062D\u0645\u064A\u0644\u2026",
+      errorLoading: "\u0641\u0634\u0644 \u0627\u0644\u062A\u062D\u0645\u064A\u0644\u060C \u064A\u0631\u062C\u0649 \u0627\u0644\u0645\u062D\u0627\u0648\u0644\u0629 \u0645\u0631\u0629 \u0623\u062E\u0631\u0649.",
+      tvSeries: "\u0645\u0633\u0644\u0633\u0644 \u062A\u0644\u0641\u0632\u064A\u0648\u0646\u064A",
+      movie: "\u0641\u064A\u0644\u0645",
+      download: "\u062A\u062D\u0645\u064A\u0644",
+      emptyList: "\u0642\u0627\u0626\u0645\u062A\u0643 \u0641\u0627\u0631\u063A\u0629.",
+      emptyFavorites: "\u0644\u0627 \u062A\u0648\u062C\u062F \u0645\u0641\u0636\u0644\u0627\u062A \u0628\u0639\u062F.",
+      cinemaTitle: "\u0648\u0636\u0639 \u0627\u0644\u0633\u064A\u0646\u0645\u0627",
+      cinemaExit: "\u0627\u0644\u062E\u0631\u0648\u062C",
+      selectLanguage: "\u{1F310} \u0627\u062E\u062A\u0631 \u0627\u0644\u0644\u063A\u0629",
+      min: "\u062F",
+      hrs: "\u0633",
+      imdbRating: "IMDb",
+      addToList: "+ \u0642\u0627\u0626\u0645\u062A\u064A"
+    }
+  };
+  function getT(langCode) {
+    return UI_TRANSLATIONS[langCode] || UI_TRANSLATIONS["en"];
+  }
+  window.__cineT = getT;
+  function t2(key) {
+    const langCode = document.documentElement.dataset.lang || "en";
+    const translations = UI_TRANSLATIONS[langCode] || UI_TRANSLATIONS["en"];
+    return translations[key] || UI_TRANSLATIONS["en"][key] || key;
+  }
+
   // public/js/modules/auth.js
   var SESSION_KEY = "sf_session";
-  function logout() {
+  async function apiRequest(endpoint, method, data) {
+    const options = {
+      method,
+      headers: {
+        "Content-Type": "application/json"
+      }
+    };
+    if (data) {
+      options.body = JSON.stringify(data);
+    }
+    const response = await fetch(`/api/auth/${endpoint}`, options);
+    const result = await response.json();
+    if (!response.ok) {
+      throw new Error(result.error || result.message || "API request failed");
+    }
+    return result;
+  }
+  async function logout() {
     try {
-      localStorage.removeItem(
-        SESSION_KEY
-      );
+      await apiRequest("logout", "GET");
+    } catch (_2) {
+    }
+    try {
+      localStorage.removeItem(SESSION_KEY);
     } catch (_2) {
     }
   }
   function getSession() {
     try {
-      const raw = localStorage.getItem(
-        SESSION_KEY
-      );
-      if (!raw)
-        return null;
+      const raw = localStorage.getItem(SESSION_KEY);
+      if (!raw) return null;
       const session = JSON.parse(raw);
       if (Date.now() - session.ts > 7 * 24 * 60 * 60 * 1e3) {
         logout();
@@ -35067,127 +36512,6 @@
     );
   }
 
-  // public/js/modules/language.js
-  var LANG_KEY = "sf_lang";
-  var SUPPORTED_LANGUAGES = [
-    {
-      code: "en",
-      name: "English",
-      flag: "\u{1F1EC}\u{1F1E7}",
-      tmdb: "en"
-    },
-    {
-      code: "hi",
-      name: "Hindi",
-      flag: "\u{1F1EE}\u{1F1F3}",
-      tmdb: "hi"
-    },
-    {
-      code: "mr",
-      name: "Marathi",
-      flag: "\u{1F1EE}\u{1F1F3}",
-      tmdb: "mr"
-    },
-    {
-      code: "ta",
-      name: "Tamil",
-      flag: "\u{1F1EE}\u{1F1F3}",
-      tmdb: "ta"
-    },
-    {
-      code: "te",
-      name: "Telugu",
-      flag: "\u{1F1EE}\u{1F1F3}",
-      tmdb: "te"
-    },
-    {
-      code: "es",
-      name: "Spanish",
-      flag: "\u{1F1EA}\u{1F1F8}",
-      tmdb: "es"
-    },
-    {
-      code: "fr",
-      name: "French",
-      flag: "\u{1F1EB}\u{1F1F7}",
-      tmdb: "fr"
-    },
-    {
-      code: "de",
-      name: "German",
-      flag: "\u{1F1E9}\u{1F1EA}",
-      tmdb: "de"
-    },
-    {
-      code: "ja",
-      name: "Japanese",
-      flag: "\u{1F1EF}\u{1F1F5}",
-      tmdb: "ja"
-    },
-    {
-      code: "ko",
-      name: "Korean",
-      flag: "\u{1F1F0}\u{1F1F7}",
-      tmdb: "ko"
-    },
-    {
-      code: "pt",
-      name: "Portuguese",
-      flag: "\u{1F1E7}\u{1F1F7}",
-      tmdb: "pt"
-    }
-  ];
-  function getPreferredLang() {
-    try {
-      return localStorage.getItem(LANG_KEY) || "en";
-    } catch (_2) {
-      return "en";
-    }
-  }
-  function getLang(code) {
-    return SUPPORTED_LANGUAGES.find((l2) => l2.code === code) || SUPPORTED_LANGUAGES[0];
-  }
-  var SERVERS = {
-    nxsha: "https://web.nxsha.app",
-    server1: "https://vidsrcme.su",
-    server2: "https://web.nxsha.space",
-    vidfast: "https://vidnest.fun"
-  };
-  var NXSHA_LANG = {
-    en: "english",
-    hi: "hindi"
-  };
-  var currentServer = "nxsha";
-  function setServer(server) {
-    if (SERVERS[server]) {
-      currentServer = server;
-    }
-  }
-  function getCurrentServer() {
-    return currentServer;
-  }
-  function buildEmbedUrl(media, langCode, season = 1, episode = 1) {
-    const base = SERVERS[currentServer];
-    const isTV2 = media.media_type === "tv" || !media.title && media.name;
-    const nxshaLang = NXSHA_LANG[langCode] || "english";
-    if (isTV2) {
-      if (currentServer === "nxsha" || currentServer === "server2") {
-        return `${base}/embed/tv/${media.id}/${season}/${episode}?lang=${nxshaLang}`;
-      }
-      if (currentServer === "vidfast") {
-        return `https://vidnest.fun/tv/${media.id}/${season}/${episode}?autoPlay=true`;
-      }
-      return `${base}/embed/tv/${media.id}/${season}/${episode}`;
-    }
-    if (currentServer === "nxsha" || currentServer === "server2") {
-      return `${base}/embed/movie/${media.id}?lang=${nxshaLang}`;
-    }
-    if (currentServer === "vidfast") {
-      return `https://vidnest.fun/movie/${media.id}?autoPlay=true`;
-    }
-    return `${base}/embed/movie/${media.id}`;
-  }
-
   // public/js/modules/watchHistory.js
   function getUserKey() {
     const user = getSession();
@@ -35232,27 +36556,36 @@
   function loadEmbed(season, ep) {
     const el = iframe();
     const ph = placeholder();
+    if (!el || !ph) return;
     el.style.display = "none";
     ph.style.display = "flex";
     ph.innerHTML = '<div class="spinner"></div><div style="font-size:13px;color:var(--muted);">Loading player\u2026</div>';
-    currentLang = getPreferredLang();
-    const server = getCurrentServer();
-    if (server === "server1" || // SER-ENG
-    server === "vidfast") {
-      el.removeAttribute("sandbox");
-      window.preventRedirect = true;
-    } else {
-      el.setAttribute(
-        "sandbox",
-        "allow-scripts allow-same-origin allow-forms"
-      );
-      window.preventRedirect = false;
+    try {
+      currentLang = getPreferredLang();
+      const server = getCurrentServer();
+      if (server === "server1" || // SER-ENG
+      server === "vidfast") {
+        el.removeAttribute("sandbox");
+        window.preventRedirect = true;
+      } else {
+        el.setAttribute(
+          "sandbox",
+          "allow-scripts allow-same-origin allow-forms"
+        );
+        window.preventRedirect = false;
+      }
+      if (!currentMedia) {
+        throw new Error("No media selected");
+      }
+      el.src = buildEmbedUrl(currentMedia, currentLang, season, ep);
+      setTimeout(() => {
+        ph.style.display = "none";
+        el.style.display = "block";
+      }, 1500);
+    } catch (err) {
+      console.error("loadEmbed failed:", err);
+      ph.innerHTML = `<div style="color:#ff4444;font-size:14px;padding:20px;text-align:center;">Error: ${err.message}</div>`;
     }
-    el.src = buildEmbedUrl(currentMedia, currentLang, season, ep);
-    setTimeout(() => {
-      ph.style.display = "none";
-      el.style.display = "block";
-    }, 1500);
   }
   function renderLangBar(availCodes) {
     const bar = document.getElementById("modalLangBar");
@@ -35293,7 +36626,7 @@
     const tabsEl = document.getElementById("seasonTabs");
     tabsEl.innerHTML = seasons.map((s2, i2) => `
     <button class="season-tab ${i2 === 0 ? "active" : ""}" data-idx="${i2}">
-      S${s2.season_number}
+      ${t2("seasonShort")} ${s2.season_number}
     </button>
   `).join("");
     tabsEl.querySelectorAll(".season-tab").forEach((btn) => {
@@ -35310,7 +36643,7 @@
   function renderEpisodes(episodes, seasonNum) {
     const listEl = document.getElementById("episodeList");
     if (!episodes || !episodes.length) {
-      listEl.innerHTML = '<div style="font-size:13px;color:var(--muted);padding:10px;">No episodes found.</div>';
+      listEl.innerHTML = `<div style="font-size:13px;color:var(--muted);padding:10px;">${t2("noEpisodes")}</div>`;
       return;
     }
     listEl.innerHTML = episodes.map((ep) => `
@@ -35341,32 +36674,36 @@
     });
   }
   async function openPlayer(media) {
-    saveWatch(media);
-    currentMedia = media;
-    currentLang = getPreferredLang();
-    currentSeason = 1;
-    currentEp = 1;
-    const bd = backdrop();
-    bd.classList.add("open");
-    iframe().style.display = "none";
-    placeholder().style.display = "flex";
-    placeholder().innerHTML = `
-        <div class="spinner"></div>
-        <div style="font-size:13px;color:var(--muted);">Loading...</div>
-    `;
-    document.getElementById("modalTitle").textContent = media.title || media.name || "";
-    const modalActionsContainer = document.getElementById("react-modal-actions-container");
-    if (modalActionsContainer) {
-      modalActionsContainer.innerHTML = `<div class="react-action-buttons" data-variant="modal" data-movie-data="${encodeURIComponent(JSON.stringify(media))}"></div>`;
-    }
-    const year = (media.release_date || media.first_air_date || "").slice(0, 4);
-    const rating = media.vote_average ? media.vote_average.toFixed(1) : "N/A";
-    const genres = (media.genre_ids || []).map(
-      (id3) => genreMap[id3]
-    ).filter(Boolean).join(", ");
-    document.getElementById(
-      "modalMeta"
-    ).innerHTML = `
+    try {
+      saveWatch(media);
+      currentMedia = media;
+      currentLang = getPreferredLang();
+      currentSeason = 1;
+      currentEp = 1;
+      const bd = backdrop();
+      if (bd) bd.classList.add("open");
+      if (iframe()) iframe().style.display = "none";
+      if (placeholder()) {
+        placeholder().style.display = "flex";
+        placeholder().innerHTML = `
+                <div class="spinner"></div>
+                <div style="font-size:13px;color:var(--muted);">${t2("loading")}</div>
+            `;
+      }
+      const titleEl = document.getElementById("modalTitle");
+      if (titleEl) titleEl.textContent = media.title || media.name || "";
+      const modalActionsContainer = document.getElementById("react-modal-actions-container");
+      if (modalActionsContainer) {
+        modalActionsContainer.innerHTML = `<div class="react-action-buttons" data-variant="modal" data-movie-data="${encodeURIComponent(JSON.stringify(media))}"></div>`;
+      }
+      const year = (media.release_date || media.first_air_date || "").slice(0, 4);
+      const rating = media.vote_average ? media.vote_average.toFixed(1) : "N/A";
+      const genres = (media.genre_ids || []).map(
+        (id3) => genreMap[id3]
+      ).filter(Boolean).join(", ");
+      document.getElementById(
+        "modalMeta"
+      ).innerHTML = `
     <span>${year}</span>
     <span>|</span>
     <span class="star-badge">
@@ -35374,73 +36711,80 @@
     </span>
     <span>|</span>
     <span>
-    ${genres || (isTV(media) ? "TV Series" : "Movie")}
+    ${genres || (isTV(media) ? t2("tvSeries") : t2("movie"))}
     </span>
     `;
-    document.getElementById(
-      "modalOverview"
-    ).textContent = media.overview || "";
-    const availLangs = [
-      "en",
-      "hi"
-    ];
-    renderLangBar(
-      availLangs
-    );
-    document.querySelectorAll(".server-btn").forEach((btn) => {
-      btn.onclick = () => {
-        setServer(btn.dataset.server);
-        document.querySelectorAll(".server-btn").forEach(
-          (b2) => b2.classList.remove("active")
-        );
-        btn.classList.add("active");
-        loadEmbed(
-          currentSeason,
-          currentEp
-        );
-      };
-    });
-    const panel = document.getElementById("seasonPanel");
-    const noMsg = document.getElementById("noEpisodesMsg");
-    const episodeList = document.getElementById("episodeList");
-    const seasonTabs = document.getElementById("seasonTabs");
-    const recPanel = document.getElementById("modalRecommendations");
-    if (panel) panel.style.display = "none";
-    if (recPanel) recPanel.style.display = "none";
-    if (episodeList) {
-      episodeList.innerHTML = "";
-    }
-    if (seasonTabs) {
-      seasonTabs.innerHTML = "";
-    }
-    if (noMsg) {
-      noMsg.style.display = "flex";
-    }
-    if (isTV(media)) {
-      try {
-        const details = await fetchTVDetails(media.id);
-        const n2 = details.number_of_seasons || 1;
-        const seasons = await fetchSeasons(
-          media.id,
-          Math.min(n2, 5)
-        );
-        renderSeasonPanel(seasons);
-        panel.style.display = "block";
-      } catch (e2) {
-        console.warn(
-          "Could not load seasons",
-          e2
-        );
-      }
-    } else {
+      document.getElementById(
+        "modalOverview"
+      ).textContent = media.overview || "";
+      const availLangs = [
+        "en",
+        "hi"
+      ];
+      renderLangBar(
+        availLangs
+      );
+      document.querySelectorAll(".server-btn").forEach((btn) => {
+        btn.onclick = () => {
+          setServer(btn.dataset.server);
+          document.querySelectorAll(".server-btn").forEach(
+            (b2) => b2.classList.remove("active")
+          );
+          btn.classList.add("active");
+          loadEmbed(
+            currentSeason,
+            currentEp
+          );
+        };
+      });
+      const panel = document.getElementById("seasonPanel");
+      const noMsg = document.getElementById("noEpisodesMsg");
+      const episodeList = document.getElementById("episodeList");
+      const seasonTabs = document.getElementById("seasonTabs");
+      const recPanel = document.getElementById("modalRecommendations");
       if (panel) panel.style.display = "none";
-      if (noMsg) noMsg.style.display = "none";
-      if (recPanel) {
-        recPanel.style.display = "flex";
-        loadModalRecommendations(media);
+      if (recPanel) recPanel.style.display = "none";
+      if (episodeList) {
+        episodeList.innerHTML = "";
+      }
+      if (seasonTabs) {
+        seasonTabs.innerHTML = "";
+      }
+      if (noMsg) {
+        noMsg.style.display = "flex";
+      }
+      if (isTV(media)) {
+        try {
+          const details = await fetchTVDetails(media.id);
+          const n2 = details.number_of_seasons || 1;
+          const seasons = await fetchSeasons(
+            media.id,
+            Math.min(n2, 5)
+          );
+          renderSeasonPanel(seasons);
+          panel.style.display = "block";
+        } catch (e2) {
+          console.warn(
+            "Could not load seasons",
+            e2
+          );
+        }
+      } else {
+        if (panel) panel.style.display = "none";
+        if (noMsg) noMsg.style.display = "none";
+        if (recPanel) {
+          recPanel.style.display = "flex";
+          loadModalRecommendations(media);
+        }
+      }
+      loadEmbed(1, 1);
+    } catch (err) {
+      console.error("openPlayer crashed:", err);
+      const ph = placeholder();
+      if (ph) {
+        ph.innerHTML = `<div style="color:#ff4444;font-size:14px;padding:20px;text-align:center;">Error: ${err.message}</div>`;
       }
     }
-    loadEmbed(1, 1);
   }
   async function loadModalRecommendations(media) {
     const recPanel = document.getElementById("modalRecommendations");
@@ -35778,6 +37122,13 @@
   // public/js/react/MoodScanner.jsx
   var MoodScanner = () => {
     const [isModalOpen, setIsModalOpen] = (0, import_react30.useState)(false);
+    import_react30.default.useEffect(() => {
+      const handleOpen = () => {
+        setIsModalOpen(true);
+      };
+      window.addEventListener("open-mood-scanner", handleOpen);
+      return () => window.removeEventListener("open-mood-scanner", handleOpen);
+    }, []);
     return /* @__PURE__ */ import_react30.default.createElement(import_react30.default.Fragment, null, /* @__PURE__ */ import_react30.default.createElement(
       motion.button,
       {
@@ -36304,7 +37655,14 @@
       const savedPreference = localStorage.getItem("cinemaModePreference");
       if (savedPreference === "true") {
       }
-      return () => clearInterval(interval);
+      const handleToggle = () => {
+        setIsCinemaMode((prev) => !prev);
+      };
+      window.addEventListener("toggle-cinema-mode", handleToggle);
+      return () => {
+        clearInterval(interval);
+        window.removeEventListener("toggle-cinema-mode", handleToggle);
+      };
     }, [rootElement]);
     const toggleCinemaMode = () => {
       setIsCinemaMode((prev) => !prev);
@@ -36856,7 +38214,7 @@ ${rating ? `<span class="hstar">\u2605</span> <span style="font-weight:600;color
 
   // public/js/react/Pages/TopRatedPage.jsx
   var import_react43 = __toESM(require_react());
-  var TMDB_KEY2 = "852b496a6ab5e48324fac3a942903058";
+  var TMDB_KEY = "852b496a6ab5e48324fac3a942903058";
   var TopRatedPage = () => {
     const [loading, setLoading] = (0, import_react43.useState)(true);
     const [error, setError] = (0, import_react43.useState)(null);
@@ -36866,7 +38224,7 @@ ${rating ? `<span class="hstar">\u2605</span> <span style="font-weight:600;color
       let isMounted = true;
       const loadTopRated = async () => {
         try {
-          const res = await fetch(`https://api.themoviedb.org/3/movie/top_rated?api_key=${TMDB_KEY2}&language=en-US&page=1`);
+          const res = await fetch(`https://api.themoviedb.org/3/movie/top_rated?api_key=${TMDB_KEY}&language=en-US&page=1`);
           if (!res.ok) throw new Error("API Error");
           const data = await res.json();
           if (isMounted) {

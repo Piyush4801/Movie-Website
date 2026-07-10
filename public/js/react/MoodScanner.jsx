@@ -5,6 +5,14 @@ import MoodScannerModal from './MoodScannerModal.jsx';
 const MoodScanner = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  React.useEffect(() => {
+    const handleOpen = () => {
+      setIsModalOpen(true);
+    };
+    window.addEventListener('open-mood-scanner', handleOpen);
+    return () => window.removeEventListener('open-mood-scanner', handleOpen);
+  }, []);
+
   return (
     <>
       <motion.button

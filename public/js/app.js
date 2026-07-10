@@ -425,20 +425,15 @@ function initNavTabs() {
                 closeDrawer();
             } else if (action === 'mood-scanner') {
                 closeDrawer();
-                setTimeout(() => {
-                    document.querySelector('#mood-scanner-root button')?.click();
-                }, 200);
+                window.dispatchEvent(new CustomEvent('open-mood-scanner'));
             } else if (action === 'cinema-mode') {
                 closeDrawer();
-                setTimeout(() => {
-                    // Toggle React Cinema Mode if available, or dispatch event
-                    document.getElementById('cinema-mode-button-root')?.firstElementChild?.click();
-                }, 200);
+                window.dispatchEvent(new CustomEvent('toggle-cinema-mode'));
             } else if (action === 'logout') {
                 closeDrawer();
-                // Find and click vanilla signout if exists
-                const signOutBtn = document.querySelector('.user-dropdown-item.danger') || document.querySelector('[data-action="logout"]');
-                if (signOutBtn) signOutBtn.click();
+                logout().then(() => {
+                    window.location.reload();
+                });
             } else {
                 // Secondary tools (Movie Map, Voice AI, Time Machine, AI memory, Help, Settings)
                 alert(`Opening ${this.querySelector('.drawer-label')?.textContent || 'Service'}...`);

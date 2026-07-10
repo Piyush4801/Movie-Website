@@ -69,24 +69,23 @@ function showToast(message, icon = '💡') {
 }
 
 function showApp() {
+    if (localStorage.getItem("isLoggedIn") !== "true") {
+        window.location.href = "signin.html";
+        return;
+    }
+
     const appShell = document.getElementById('appShell');
-    const authShell = document.getElementById('authShell');
-    const session = getSession();
+    if (appShell) appShell.style.display = 'block';
 
-    if (session) {
-        if (appShell) appShell.style.display = 'block';
-        if (authShell) authShell.style.display = 'none';
+    const userEmail = localStorage.getItem("userEmail") || 'Demo User';
+    const userName = userEmail.split('@')[0];
 
-        const nameEl = document.getElementById('userNameDisplay');
-        if (nameEl) nameEl.textContent = session.name;
+    const nameEl = document.getElementById('userNameDisplay');
+    if (nameEl) nameEl.textContent = userName;
 
-        const avatarImg = document.querySelector('#userChip .avatar-img');
-        if (avatarImg) {
-            avatarImg.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(session.name)}&background=FF6B00&color=fff`;
-        }
-    } else {
-        if (appShell) appShell.style.display = 'none';
-        if (authShell) authShell.style.display = 'flex';
+    const avatarImg = document.querySelector('#userChip .avatar-img');
+    if (avatarImg) {
+        avatarImg.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(userName)}&background=FF6B00&color=fff`;
     }
 }
 
@@ -302,6 +301,17 @@ function initUserMenu() {
         e.stopPropagation();
         document.getElementById('userDropdown').classList.toggle('open');
     });
+    
+    // Add logout functionality to dropdown logout button
+    const logoutBtn = document.getElementById('dropdownLogoutBtn');
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            localStorage.clear();
+            window.location.href = "signin.html";
+        });
+    }
+
     document.addEventListener('click', () => {
         const dd = document.getElementById('userDropdown');
         if (dd) dd.classList.remove('open');
@@ -457,9 +467,8 @@ function initNavTabs() {
                 window.dispatchEvent(new CustomEvent('toggle-cinema-mode'));
             } else if (action === 'logout') {
                 closeDrawer();
-                logout().then(() => {
-                    window.location.reload();
-                });
+                localStorage.clear();
+                window.location.href = "signin.html";
             } else {
                 // Secondary tools (Movie Map, Voice AI, Time Machine, AI memory, Help, Settings)
                 const label = this.querySelector('.drawer-label')?.textContent || 'Service';
@@ -603,323 +612,6 @@ async function init() {
 }
 
 /* ============================================================
-   AUTH SHELL CONTROLLER (CINESTREAM)
-   ============================================================ */
-function initAuth() {
-    const authShell = document.getElementById('authShell');
-    if (!authShell) return;
-
-    let isSignUp = false;
-
-    // 1. Generate Floating Particles
-    const particlesContainer = document.getElementById('authParticles');
-    if (particlesContainer) {
-        particlesContainer.innerHTML = '';
-        for (let i = 0; i < 20; i++) {
-            const particle = document.createElement('div');
-            particle.className = 'particle';
-            const size = Math.random() * 6 + 2;
-            particle.style.width = `${size}px`;
-            particle.style.height = `${size}px`;
-            particle.style.left = `${Math.random() * 100}%`;
-            particle.style.top = `${Math.random() * 100}%`;
-            particle.style.opacity = Math.random() * 0.4 + 0.1;
-            
-            // Random animation
-            particle.style.animation = `authParticleFloat ${Math.random() * 20 + 10}s linear infinite`;
-            particlesContainer.appendChild(particle);
-        }
-    }
-
-    // Add particle float keyframe style dynamically if not present
-    if (!document.getElementById('authParticleStyle')) {
-        const style = document.createElement('style');
-        style.id = 'authParticleStyle';
-        style.textContent = `
-            @keyframes authParticleFloat {
-                0% { transform: translateY(0) scale(1); }
-                50% { transform: translateY(-100px) scale(1.2); }
-                100% { transform: translateY(-200px) scale(0.8); opacity: 0; }
-            }
-        `;
-        document.head.appendChild(style);
-    }
-
-    // 2. Load Collage Background from TMDB
-    fetchTrending('movie').then(movies => {
-        const collage = document.getElementById('authBgCollage');
-        if (collage && movies && movies.length) {
-            collage.innerHTML = movies.slice(0, 18).map(m => {
-                const url = imgUrl(m.poster_path || m.backdrop_path, 'w300');
-                return `<img src="${url}" class="auth-collage-item" alt="Poster">`;
-            }).join('');
-        }
-    }).catch(err => console.warn('Could not populate auth background collage', err));
-
-    // 3. Mouse Parallax Background
-    authShell.addEventListener('mousemove', (e) => {
-        const collage = document.getElementById('authBgCollage');
-        if (collage) {
-            const x = (e.clientX - window.innerWidth / 2) / (window.innerWidth / 2);
-            const y = (e.clientY - window.innerHeight / 2) / (window.innerHeight / 2);
-            collage.style.transform = `scale(1.05) translate(${x * -20}px, ${y * -20}px)`;
-        }
-    });
-
-    // 4. Password Visibility Toggle
-    const passwordInput = document.getElementById('authPassword');
-    const toggleBtn = document.getElementById('passwordToggleBtn');
-    if (toggleBtn && passwordInput) {
-        toggleBtn.addEventListener('click', () => {
-            const isPw = passwordInput.type === 'password';
-            passwordInput.type = isPw ? 'text' : 'password';
-            toggleBtn.innerHTML = isPw 
-                ? `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6B00" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>`
-                : `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>`;
-        });
-    }
-
-    // 5. Switching Auth Mode (Sign In vs Sign Up)
-    const switchBtn = document.getElementById('authSwitchBtn');
-    const switchText = document.getElementById('authSwitchText');
-    const titleEl = document.getElementById('authTitle');
-    const subtitleEl = document.getElementById('authSubtitle');
-    const nameGroup = document.getElementById('authNameGroup');
-    const pwStrength = document.getElementById('pwStrengthWrapper');
-    const optionsRow = document.getElementById('authOptionsRow');
-    const submitBtn = document.getElementById('authSubmitBtnEl');
-
-    if (switchBtn) {
-        switchBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            isSignUp = !isSignUp;
-
-            // Reset inputs & errors
-            document.querySelectorAll('.auth-input').forEach(el => {
-                el.value = '';
-                el.dispatchEvent(new Event('input'));
-            });
-            document.querySelectorAll('.auth-error-msg').forEach(el => el.style.display = 'none');
-
-            if (isSignUp) {
-                titleEl.textContent = 'Create Account 🎬';
-                subtitleEl.textContent = 'Join CINESTREAM and watch thousands of movies.';
-                nameGroup.style.display = 'block';
-                pwStrength.style.display = 'block';
-                optionsRow.style.display = 'none';
-                submitBtn.querySelector('.btn-text').textContent = 'CREATE ACCOUNT';
-                switchText.textContent = 'Already have an account?';
-                switchBtn.textContent = 'Sign In';
-            } else {
-                titleEl.textContent = 'Welcome Back 👋';
-                subtitleEl.textContent = 'Sign in to continue watching your favorites.';
-                nameGroup.style.display = 'none';
-                pwStrength.style.display = 'none';
-                optionsRow.style.display = 'flex';
-                submitBtn.querySelector('.btn-text').textContent = 'SIGN IN';
-                switchText.textContent = "Don't have an account?";
-                switchBtn.textContent = 'Create Account';
-            }
-        });
-    }
-
-    // 6. Password Strength Meter
-    if (passwordInput && pwStrength) {
-        const fill = document.getElementById('pwStrengthFill');
-        const text = document.getElementById('pwStrengthText');
-        
-        passwordInput.addEventListener('input', () => {
-            if (!isSignUp) return;
-            const val = passwordInput.value;
-            let score = 0;
-            if (val.length >= 6) score++;
-            if (/[0-9]/.test(val)) score++;
-            if (/[A-Z]/.test(val)) score++;
-            if (/[^A-Za-z0-9]/.test(val)) score++;
-
-            if (val.length === 0) {
-                fill.style.width = '0';
-                text.textContent = '';
-            } else if (score <= 1) {
-                fill.style.width = '25%';
-                fill.style.backgroundColor = '#FF3B30';
-                text.textContent = 'Weak password';
-            } else if (score === 2 || score === 3) {
-                fill.style.width = '60%';
-                fill.style.backgroundColor = '#FF9500';
-                text.textContent = 'Medium password';
-            } else {
-                fill.style.width = '100%';
-                fill.style.backgroundColor = '#34C759';
-                text.textContent = 'Strong password';
-            }
-        });
-    }
-
-    // 7. Stats Counter Animation
-    const animateCounters = () => {
-        const numbers = document.querySelectorAll('.stat-number');
-        numbers.forEach(num => {
-            const target = parseFloat(num.dataset.target);
-            const isDecimal = num.dataset.decimal === 'true';
-            let start = 0;
-            const duration = 2000; // 2 seconds
-            const startTime = performance.now();
-
-            const update = (currentTime) => {
-                const elapsed = currentTime - startTime;
-                const progress = Math.min(elapsed / duration, 1);
-                
-                // Ease out quad
-                const easeProgress = progress * (2 - progress);
-                const current = easeProgress * target;
-
-                if (isDecimal) {
-                    num.textContent = current.toFixed(1);
-                } else if (target >= 1000000) {
-                    num.textContent = `${(current / 1000000).toFixed(1)}M+`;
-                } else if (target >= 1000) {
-                    num.textContent = `${Math.floor(current / 1000)}K+`;
-                } else {
-                    num.textContent = Math.floor(current);
-                }
-
-                if (progress < 1) {
-                    requestAnimationFrame(update);
-                }
-            };
-
-            requestAnimationFrame(update);
-        });
-    };
-
-    // Run counters when authShell becomes active
-    if (authShell.style.display !== 'none') {
-        setTimeout(animateCounters, 500);
-    }
-
-    // 8. Google / GitHub / Apple Social Button Click Handlers (Logs in Demo mode)
-    ['socialGoogle', 'socialGithub', 'socialApple'].forEach(id => {
-        const btn = document.getElementById(id);
-        if (btn) {
-            btn.addEventListener('click', () => {
-                const label = btn.querySelector('span')?.textContent || 'Social login';
-                showToast(`Connecting via ${label.replace('Continue with ', '')}...`, '🔑');
-                
-                // Automatically log in as Demo User for social click convenience!
-                demoLogin().then(res => {
-                    if (res.success) {
-                        showToast('Successfully logged in!', '✅');
-                        // Fade out card and transition
-                        document.querySelector('.auth-card').style.transform = 'scale(0.9) translateY(-20px)';
-                        document.querySelector('.auth-card').style.opacity = '0';
-                        setTimeout(() => {
-                            showApp();
-                            // Load app content row
-                            init();
-                        }, 500);
-                    } else {
-                        showToast(res.message, '❌');
-                    }
-                });
-            });
-        }
-    });
-
-    // 9. Navbar Links (Demo flow)
-    ['authNavHome', 'authNavMovies', 'authNavAbout'].forEach(id => {
-        document.getElementById(id)?.addEventListener('click', (e) => {
-            e.preventDefault();
-            // Automatically logs in demo user to enter index shell!
-            showToast('Loading guest experience...', '🎬');
-            demoLogin().then(() => {
-                showApp();
-                init();
-            });
-        });
-    });
-
-    // 10. Form Submission (Login & Register integration)
-    const form = document.getElementById('authForm');
-    if (form) {
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-
-            // Clear errors
-            document.querySelectorAll('.auth-error-msg').forEach(el => el.style.display = 'none');
-
-            const email = document.getElementById('authEmail').value.trim();
-            const password = passwordInput.value;
-            const name = document.getElementById('authName').value.trim();
-
-            // Simple validation
-            let hasError = false;
-            if (!email) {
-                const el = document.getElementById('emailError');
-                if (el) { el.textContent = 'Please enter your email'; el.style.display = 'block'; }
-                hasError = true;
-            }
-            if (!password) {
-                const el = document.getElementById('passwordError');
-                if (el) { el.textContent = 'Please enter your password'; el.style.display = 'block'; }
-                hasError = true;
-            }
-            if (isSignUp && !name) {
-                const el = document.getElementById('nameError');
-                if (el) { el.textContent = 'Please enter your name'; el.style.display = 'block'; }
-                hasError = true;
-            }
-
-            if (hasError) return;
-
-            // Show loader
-            submitBtn.disabled = true;
-            submitBtn.querySelector('.btn-text').style.display = 'none';
-            submitBtn.querySelector('.btn-loader').style.display = 'inline-block';
-
-            try {
-                let res;
-                if (isSignUp) {
-                    res = await signup(email, password, name);
-                } else {
-                    res = await login(email, password);
-                }
-
-                if (res.success) {
-                    showToast(isSignUp ? 'Account created successfully!' : 'Welcome to CINESTREAM!', '🍿');
-                    
-                    // Animate transition
-                    document.querySelector('.auth-card').style.transition = 'all 0.6s cubic-bezier(0.16, 1, 0.3, 1)';
-                    document.querySelector('.auth-card').style.transform = 'scale(0.9) translateY(-30px)';
-                    document.querySelector('.auth-card').style.opacity = '0';
-
-                    setTimeout(() => {
-                        showApp();
-                        init(); // Reload movies rows
-                    }, 500);
-                } else {
-                    showToast(res.message || 'Authentication failed', '❌');
-                    // Highlight the wrong input
-                    const errEl = document.getElementById(isSignUp ? 'nameError' : 'passwordError');
-                    if (errEl) {
-                        errEl.textContent = res.message || 'Invalid details';
-                        errEl.style.display = 'block';
-                    }
-                }
-            } catch (err) {
-                console.error(err);
-                showToast(err.message || 'An error occurred', '❌');
-            } finally {
-                // Restore button state
-                submitBtn.disabled = false;
-                submitBtn.querySelector('.btn-text').style.display = 'inline-block';
-                submitBtn.querySelector('.btn-loader').style.display = 'none';
-            }
-        });
-    }
-}
-
-/* ============================================================
    BOOT
    ============================================================ */
 
@@ -935,7 +627,6 @@ document.addEventListener('DOMContentLoaded', () => {
     initAI();
 
     showApp();
-    initAuth();
     initLangPicker();
     initUserMenu();
     init();

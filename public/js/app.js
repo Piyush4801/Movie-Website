@@ -69,15 +69,10 @@ function showToast(message, icon = '💡') {
 }
 
 function showApp() {
-    if (localStorage.getItem("isLoggedIn") !== "true") {
-        window.location.href = "signin.html";
-        return;
-    }
-
     const appShell = document.getElementById('appShell');
     if (appShell) appShell.style.display = 'block';
 
-    const userEmail = localStorage.getItem("userEmail") || 'Demo User';
+    const userEmail = localStorage.getItem("userEmail") || 'demo@cinestream.com';
     const userName = userEmail.split('@')[0];
 
     const nameEl = document.getElementById('userNameDisplay');
@@ -304,7 +299,7 @@ function initUserMenu() {
         logoutBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             localStorage.clear();
-            window.location.href = "signin.html";
+            window.location.reload();
         });
     }
 
@@ -464,7 +459,7 @@ function initNavTabs() {
             } else if (action === 'logout') {
                 closeDrawer();
                 localStorage.clear();
-                window.location.href = "signin.html";
+                window.location.reload();
             } else {
                 // Secondary tools (Movie Map, Voice AI, Time Machine, AI memory, Help, Settings)
                 const label = this.querySelector('.drawer-label')?.textContent || 'Service';
